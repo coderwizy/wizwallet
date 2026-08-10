@@ -104,7 +104,7 @@ const Header = ({ activeTab }) => {
             </div>
             <div className="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-neon-blue/40 p-0.5 overflow-hidden shadow-[0_0_12px_rgba(0,243,255,0.2)]">
               <img 
-                src={user?.profilePic || "/src/assets/1701611631194.jpg"} 
+                src={user?.profilePic?.replace('/src/assets/', '/') || "/1701611631194.jpg"} 
                 alt="User Profile" 
                 className="w-full h-full rounded-full object-cover text-xs text-slate-500"
               />

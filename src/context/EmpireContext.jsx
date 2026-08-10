@@ -55,7 +55,13 @@ export const EmpireProvider = ({ children }) => {
     }
   };
 
-  const [user, setUser] = useState(() => getStored('empire_user', null));
+  const [user, setUser] = useState(() => {
+    const u = getStored('empire_user', null);
+    if (u && u.profilePic && u.profilePic.includes('/src/assets/')) {
+      u.profilePic = u.profilePic.replace('/src/assets/', '/');
+    }
+    return u;
+  });
   const [wallet, setWallet] = useState(() => getStored('empire_wallet', { balance: 25000, history: [], growthRate: 'Slow', lastDividend: 0 }));
   const [bank, setBank] = useState(() => getStored('empire_bank', {
     balance: 100000,
@@ -214,7 +220,7 @@ export const EmpireProvider = ({ children }) => {
       setUser({
         username,
         role: 'CEO',
-        profilePic: '/src/assets/1701611631194.jpg',
+        profilePic: '/1701611631194.jpg',
         lastLogin: new Date().toISOString(),
         password: '098123456'  // stored for PIN change feature
       });

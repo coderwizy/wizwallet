@@ -94,7 +94,7 @@ const MobileHeader = ({ activeTab }) => {
         {/* User Profile Avatar */}
         <div className="w-8 h-8 rounded-full border-2 border-[#0284C7]/40 p-0.5 overflow-hidden shadow-xs bg-white">
           <img
-            src={user?.profilePic || "/src/assets/1701611631194.jpg"}
+            src={user?.profilePic?.replace('/src/assets/', '/') || "/1701611631194.jpg"}
             alt="User Avatar"
             className="w-full h-full rounded-full object-cover text-xs text-slate-500"
           />
