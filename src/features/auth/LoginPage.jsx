@@ -1,30 +1,38 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useEmpire } from '../../context/EmpireContext';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Lock, User, Eye, EyeOff, ShieldCheck, ArrowRight, Loader2 } from 'lucide-react';
-import Card from '../../components/ui/Card';
-import Button from '../../components/ui/Button';
-import Input from '../../components/ui/Input';
+import { motion } from 'framer-motion';
+import {
+  Lock,
+  User,
+  Eye,
+  EyeOff,
+  ShieldCheck,
+  ArrowRight,
+  Loader2,
+  Sparkles,
+  CheckCircle2,
+  AlertTriangle
+} from 'lucide-react';
 import './LoginPage.css';
 
-/* Floating Particle System */
-const Particles = ({ count = 60 }) => {
+/* Floating Ambient Particle System */
+const ParticleSystem = ({ count = 45 }) => {
   const particles = useMemo(() =>
     Array.from({ length: count }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
-      size: Math.random() * 4 + 1,
-      delay: Math.random() * 12,
-      duration: Math.random() * 8 + 8,
-      opacity: Math.random() * 0.6 + 0.15,
+      size: Math.random() * 3 + 1.5,
+      delay: Math.random() * 10,
+      duration: Math.random() * 10 + 8,
+      opacity: Math.random() * 0.6 + 0.2,
     })), [count]);
 
   return (
-    <div className="ag-particles" aria-hidden="true">
+    <div className="wz-particles" aria-hidden="true">
       {particles.map(p => (
         <span
           key={p.id}
-          className="ag-particle"
+          className="wz-particle"
           style={{
             left: `${p.left}%`,
             width: `${p.size}px`,
@@ -39,27 +47,12 @@ const Particles = ({ count = 60 }) => {
   );
 };
 
-/* Floating Gradient Orbs */
-const FloatingOrbs = () => (
-  <div className="ag-orbs" aria-hidden="true">
-    <div className="ag-orb ag-orb--cyan" />
-    <div className="ag-orb ag-orb--magenta" />
-    <div className="ag-orb ag-orb--purple" />
-    <div className="ag-orb ag-orb--cyan-sm" />
-  </div>
-);
-
-/* Animated Orbital Icon */
-const OrbitalIcon = () => (
-  <div className="ag-icon-wrapper">
-    <div className="ag-icon">
-      <div className="ag-icon__core" />
-      <div className="ag-icon__ring ag-icon__ring--1" />
-      <div className="ag-icon__ring ag-icon__ring--2" />
-      <div className="ag-icon__ring ag-icon__ring--3" />
-      <div className="ag-icon__dot ag-icon__dot--1" />
-      <div className="ag-icon__dot ag-icon__dot--2" />
-    </div>
+/* Floating Glow Orbs Background */
+const AmbientOrbs = () => (
+  <div className="wz-orbs" aria-hidden="true">
+    <div className="wz-orb wz-orb-1" />
+    <div className="wz-orb wz-orb-2" />
+    <div className="wz-orb wz-orb-3" />
   </div>
 );
 
@@ -68,30 +61,31 @@ const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const savedUser = localStorage.getItem('ag_remembered_user');
+    const savedUser = localStorage.getItem('wz_remembered_user');
     if (savedUser) {
       setUsername(savedUser);
-      setRememberMe(true);
     }
   }, []);
 
   useEffect(() => {
     if (rememberMe && username.trim()) {
-      localStorage.setItem('ag_remembered_user', username.trim());
+      localStorage.setItem('wz_remembered_user', username.trim());
     } else if (!rememberMe) {
-      localStorage.removeItem('ag_remembered_user');
+      localStorage.removeItem('wz_remembered_user');
     }
   }, [rememberMe, username]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!username || !password) return;
+
     setLoading(true);
     setError(false);
 
@@ -101,68 +95,81 @@ const LoginPage = () => {
         setError(true);
         setLoading(false);
       }
-    }, 1200);
+    }, 800);
   };
 
   return (
-    <div className="ag-login-scene">
-      {/* Background Layers */}
-      <div className="ag-bg-gradient" />
-      <div className="ag-grid-overlay" />
-      <FloatingOrbs />
-      <Particles count={70} />
+    <div className="wz-login-scene">
+      {/* Background FX */}
+      <div className="wz-bg-gradient" />
+      <div className="wz-grid-overlay" />
+      <AmbientOrbs />
+      <ParticleSystem count={50} />
 
-      {/* Login Card Container */}
+      {/* Main Glassmorphic Card */}
       <motion.div
-        className="ag-card"
-        initial={{ opacity: 0, scale: 0.92, y: 30 }}
+        className="wz-login-card"
+        initial={{ opacity: 0, scale: 0.94, y: 20 }}
         animate={mounted ? { opacity: 1, scale: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="ag-card__glow" />
+        {/* Brand Header */}
+        <div className="text-center mb-6">
+          <div className="wz-brand-badge">
+            <Sparkles className="w-3.5 h-3.5 text-neon-cyan animate-pulse" />
+            <span>WizWallet OS v5.0</span>
+          </div>
 
-        {/* Header */}
-        <div className="ag-card__header">
-          <OrbitalIcon />
-          <h1 className="ag-title">Command Center</h1>
-          <p className="ag-subtitle">SECURE ACCESS — PERSONAL FINANCE OS</p>
+          <h1 className="wz-card-title">
+            Personal <span>Empire OS</span>
+          </h1>
+          <p className="wz-card-subtitle">
+            Secure Authentication & Command Center Access
+          </p>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="ag-form">
-          <Input
-            label="OPERATOR IDENTITY"
-            id="ag-username"
-            type="text"
-            icon={User}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="operator_id"
-            required
-            autoComplete="username"
-          />
-
-          <div className="space-y-2 relative">
-            <label htmlFor="ag-password" className="text-[10px] font-black uppercase text-slate-400 tracking-widest block">
-              SECURITY CLEARANCE
+        {/* Auth Form */}
+        <form onSubmit={handleSubmit} className="wz-input-group">
+          {/* Username Field */}
+          <div className="wz-field">
+            <label className="wz-label" htmlFor="wz-username">
+              Operator Username
             </label>
-            <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">
-                <Lock className="w-4 h-4" />
-              </div>
+            <div className="wz-input-wrapper">
+              <User className="wz-input-icon" />
               <input
-                id="ag-password"
+                id="wz-username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter username"
+                className="wz-input"
+                required
+                autoComplete="username"
+              />
+            </div>
+          </div>
+
+          {/* Password Field */}
+          <div className="wz-field">
+            <label className="wz-label" htmlFor="wz-password">
+              Security Key
+            </label>
+            <div className="wz-input-wrapper">
+              <Lock className="wz-input-icon" />
+              <input
+                id="wz-password"
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full bg-black/40 border border-white/10 rounded-xl py-3 pl-11 pr-12 text-sm text-white placeholder-slate-600 outline-none focus:border-neon-blue focus:bg-white/5 transition-all font-medium"
+                placeholder="Enter security key"
+                className="wz-input"
                 required
                 autoComplete="current-password"
               />
               <button
                 type="button"
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                className="wz-eye-btn"
                 onClick={() => setShowPassword(prev => !prev)}
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
@@ -171,62 +178,67 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 pt-1">
-            <label className="ag-checkbox-label" htmlFor="ag-remember">
+          {/* Actions Row */}
+          <div className="wz-actions-row">
+            <label className="wz-remember-label">
               <input
-                id="ag-remember"
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="ag-checkbox-native"
+                className="sr-only"
               />
-              <span className="ag-checkbox-custom">
-                <svg viewBox="0 0 12 12" fill="none">
-                  <polyline points="2 6 5 9 10 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-              <span className="text-xs text-slate-400 font-medium">Maintain active session</span>
+              <div className="wz-checkbox-custom">
+                {rememberMe && <CheckCircle2 className="w-3 h-3 text-cyan-950 font-bold" />}
+              </div>
+              <span>Remember session</span>
             </label>
           </div>
 
-          {/* Error Message */}
-          <AnimatePresence>
-            {error && (
-              <motion.div
-                className="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-300 text-xs font-black uppercase text-center"
-                initial={{ opacity: 0, y: -8, height: 0 }}
-                animate={{ opacity: 1, y: 0, height: 'auto' }}
-                exit={{ opacity: 0, y: -8, height: 0 }}
-              >
-                ACCESS DENIED — INVALID CREDENTIALS
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* Error Message Alert */}
+          {error && (
+            <motion.div
+              className="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-300 text-xs font-semibold flex items-center gap-2"
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
+              <span>Invalid clearance credentials. Please check your username and password.</span>
+            </motion.div>
+          )}
 
-          {/* Submit */}
-          <Button
+          {/* Submit Button */}
+          <button
             type="submit"
-            loading={loading}
-            variant="primary"
-            icon={ArrowRight}
-            className="w-full py-3.5 text-sm mt-2"
+            disabled={loading}
+            className="wz-submit-btn"
           >
-            {loading ? 'Authenticating...' : 'Initialize Access'}
-          </Button>
+            {loading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin text-slate-900" />
+                <span>Authenticating...</span>
+              </>
+            ) : (
+              <>
+                <span>Enter Command Center</span>
+                <ArrowRight className="w-4 h-4" />
+              </>
+            )}
+          </button>
         </form>
 
-        {/* Footer */}
-        <div className="ag-card__footer mt-6 pt-4 border-t border-white/10 flex justify-between text-[9px] font-black text-slate-500 uppercase tracking-widest">
-          <span className="flex items-center gap-1"><ShieldCheck className="w-3 h-3 text-neon-blue" /> LEVEL 5 CLEARANCE</span>
-          <span>256-BIT ENCRYPTED</span>
-          <span>V5.0</span>
+        {/* Footer Security Badges */}
+        <div className="wz-card-footer">
+          <div className="wz-footer-badge">
+            <ShieldCheck className="w-3.5 h-3.5 text-neon-cyan" />
+            <span>256-Bit Encrypted</span>
+          </div>
+
+          <div className="wz-footer-badge">
+            <div className="wz-status-dot" />
+            <span>System Status: Online</span>
+          </div>
         </div>
       </motion.div>
-
-      {/* Bottom Scene Line */}
-      <footer className="ag-scene-footer">
-        © WIZWALLET 2026 — PERSONAL FINANCE OPERATING SYSTEM
-      </footer>
     </div>
   );
 };
