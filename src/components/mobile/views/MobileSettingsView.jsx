@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useEmpire } from '../../../context/EmpireContext';
-import { motion } from 'framer-motion';
-import { Palette, Zap, Shield, Lock, Trash2, CheckCircle, AlertCircle } from 'lucide-react';
+import { Zap, Shield, Lock, Trash2, CheckCircle2, AlertCircle, Database, LogOut } from 'lucide-react';
 import MobileActionSheet from '../MobileActionSheet';
+import Card from '../../ui/Card';
+import Button from '../../ui/Button';
+import Input from '../../ui/Input';
+import ConfirmationDialog from '../../ui/ConfirmationDialog';
 
 const MobileSettingsView = () => {
-  const { theme, setTheme, logout, wipeAllData, changePassword, config, setConfig } = useEmpire();
+  const { logout, wipeAllData, changePassword, config, setConfig, user } = useEmpire();
 
   // Password sheet
   const [showPasswordSheet, setShowPasswordSheet] = useState(false);
@@ -13,8 +16,8 @@ const MobileSettingsView = () => {
   const [pinError, setPinError] = useState('');
   const [pinSuccess, setPinSuccess] = useState(false);
 
-  // Reset sheet
-  const [showResetSheet, setShowResetSheet] = useState(false);
+  // Reset dialog
+  const [showResetDialog, setShowResetDialog] = useState(false);
 
   const handlePasswordChange = (e) => {
     e.preventDefault();
@@ -31,167 +34,180 @@ const MobileSettingsView = () => {
     setConfig(prev => ({ ...prev, [key]: value }));
   };
 
+  const speedSeconds = (config?.simulationSpeed || 10000) / 1000;
+
   return (
-    <div className="space-y-5 pb-8">
-      {/* Appearance Section */}
-      <div className="bg-white rounded-3xl p-5 border border-[#E5DFD1] shadow-xs space-y-3">
-        <div className="flex items-center gap-2.5 pb-2 border-b border-[#E5DFD1]">
-          <div className="p-2 rounded-xl bg-sky-50 text-[#0284C7] border border-sky-200">
-            <Palette className="w-4 h-4" />
-          </div>
-          <div>
-            <h3 className="text-xs font-black text-[#1C1917] uppercase">Appearance Engine</h3>
-            <p className="text-[9px] text-[#78716C]">Interface Display & Theme Modes</p>
-          </div>
-        </div>
+    <div className="space-y-4 pb-8">
+      {/* Factory Reset Confirmation Dialog */}
+      <ConfirmationDialog
+        isOpen={showResetDialog}
+        onClose={() => setShowResetDialog(false)}
+        onConfirm={wipeAllData}
+        title="Factory Reset Data?"
+        description="Permanently erase all balances, custom ventures, transactions, and settings from local storage."
+        confirmText="Reset All Data"
+        variant="danger"
+      />
 
-        <div className="flex items-center justify-between py-2">
-          <div>
-            <p className="text-xs font-black text-[#1C1917] uppercase">Primary Theme</p>
-            <p className="text-[9px] text-[#78716C]">{theme === 'dark' ? 'Imperial Dark' : 'Deep Cream Light'}</p>
-          </div>
-          <button
-            onClick={() => setTheme(prev => prev === 'dark' ? 'light' : 'dark')}
-            className={`w-12 h-6 rounded-full p-1 transition-all cursor-pointer ${
-              theme === 'dark' ? 'bg-[#0284C7]' : 'bg-[#D6CDB8]'
-            }`}
-          >
-            <div className={`w-4 h-4 rounded-full bg-white transition-all ${theme === 'dark' ? 'ml-6' : 'ml-0'}`} />
-          </button>
-        </div>
-      </div>
-
-      {/* Pulse Engine Speed */}
-      <div className="bg-white rounded-3xl p-5 border border-[#E5DFD1] shadow-xs space-y-3">
-        <div className="flex items-center gap-2.5 pb-2 border-b border-[#E5DFD1]">
-          <div className="p-2 rounded-xl bg-amber-50 text-amber-600 border border-amber-200">
+      {/* ── Pulse Engine Speed ── */}
+      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
+        <div className="flex items-center gap-2.5 pb-2 border-b border-[#EAE8DF]">
+          <div className="p-2 rounded-xl bg-[#EDF2E9] text-[#526B56] border border-[#D5DFD1]">
             <Zap className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-xs font-black text-[#1C1917] uppercase">Simulation Pulse Speed</h3>
-            <p className="text-[9px] text-[#78716C]">Heartbeat Frequency</p>
+            <h3 className="text-xs font-bold text-[#22251F]">Simulation Heartbeat</h3>
+            <p className="text-[10px] text-[#77786F]">Compounding Frequency</p>
           </div>
         </div>
 
-        <div className="flex items-center justify-between py-2">
-          <span className="text-xs font-black text-[#1C1917] uppercase">
-            {config?.simulationSpeed ? `${config.simulationSpeed / 1000}s Pulse` : '10s Pulse'}
+        <div className="flex items-center justify-between py-1">
+          <span className="text-xs font-bold text-[#22251F]">
+            {speedSeconds}s Heartbeat Interval
           </span>
+          <div className="flex gap-1 bg-[#FCFBF8] p-1 rounded-xl border border-[#EAE8DF]">
+            {[5, 10, 30, 60].map(s => {
+              const ms = s * 1000;
+              const isSelected = config?.simulationSpeed === ms;
+              return (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => updateConfig('simulationSpeed', ms)}
+                  className={`px-2 py-1 rounded-lg text-[10px] font-bold cursor-pointer transition-colors ${
+                    isSelected ? 'bg-[#526B56] text-white shadow-2xs' : 'text-[#77786F] hover:bg-[#F1EFE7]'
+                  }`}
+                >
+                  {s}s
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </Card>
+
+      {/* ── Data Persistence ── */}
+      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
+        <div className="flex items-center gap-2.5 pb-2 border-b border-[#EAE8DF]">
+          <div className="p-2 rounded-xl bg-[#EDF2E9] text-[#526B56] border border-[#D5DFD1]">
+            <Database className="w-4 h-4" />
+          </div>
+          <div>
+            <h3 className="text-xs font-bold text-[#22251F]">Data & Synchronization</h3>
+            <p className="text-[10px] text-[#77786F]">LocalStorage Auto-Save</p>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between py-1">
+          <div>
+            <p className="text-xs font-bold text-[#22251F]">Auto-Save to LocalStorage</p>
+            <p className="text-[10px] text-[#77786F]">Preserves changes continuously</p>
+          </div>
           <button
-            onClick={() => {
-              const speeds = [5000, 10000, 30000, 60000];
-              const curIdx = speeds.indexOf(config?.simulationSpeed || 10000);
-              updateConfig('simulationSpeed', speeds[(curIdx + 1) % speeds.length]);
-            }}
-            className="px-3 py-1.5 rounded-xl bg-[#F4EFE6] border border-[#E2DAC8] text-[10px] font-black text-[#0284C7] uppercase cursor-pointer"
+            type="button"
+            onClick={() => updateConfig('autoSave', !config?.autoSave)}
+            className={`w-10 h-5.5 rounded-full p-0.5 transition-colors cursor-pointer ${
+              config?.autoSave ? 'bg-[#526B56]' : 'bg-[#D5D2C8]'
+            }`}
+            aria-label="Toggle Auto-Save"
           >
-            Calibrate
+            <div className={`w-4.5 h-4.5 rounded-full bg-white shadow-2xs transition-transform ${
+              config?.autoSave ? 'translate-x-4.5' : 'translate-x-0'
+            }`} />
           </button>
         </div>
-      </div>
+      </Card>
 
-      {/* Security Actions */}
-      <div className="bg-white rounded-3xl p-5 border border-[#E5DFD1] shadow-xs space-y-3">
-        <h3 className="text-xs font-black text-[#1C1917] uppercase pb-2 border-b border-[#E5DFD1]">Security & Governance</h3>
+      {/* ── Security & Account ── */}
+      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
+        <div className="flex items-center gap-2.5 pb-2 border-b border-[#EAE8DF]">
+          <div className="p-2 rounded-xl bg-[#EDF2E9] text-[#526B56] border border-[#D5DFD1]">
+            <Shield className="w-4 h-4" />
+          </div>
+          <div>
+            <h3 className="text-xs font-bold text-[#22251F]">Security & Credentials</h3>
+            <p className="text-[10px] text-[#77786F]">Role: {user?.role || 'CEO'} · {user?.username || 'raghav94'}</p>
+          </div>
+        </div>
 
-        <button
-          onClick={() => setShowPasswordSheet(true)}
-          className="w-full flex items-center justify-between p-3.5 bg-[#F9F7F1] rounded-2xl border border-[#E8E2D5] text-xs font-black text-[#1C1917] uppercase cursor-pointer"
+        <div className="space-y-2 pt-1">
+          <Button
+            variant="outline"
+            size="md"
+            icon={Lock}
+            className="w-full justify-center"
+            onClick={() => setShowPasswordSheet(true)}
+          >
+            Change Master Key
+          </Button>
+
+          <Button
+            variant="secondary"
+            size="md"
+            icon={LogOut}
+            className="w-full justify-center"
+            onClick={logout}
+          >
+            Sign Out
+          </Button>
+        </div>
+      </Card>
+
+      {/* ── Danger Zone ── */}
+      <Card className="p-4 border border-[#E8C5C3] bg-[#FCFBF8] space-y-2.5">
+        <h3 className="text-xs font-bold text-[#C66D65]">Danger Zone</h3>
+        <p className="text-[10px] text-[#77786F]">Purge all balances, ventures, and ledger entries.</p>
+        <Button
+          variant="danger"
+          size="md"
+          icon={Trash2}
+          className="w-full justify-center"
+          onClick={() => setShowResetDialog(true)}
         >
-          <span className="flex items-center gap-2">
-            <Lock className="w-4 h-4 text-[#0284C7]" />
-            Change Password
-          </span>
-          <span>→</span>
-        </button>
+          Reset All Application Data
+        </Button>
+      </Card>
 
-        <button
-          onClick={() => setShowResetSheet(true)}
-          className="w-full flex items-center justify-between p-3.5 bg-rose-50 rounded-2xl border border-rose-200 text-xs font-black text-rose-700 uppercase cursor-pointer"
-        >
-          <span className="flex items-center gap-2">
-            <Trash2 className="w-4 h-4 text-rose-600" />
-            Reset Application Data
-          </span>
-          <span>→</span>
-        </button>
-      </div>
-
-      {/* CHANGE PASSWORD SHEET */}
+      {/* ── BOTTOM SHEET: CHANGE PASSWORD ── */}
       <MobileActionSheet
         isOpen={showPasswordSheet}
         onClose={() => setShowPasswordSheet(false)}
-        title="Security Password"
-        subtitle="Update Operator Credentials"
+        title="Update Master Key"
+        subtitle="Calibrate Terminal Access Password"
       >
         {pinSuccess && (
-          <div className="p-3 mb-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-700 text-xs font-bold flex items-center gap-2">
-            <CheckCircle className="w-4 h-4" /> Password updated successfully.
+          <div className="flex items-center gap-2 p-3 mb-4 bg-[#EDF2E9] border border-[#C8D9CA] rounded-xl text-[#66866A] text-xs font-semibold">
+            <CheckCircle2 className="w-4 h-4 shrink-0" />
+            <span>Master key updated successfully.</span>
           </div>
         )}
         {pinError && (
-          <div className="p-3 mb-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs font-bold flex items-center gap-2">
-            <AlertCircle className="w-4 h-4" /> {pinError}
+          <div className="flex items-center gap-2 p-3 mb-4 bg-[#FCEEED] border border-[#E8C5C3] rounded-xl text-[#C66D65] text-xs font-semibold">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{pinError}</span>
           </div>
         )}
         <form onSubmit={handlePasswordChange} className="space-y-4">
-          <div>
-            <label className="text-[10px] font-black uppercase text-[#57534E] tracking-wider block mb-1">New Password</label>
-            <input
-              type="password"
-              required
-              value={pinForm.newPin}
-              onChange={e => setPinForm({ ...pinForm, newPin: e.target.value })}
-              placeholder="At least 6 characters..."
-              className="w-full bg-white border border-[#E5DFD1] rounded-xl p-3 text-sm font-bold text-[#1C1917] outline-none"
-            />
-          </div>
-          <div>
-            <label className="text-[10px] font-black uppercase text-[#57534E] tracking-wider block mb-1">Confirm Password</label>
-            <input
-              type="password"
-              required
-              value={pinForm.confirm}
-              onChange={e => setPinForm({ ...pinForm, confirm: e.target.value })}
-              placeholder="Re-enter password..."
-              className="w-full bg-white border border-[#E5DFD1] rounded-xl p-3 text-sm font-bold text-[#1C1917] outline-none"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full py-3.5 rounded-2xl bg-[#0284C7] text-white font-black uppercase text-xs tracking-wider cursor-pointer shadow-md mt-2"
-          >
-            Update Password
-          </button>
+          <Input
+            label="New Master Key"
+            type="password"
+            required
+            value={pinForm.newPin}
+            onChange={e => setPinForm({ ...pinForm, newPin: e.target.value })}
+            placeholder="At least 6 characters..."
+          />
+          <Input
+            label="Confirm Master Key"
+            type="password"
+            required
+            value={pinForm.confirm}
+            onChange={e => setPinForm({ ...pinForm, confirm: e.target.value })}
+            placeholder="Re-enter master key..."
+          />
+          <Button type="submit" variant="primary" className="w-full py-3 mt-2">
+            Save New Master Key
+          </Button>
         </form>
-      </MobileActionSheet>
-
-      {/* RESET DATA SHEET */}
-      <MobileActionSheet
-        isOpen={showResetSheet}
-        onClose={() => setShowResetSheet(false)}
-        title="Reset Application Data"
-        subtitle="Irreversible Action"
-      >
-        <div className="space-y-4">
-          <div className="p-4 bg-rose-50 border border-rose-200 rounded-2xl text-rose-800 text-xs font-bold">
-            Warning: This action will permanently clear all saved balances, custom ventures, transaction logs, and settings from local storage.
-          </div>
-          <div className="flex gap-3">
-            <button
-              onClick={() => setShowResetSheet(false)}
-              className="flex-1 py-3.5 rounded-2xl bg-[#F4EFE6] border border-[#E2DAC8] text-[#1C1917] font-black uppercase text-xs tracking-wider cursor-pointer"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={wipeAllData}
-              className="flex-1 py-3.5 rounded-2xl bg-rose-600 text-white font-black uppercase text-xs tracking-wider cursor-pointer shadow-md"
-            >
-              Confirm Reset
-            </button>
-          </div>
-        </div>
       </MobileActionSheet>
     </div>
   );

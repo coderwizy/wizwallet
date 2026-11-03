@@ -1,408 +1,62 @@
 /* ═══════════════════════════════════════════════════════════════
-   WIZWALLET COMMAND CENTER LOGIN — Glassmorphic OS UI
+   WIZWALLET v5.0 — Premium Cream Fintech Login
    ═══════════════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap');
-
-:root {
-  --wz-neon-cyan: #00f3ff;
-  --wz-neon-teal: #00e5ff;
-  --wz-neon-blue: #0088ff;
-  --wz-accent-purple: #7000ff;
-  --wz-bg-dark: #031417;
-  --wz-card-bg: rgba(6, 28, 33, 0.82);
-  --wz-card-border: rgba(0, 243, 255, 0.22);
-  --wz-card-glow: rgba(0, 243, 255, 0.15);
-  --wz-input-bg: rgba(3, 20, 23, 0.7);
-  --wz-input-border: rgba(0, 243, 255, 0.18);
-  --wz-text-primary: #f0fdfa;
-  --wz-text-muted: rgba(204, 251, 241, 0.6);
-  --wz-font-display: 'Space Grotesk', system-ui, sans-serif;
-  --wz-font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
-}
-
-.wz-login-scene {
+.ww-login-container {
   position: relative;
   min-height: 100vh;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  font-family: var(--wz-font-body);
-  color: var(--wz-text-primary);
-  background: var(--wz-bg-dark);
+  background-color: #F8F7F2;
+  color: #22251F;
   padding: 1.5rem;
+  overflow: hidden;
 }
 
-/* Background Layers */
-.wz-bg-gradient {
+/* Background Atmosphere */
+.ww-login-backdrop {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 50% 15%, rgba(0, 243, 255, 0.14) 0%, transparent 60%),
-    radial-gradient(circle at 85% 85%, rgba(112, 0, 255, 0.12) 0%, transparent 50%),
-    radial-gradient(circle at 15% 75%, rgba(0, 136, 255, 0.12) 0%, transparent 50%),
-    linear-gradient(to bottom, #020c0e 0%, #031417 50%, #010809 100%);
+  pointer-events: none;
+  overflow: hidden;
   z-index: 0;
 }
 
-.wz-grid-overlay {
+.ww-login-radial {
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(82, 107, 86, 0.08) 0%, rgba(248, 247, 242, 0) 70%);
+  border-radius: 50%;
+}
+
+.ww-login-grid {
   position: absolute;
   inset: 0;
-  z-index: 1;
   background-image:
-    linear-gradient(rgba(0, 243, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 243, 255, 0.04) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 95%);
-  pointer-events: none;
+    linear-gradient(#EAE8DF 1px, transparent 1px),
+    linear-gradient(90deg, #EAE8DF 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.45;
+  mask-image: radial-gradient(circle at 50% 45%, black 30%, transparent 80%);
 }
 
-/* Floating Ambient Orbs */
-.wz-orbs {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.wz-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  mix-blend-mode: screen;
-  will-change: transform;
-}
-
-.wz-orb-1 {
-  width: 550px;
-  height: 550px;
-  background: radial-gradient(circle, rgba(0, 243, 255, 0.15) 0%, transparent 70%);
-  top: -15%;
-  left: -10%;
-  animation: wz-orb-float 14s ease-in-out infinite alternate;
-}
-
-.wz-orb-2 {
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(112, 0, 255, 0.15) 0%, transparent 70%);
-  bottom: -15%;
-  right: -10%;
-  animation: wz-orb-float 18s ease-in-out infinite alternate-reverse;
-}
-
-.wz-orb-3 {
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, rgba(0, 136, 255, 0.12) 0%, transparent 70%);
-  top: 40%;
-  right: 20%;
-  animation: wz-orb-pulse 8s ease-in-out infinite alternate;
-}
-
-@keyframes wz-orb-float {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(40px, 30px) scale(1.08); }
-  100% { transform: translate(-30px, 50px) scale(0.95); }
-}
-
-@keyframes wz-orb-pulse {
-  0% { opacity: 0.4; transform: scale(0.9); }
-  100% { opacity: 0.8; transform: scale(1.15); }
-}
-
-/* Floating Particles */
-.wz-particles {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.wz-particle {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(0, 243, 255, 0.7);
-  box-shadow: 0 0 10px rgba(0, 243, 255, 0.8);
-  animation: wz-particle-rise linear infinite;
-}
-
-@keyframes wz-particle-rise {
-  0% {
-    transform: translateY(100vh) scale(0.5);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.8;
-  }
-  90% {
-    opacity: 0.4;
-  }
-  100% {
-    transform: translateY(-10vh) scale(1.2);
-    opacity: 0;
-  }
-}
-
-/* Login Card Container */
-.wz-login-card {
+.ww-login-card-wrapper {
   position: relative;
   z-index: 10;
   width: 100%;
   max-width: 440px;
-  background: var(--wz-card-bg);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid var(--wz-card-border);
-  border-radius: 1.75rem;
-  box-shadow:
-    0 25px 60px -15px rgba(0, 0, 0, 0.8),
-    0 0 50px -10px var(--wz-card-glow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  padding: 2.5rem 2.25rem;
-  overflow: hidden;
 }
 
-/* Header */
-.wz-brand-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.35rem 0.85rem;
-  background: rgba(0, 243, 255, 0.08);
-  border: 1px solid rgba(0, 243, 255, 0.25);
-  border-radius: 9999px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--wz-neon-cyan);
-  box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
-  margin-bottom: 1.25rem;
-}
-
-.wz-card-title {
-  font-family: var(--wz-font-display);
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  color: #ffffff;
-  margin: 0;
-  line-height: 1.15;
-}
-
-.wz-card-title span {
-  background: linear-gradient(135deg, #00f3ff 0%, #0088ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.wz-card-subtitle {
-  font-size: 0.825rem;
-  color: var(--wz-text-muted);
-  margin-top: 0.4rem;
-}
-
-/* Input Fields */
-.wz-input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-}
-
-.wz-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-}
-
-.wz-label {
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--wz-text-muted);
-}
-
-.wz-input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.wz-input-icon {
-  position: absolute;
-  left: 1rem;
-  width: 1.1rem;
-  height: 1.1rem;
-  color: rgba(204, 251, 241, 0.4);
-  pointer-events: none;
-  transition: color 0.25s ease;
-}
-
-.wz-input {
-  width: 100%;
-  background: var(--wz-input-bg);
-  border: 1px solid var(--wz-input-border);
-  border-radius: 0.9rem;
-  padding: 0.85rem 1rem 0.85rem 2.75rem;
-  font-family: var(--wz-font-body);
-  font-size: 0.88rem;
-  color: #ffffff;
-  outline: none;
-  transition: all 0.25s ease;
-}
-
-.wz-input::placeholder {
-  color: rgba(204, 251, 241, 0.25);
-}
-
-.wz-input:focus {
-  border-color: var(--wz-neon-cyan);
-  background: rgba(3, 25, 30, 0.88);
-  box-shadow:
-    0 0 0 3px rgba(0, 243, 255, 0.12),
-    0 0 20px rgba(0, 243, 255, 0.15);
-}
-
-.wz-input-wrapper:focus-within .wz-input-icon {
-  color: var(--wz-neon-cyan);
-}
-
-.wz-eye-btn {
-  position: absolute;
-  right: 0.85rem;
-  background: transparent;
-  border: none;
-  color: rgba(204, 251, 241, 0.4);
-  cursor: pointer;
-  padding: 0.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.4rem;
-  transition: color 0.2s ease;
-}
-
-.wz-eye-btn:hover {
-  color: var(--wz-neon-cyan);
-}
-
-/* Actions Row */
-.wz-actions-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 0.2rem;
-}
-
-.wz-remember-label {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  font-size: 0.78rem;
-  color: var(--wz-text-muted);
-  cursor: pointer;
-  user-select: none;
-  transition: color 0.2s ease;
-}
-
-.wz-remember-label:hover {
-  color: #ffffff;
-}
-
-.wz-checkbox-custom {
-  width: 1.05rem;
-  height: 1.05rem;
-  border: 1.5px solid rgba(0, 243, 255, 0.3);
-  border-radius: 0.35rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  background: rgba(3, 20, 23, 0.6);
-}
-
-input[type="checkbox"]:checked + .wz-checkbox-custom {
-  background: var(--wz-neon-cyan);
-  border-color: var(--wz-neon-cyan);
-  box-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
-}
-
-/* Primary Submit Button */
-.wz-submit-btn {
-  width: 100%;
-  margin-top: 0.75rem;
-  padding: 0.95rem 1.5rem;
-  border: none;
-  border-radius: 0.95rem;
-  background: linear-gradient(135deg, #00f3ff 0%, #0088ff 100%);
-  color: #020c0e;
-  font-family: var(--wz-font-display);
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  box-shadow: 0 8px 25px -5px rgba(0, 243, 255, 0.4);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.wz-submit-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 35px -5px rgba(0, 243, 255, 0.6);
-  filter: brightness(1.08);
-}
-
-.wz-submit-btn:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.wz-submit-btn:disabled {
-  opacity: 0.75;
-  cursor: not-allowed;
-}
-
-/* Card Footer */
-.wz-card-footer {
-  margin-top: 1.75rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid rgba(0, 243, 255, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.7rem;
-  color: var(--wz-text-muted);
-}
-
-.wz-footer-badge {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-/* Status Indicator */
-.wz-status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 8px #10b981;
-}
-
-/* Mobile Adjustments */
-@media (max-width: 640px) {
-  .wz-login-card {
-    padding: 2rem 1.5rem;
-    border-radius: 1.5rem;
-  }
-  .wz-card-title {
-    font-size: 1.65rem;
-  }
+.ww-login-card {
+  background-color: #FFFFFF;
+  border: 1px solid #EAE8DF;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(34, 37, 31, 0.06), 0 1px 3px rgba(34, 37, 31, 0.04);
 }

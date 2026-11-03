@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { useEmpire } from '../../../context/EmpireContext';
 import { Search, Download, FileText, Calendar, Filter } from 'lucide-react';
 import MobileTransactionCard from '../MobileTransactionCard';
+import Card from '../../ui/Card';
+import Button from '../../ui/Button';
 
 const MobileLedgerView = () => {
   const { transactions } = useEmpire();
@@ -42,31 +44,35 @@ const MobileLedgerView = () => {
 
   return (
     <div className="space-y-4 pb-8">
-      {/* Summary Pills */}
+      {/* ── Summary Cards ── */}
       <div className="grid grid-cols-3 gap-2 text-center">
-        <div className="bg-white p-3 rounded-2xl border border-[#E5DFD1] shadow-xs">
-          <p className="text-[8px] font-black text-[#78716C] uppercase">Items</p>
-          <p className="text-sm font-black text-[#1C1917] tabular-nums mt-0.5">{filtered.length}</p>
-        </div>
-        <div className="bg-white p-3 rounded-2xl border border-[#E5DFD1] shadow-xs">
-          <p className="text-[8px] font-black text-[#78716C] uppercase">Credits</p>
-          <p className="text-sm font-black text-emerald-600 tabular-nums mt-0.5">+${Math.round(totalCredit / 1000)}k</p>
-        </div>
-        <div className="bg-white p-3 rounded-2xl border border-[#E5DFD1] shadow-xs">
-          <p className="text-[8px] font-black text-[#78716C] uppercase">Debits</p>
-          <p className="text-sm font-black text-rose-600 tabular-nums mt-0.5">-${Math.round(totalDebit / 1000)}k</p>
-        </div>
+        <Card className="p-3 border border-[#EAE8DF] bg-white">
+          <p className="text-[9px] font-semibold text-[#A3A297] uppercase">Items</p>
+          <p className="text-sm font-bold text-[#22251F] tabular-nums mt-0.5">{filtered.length}</p>
+        </Card>
+        <Card className="p-3 border border-[#EAE8DF] bg-white">
+          <p className="text-[9px] font-semibold text-[#66866A] uppercase">Credits</p>
+          <p className="text-sm font-bold text-[#66866A] tabular-nums mt-0.5">
+            +${totalCredit.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+          </p>
+        </Card>
+        <Card className="p-3 border border-[#EAE8DF] bg-white">
+          <p className="text-[9px] font-semibold text-[#C66D65] uppercase">Debits</p>
+          <p className="text-sm font-bold text-[#C66D65] tabular-nums mt-0.5">
+            -${totalDebit.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+          </p>
+        </Card>
       </div>
 
-      {/* Filter Toolbar */}
-      <div className="bg-white rounded-3xl p-4 border border-[#E5DFD1] shadow-xs space-y-3">
+      {/* ── Search & Filter Toolbar ── */}
+      <Card className="p-3.5 border border-[#EAE8DF] bg-white space-y-2.5">
         <div className="relative">
-          <Search className="w-4 h-4 text-[#A8A29E] absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#A3A297] absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             value={search}
             onChange={e => setSearch(e.target.value)}
-            placeholder="Search transaction stream..."
-            className="w-full bg-[#F9F7F1] border border-[#E5DFD1] rounded-2xl py-2.5 pl-10 pr-4 text-xs font-bold text-[#1C1917] outline-none"
+            placeholder="Search transactions..."
+            className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl py-2 pl-9 pr-3 text-xs font-medium text-[#22251F] placeholder-[#A3A297] outline-none focus:border-[#526B56]"
           />
         </div>
 
@@ -74,33 +80,47 @@ const MobileLedgerView = () => {
           <select
             value={filterModule}
             onChange={e => setFilterModule(e.target.value)}
-            className="flex-1 bg-[#F4EFE6] border border-[#E2DAC8] rounded-xl px-3 py-2 text-[10px] font-black uppercase text-[#1C1917] outline-none cursor-pointer"
+            className="flex-1 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2 text-xs font-semibold text-[#22251F] outline-none"
           >
-            <option value="All">All Modules</option>
+            <option value="All">All Hubs</option>
             <option value="Wallet">Wallet</option>
             <option value="Bank">Bank</option>
             <option value="Business">Business</option>
             <option value="Sectors">Sectors</option>
+            <option value="Transfer">Transfers</option>
           </select>
 
-          <button
-            onClick={exportToCSV}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#0284C7] text-white text-[10px] font-black uppercase shadow-xs cursor-pointer"
+          <select
+            value={filterType}
+            onChange={e => setFilterType(e.target.value)}
+            className="flex-1 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2 text-xs font-semibold text-[#22251F] outline-none"
           >
-            <Download className="w-3.5 h-3.5" />
-            CSV
-          </button>
-        </div>
-      </div>
+            <option value="All">All Types</option>
+            <option value="Credit">Credits (+)</option>
+            <option value="Debit">Debits (−)</option>
+          </select>
 
-      {/* Mobile Transaction List */}
+          <Button
+            variant="secondary"
+            size="sm"
+            icon={Download}
+            onClick={exportToCSV}
+            title="Export CSV"
+          >
+            CSV
+          </Button>
+        </div>
+      </Card>
+
+      {/* ── Transaction Cards Feed ── */}
       <div className="space-y-2.5">
-        {filtered.map(tx => (
+        {filtered.map((tx) => (
           <MobileTransactionCard key={tx.id} tx={tx} />
         ))}
+
         {filtered.length === 0 && (
-          <div className="py-16 text-center text-[#78716C] uppercase text-xs font-bold italic">
-            No matching transactions found.
+          <div className="py-12 text-center text-[#A3A297] bg-white rounded-2xl border border-[#EAE8DF] text-xs font-medium">
+            No transactions match criteria.
           </div>
         )}
       </div>

@@ -11,26 +11,26 @@ const Button = ({
   className = '',
   ...props
 }) => {
-  const baseStyle = 'inline-flex items-center justify-center font-black uppercase tracking-wider transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-blue rounded-xl cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none select-none';
+  const base = 'inline-flex items-center justify-center font-semibold tracking-tight transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#526B56] focus-visible:ring-offset-2 rounded-xl cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed select-none';
 
   const variants = {
-    primary: 'btn-primary',
-    secondary: 'bg-white/10 border border-white/15 text-white hover:bg-white/15 hover:border-white/30',
-    outline: 'bg-transparent border border-neon-cyan/30 text-neon-blue hover:bg-neon-cyan/10 hover:border-neon-cyan/60',
-    danger: 'bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 hover:border-rose-500/50',
-    ghost: 'bg-transparent text-slate-400 hover:text-white hover:bg-white/5',
+    primary: 'bg-[#526B56] text-white border border-[#445A48] hover:bg-[#445A48] shadow-sm hover:shadow-md active:translate-y-px',
+    secondary: 'bg-[#F1EFE7] text-[#22251F] border border-[#EAE8DF] hover:bg-[#E8E5DB] hover:border-[#D5D2C8]',
+    outline: 'bg-transparent text-[#526B56] border border-[#526B56]/40 hover:bg-[#EDF2E9] hover:border-[#526B56]/70',
+    danger: 'bg-[#FCEEED] text-[#C66D65] border border-[#C66D65]/30 hover:bg-[#C66D65] hover:text-white',
+    ghost: 'bg-transparent text-[#77786F] border border-transparent hover:text-[#22251F] hover:bg-[#F1EFE7]',
   };
 
   const sizes = {
-    sm: 'px-3 py-1.5 text-[10px] gap-1.5',
-    md: 'px-4 py-2.5 text-xs gap-2',
-    lg: 'px-6 py-3.5 text-sm gap-2.5',
+    sm: 'px-3 py-1.5 text-xs gap-1.5',
+    md: 'px-4 py-2 text-sm gap-2',
+    lg: 'px-5 py-2.5 text-sm gap-2.5',
   };
 
   return (
     <button
       disabled={disabled || loading}
-      className={`${baseStyle} ${variants[variant] || variants.primary} ${sizes[size] || sizes.md} ${className}`}
+      className={`${base} ${variants[variant] || variants.primary} ${sizes[size] || sizes.md} ${className}`}
       {...props}
     >
       {loading ? (

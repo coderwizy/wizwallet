@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useEmpire } from '../../context/EmpireContext';
-import { 
-  LayoutDashboard, Wallet, Landmark, History, 
+import {
+  LayoutDashboard, Wallet, Landmark, History,
   MoreHorizontal, Briefcase, Layers, Users, Settings, X, LogOut, ChevronRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -18,61 +18,55 @@ const MobileBottomNav = ({ activeTab, setActiveTab }) => {
   ];
 
   const secondaryNavItems = [
-    { id: 'business', label: 'Business Hub', icon: Briefcase, desc: 'Corporate ventures & yield analytics' },
-    { id: 'sectors', label: 'Advanced Sectors', icon: Layers, desc: '30 industrial control domain nodes' },
-    { id: 'family', label: 'Family Empire', icon: Users, desc: 'Sovereign trust & council governance' },
-    { id: 'settings', label: 'Control Engine', icon: Settings, desc: 'System calibration & security' },
+    { id: 'business', label: 'Ventures', icon: Briefcase, desc: 'Corporate ventures & yield' },
+    { id: 'sectors', label: 'Sectors', icon: Layers, desc: '30 industrial domain nodes' },
+    { id: 'family', label: 'Family', icon: Users, desc: 'Governance & wealth council' },
+    { id: 'settings', label: 'Settings', icon: Settings, desc: 'Configuration & security' },
   ];
 
   return (
     <>
-      {/* Sticky Bottom Navigation Bar */}
-      <nav aria-label="Mobile Navigation" className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/98 backdrop-blur-2xl border-t border-[#E5DFD1] px-2 py-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_30px_rgba(28,25,23,0.06)]">
+      {/* Bottom Nav */}
+      <nav
+        aria-label="Mobile Navigation"
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#EAE8DF] px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))]"
+      >
         <div className="flex items-center justify-around max-w-md mx-auto">
-          {mainNavItems.map((item) => {
+          {mainNavItems.map(item => {
             const isActive = activeTab === item.id;
             return (
               <button
                 key={item.id}
-                onClick={() => {
-                  setActiveTab(item.id);
-                  setShowMoreMenu(false);
-                }}
+                onClick={() => { setActiveTab(item.id); setShowMoreMenu(false); }}
                 aria-label={item.label}
                 aria-current={isActive ? 'page' : undefined}
-                className={`flex flex-col items-center justify-center min-w-14 py-1 rounded-xl transition-all relative cursor-pointer focus-visible:outline-none ${
-                  isActive ? 'text-[#0284C7] font-black' : 'text-[#78716C] hover:text-[#1C1917]'
-                }`}
+                className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all focus-visible:outline-none cursor-pointer min-w-0 ${isActive ? 'text-[#526B56]' : 'text-[#A3A297]'}`}
               >
-                <item.icon className={`w-5 h-5 transition-transform ${isActive ? 'scale-110 stroke-[2.5px]' : 'stroke-2'}`} />
-                <span className="text-[10px] uppercase font-bold tracking-wider mt-1">{item.label}</span>
+                <item.icon className={`w-5 h-5 transition-all ${isActive ? 'text-[#526B56]' : ''}`} />
+                <span className={`text-[10px] font-medium ${isActive ? 'text-[#526B56] font-semibold' : ''}`}>{item.label}</span>
                 {isActive && (
                   <motion.div
                     layoutId="activeMobileTab"
-                    className="absolute -bottom-1 w-6 h-0.5 bg-[#0284C7] rounded-full shadow-xs"
+                    className="absolute -bottom-0 w-5 h-0.5 bg-[#526B56] rounded-full"
                   />
                 )}
               </button>
             );
           })}
 
-          {/* More Tab */}
+          {/* More */}
           <button
-            onClick={() => setShowMoreMenu(prev => !prev)}
-            aria-label="More Menu"
-            className={`flex flex-col items-center justify-center min-w-14 py-1 rounded-xl transition-all relative cursor-pointer focus-visible:outline-none ${
-              showMoreMenu || ['business', 'sectors', 'family', 'settings'].includes(activeTab)
-                ? 'text-[#0284C7] font-black'
-                : 'text-[#78716C] hover:text-[#1C1917]'
-            }`}
+            onClick={() => setShowMoreMenu(p => !p)}
+            aria-label="More"
+            className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all focus-visible:outline-none cursor-pointer ${showMoreMenu || ['business', 'sectors', 'family', 'settings'].includes(activeTab) ? 'text-[#526B56]' : 'text-[#A3A297]'}`}
           >
-            <MoreHorizontal className={`w-5 h-5 transition-transform ${showMoreMenu ? 'scale-110 stroke-[2.5px]' : 'stroke-2'}`} />
-            <span className="text-[10px] uppercase font-bold tracking-wider mt-1">More</span>
+            <MoreHorizontal className="w-5 h-5" />
+            <span className="text-[10px] font-medium">More</span>
           </button>
         </div>
       </nav>
 
-      {/* Secondary Bottom Sheet Menu */}
+      {/* More menu bottom sheet */}
       <AnimatePresence>
         {showMoreMenu && (
           <div className="lg:hidden fixed inset-0 z-50 flex items-end">
@@ -81,67 +75,54 @@ const MobileBottomNav = ({ activeTab, setActiveTab }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowMoreMenu(false)}
-              className="absolute inset-0 bg-[#1C1917]/50 backdrop-blur-md"
+              className="absolute inset-0 bg-[#22251F]/40 backdrop-blur-sm"
             />
             <motion.div
               initial={{ y: '100%' }}
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
-              transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-              className="relative z-10 w-full bg-[#F7F4EC] rounded-t-3xl border-t border-[#E5DFD1] p-6 shadow-[0_-20px_50px_rgba(28,25,23,0.15)] max-h-[85vh] overflow-y-auto scroll-hide pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
+              transition={{ type: 'spring', stiffness: 400, damping: 32 }}
+              className="relative z-10 w-full bg-white rounded-t-2xl border-t border-[#EAE8DF] p-5 shadow-[0_-10px_40px_rgba(34,37,31,0.12)] max-h-[80vh] overflow-y-auto scroll-hide pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
             >
-              <div className="w-12 h-1 bg-[#D6CDB8] rounded-full mx-auto mb-5" />
+              <div className="w-10 h-1 bg-[#D5D2C8] rounded-full mx-auto mb-4" />
 
-              <div className="flex items-center justify-between mb-6 pb-3 border-b border-[#E5DFD1]">
-                <div>
-                  <h3 className="text-lg font-black text-[#1C1917] uppercase tracking-tight italic">WizWallet Hubs</h3>
-                  <p className="text-[10px] text-[#0284C7] font-bold uppercase tracking-widest mt-0.5">Secondary Navigation</p>
-                </div>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-base font-semibold text-[#22251F]">More</h3>
                 <button
                   onClick={() => setShowMoreMenu(false)}
-                  className="p-2 rounded-xl bg-white border border-[#E5DFD1] text-[#78716C] hover:text-[#1C1917] transition-all cursor-pointer shadow-xs"
+                  className="p-1.5 rounded-lg text-[#A3A297] hover:text-[#22251F] hover:bg-[#F1EFE7] transition-all cursor-pointer"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4" />
                 </button>
               </div>
 
-              <div className="space-y-2 mb-6">
-                {secondaryNavItems.map((item) => (
+              <div className="space-y-1.5 mb-4">
+                {secondaryNavItems.map(item => (
                   <button
                     key={item.id}
-                    onClick={() => {
-                      setActiveTab(item.id);
-                      setShowMoreMenu(false);
-                    }}
-                    className={`w-full flex items-center justify-between p-4 rounded-2xl border transition-all text-left group cursor-pointer ${
-                      activeTab === item.id
-                        ? 'border-[#0284C7] bg-[#E0F2FE] text-[#1C1917] shadow-sm font-black'
-                        : 'border-[#E5DFD1] bg-white text-[#1C1917] hover:bg-[#F9F7F1]'
-                    }`}
+                    onClick={() => { setActiveTab(item.id); setShowMoreMenu(false); }}
+                    className={`w-full flex items-center justify-between p-3.5 rounded-xl border transition-all text-left cursor-pointer ${activeTab === item.id ? 'border-[#526B56]/30 bg-[#EDF2E9] text-[#526B56]' : 'border-[#EAE8DF] bg-white text-[#22251F] hover:bg-[#F8F7F2]'}`}
                   >
-                    <div className="flex items-center gap-3.5">
-                      <div className={`p-2.5 rounded-xl border ${activeTab === item.id ? 'bg-[#0284C7] border-[#0284C7] text-white' : 'bg-[#F4EFE6] border-[#E2DAC8] text-[#57534E]'}`}>
-                        <item.icon className="w-5 h-5" />
+                    <div className="flex items-center gap-3">
+                      <div className={`p-2 rounded-lg border ${activeTab === item.id ? 'bg-[#526B56] border-[#526B56] text-white' : 'bg-[#F1EFE7] border-[#EAE8DF] text-[#77786F]'}`}>
+                        <item.icon className="w-4 h-4" />
                       </div>
                       <div>
-                        <p className="text-xs font-black uppercase tracking-wider text-[#1C1917]">{item.label}</p>
-                        <p className="text-[10px] text-[#78716C] font-medium mt-0.5">{item.desc}</p>
+                        <p className="text-xs font-semibold">{item.label}</p>
+                        <p className="text-[10px] text-[#A3A297] mt-0.5">{item.desc}</p>
                       </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-[#A8A29E] group-hover:text-[#0284C7] group-hover:translate-x-1 transition-all" />
+                    <ChevronRight className="w-4 h-4 text-[#A3A297]" />
                   </button>
                 ))}
               </div>
 
               <button
-                onClick={() => {
-                  setShowMoreMenu(false);
-                  logout();
-                }}
-                className="w-full flex items-center justify-center gap-3 py-3.5 px-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 font-black uppercase text-xs tracking-widest hover:bg-rose-600 hover:text-white transition-all shadow-xs cursor-pointer"
+                onClick={() => { setShowMoreMenu(false); logout(); }}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#FCEEED] border border-[#E8C5C3] text-[#C66D65] text-xs font-semibold hover:bg-[#C66D65] hover:text-white transition-all cursor-pointer"
               >
                 <LogOut className="w-4 h-4" />
-                End Session
+                Sign out
               </button>
             </motion.div>
           </div>

@@ -16,7 +16,7 @@ const MobileAppLayout = ({ activeTab, setActiveTab }) => {
     switch (activeTab) {
       case 'dashboard': return <MobileDashboardView setActiveTab={setActiveTab} />;
       case 'wallet': return <MobileWalletView setActiveTab={setActiveTab} />;
-      case 'bank': return <MobileBankView />;
+      case 'bank': return <MobileBankView setActiveTab={setActiveTab} />;
       case 'business': return <MobileBusinessView />;
       case 'sectors': return <MobileSectorsView />;
       case 'transactions': return <MobileLedgerView />;
@@ -27,12 +27,12 @@ const MobileAppLayout = ({ activeTab, setActiveTab }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F4EC] text-[#1C1917] flex flex-col justify-between relative selection:bg-[#0284C7]/20 selection:text-[#0284C7]">
-      {/* Native Deep Cream Mobile Header */}
-      <MobileHeader activeTab={activeTab} />
+    <div className="min-h-screen bg-[#F8F7F2] text-[#22251F] flex flex-col justify-between relative selection:bg-[#EDF2E9] selection:text-[#526B56]">
+      {/* Native Cream Mobile Header */}
+      <MobileHeader activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      {/* Main View Area */}
-      <main className="flex-1 p-4 pb-24 overflow-y-auto max-w-md mx-auto w-full">
+      {/* Main View Area with Safe Area Bottom Padding */}
+      <main className="flex-1 p-4 pb-28 overflow-y-auto max-w-lg mx-auto w-full">
         {renderMobileView()}
       </main>
 

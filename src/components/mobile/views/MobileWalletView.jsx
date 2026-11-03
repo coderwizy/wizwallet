@@ -1,11 +1,15 @@
 import React, { useState, useMemo } from 'react';
 import { useEmpire } from '../../../context/EmpireContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Send, Wallet, ArrowLeftRight, Eye, EyeOff, Zap, Plus, 
-  Briefcase, Car, Building2, Factory, Gem
+import {
+  Send, Wallet, ArrowLeftRight, Eye, EyeOff, Zap, Plus,
+  Briefcase, Car, Building2, Factory, Gem, AlertCircle
 } from 'lucide-react';
 import MobileActionSheet from '../MobileActionSheet';
+import Card from '../../ui/Card';
+import Button from '../../ui/Button';
+import Badge from '../../ui/Badge';
+import Input from '../../ui/Input';
 
 const GROWTH_TIERS = [
   { id: 'Slow',        label: 'Stable',      mult: '1×' },
@@ -54,32 +58,34 @@ const MobileWalletView = ({ setActiveTab }) => {
   };
 
   return (
-    <div className="space-y-5 pb-8">
-      {/* Hero Vault Card */}
-      <div className="bg-white rounded-3xl p-6 border border-[#E5DFD1] shadow-[0_8px_30px_rgba(28,25,23,0.06)] text-[#1C1917] space-y-5">
+    <div className="space-y-4 pb-8">
+      {/* ── Hero Vault Card ── */}
+      <Card className="p-5 border border-[#EAE8DF] bg-white space-y-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2.5">
-            <div className="p-2.5 rounded-2xl bg-[#0284C7]/10 text-[#0284C7] border border-[#0284C7]/20">
-              <Wallet className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] flex items-center justify-center text-[#526B56]">
+              <Wallet className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-[#78716C]">Liquid Vault</p>
-              <p className="text-[10px] text-[#0284C7] font-bold uppercase">USD Vault Account</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Liquid Capital</p>
+              <p className="text-xs font-bold text-[#22251F]">Smart Wallet · USD Vault</p>
             </div>
           </div>
-          <button
-            onClick={() => setBalanceHidden(h => !h)}
-            className="p-2 rounded-xl bg-[#F4EFE6] border border-[#E2DAC8] text-[#57534E] hover:text-[#1C1917] transition-all cursor-pointer"
-          >
-            {balanceHidden ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setBalanceHidden(!balanceHidden)}
+              className="p-1.5 rounded-lg text-[#A3A297] hover:text-[#22251F] hover:bg-[#F8F7F2] cursor-pointer"
+            >
+              {balanceHidden ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+            </button>
+            <Badge variant="accent">Live</Badge>
+          </div>
         </div>
 
-        {/* Balance Display / Inline Edit */}
         <div>
           {isEditing ? (
             <div className="flex items-center gap-2">
-              <span className="text-3xl font-black text-[#A8A29E]">$</span>
+              <span className="text-2xl font-bold text-[#A3A297]">$</span>
               <input
                 autoFocus
                 type="number"
@@ -88,178 +94,168 @@ const MobileWalletView = ({ setActiveTab }) => {
                 onBlur={() => {
                   const diff = editValue - wallet.balance;
                   if (Math.abs(diff) > 0.01) {
-                    addTransaction('Wallet', diff > 0 ? 'Credit' : 'Debit', Math.abs(diff), 'Manual Balance Adjustment');
+                    addTransaction('Wallet', diff > 0 ? 'Credit' : 'Debit', Math.abs(diff), 'Manual Balance Calibration');
                   }
-                  setWallet(prev => ({ ...prev, balance: editValue }));
+                  setWallet(w => ({ ...w, balance: editValue }));
                   setIsEditing(false);
                 }}
-                className="bg-[#F9F7F1] border-b-2 border-[#0284C7] text-3xl font-black text-[#1C1917] outline-none px-2 py-1 rounded-lg w-full"
+                className="text-3xl font-extrabold text-[#22251F] bg-transparent border-b-2 border-[#526B56] outline-none w-full"
               />
             </div>
           ) : (
-            <div onClick={() => { setEditValue(wallet.balance); setIsEditing(true); }} className="cursor-pointer">
-              <h2 className="text-3xl font-black text-[#1C1917] tracking-tight tabular-nums">
-                {balanceHidden ? '••••••••••' : `$${wallet.balance.toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
-              </h2>
-              <p className="text-[9px] text-[#0284C7] font-bold uppercase mt-1">Tap to calibrate balance</p>
-            </div>
+            <h2
+              onClick={() => { setEditValue(wallet.balance); setIsEditing(true); }}
+              className="text-3xl font-extrabold text-[#22251F] tracking-tight tabular-nums cursor-pointer"
+            >
+              {balanceHidden ? '••••••••' : `$${wallet.balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+            </h2>
           )}
+          <p className="text-[10px] text-[#A3A297] mt-1">Tap balance to calibrate manually</p>
         </div>
 
         {/* Action Buttons */}
-        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-[#E5DFD1]">
-          <button
-            onClick={() => { setShowTransferSheet(true); setTransferError(''); }}
-            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-[#F4EFE6] border border-[#E2DAC8] text-[#1C1917] font-black uppercase text-xs tracking-wider cursor-pointer shadow-xs"
-          >
-            <ArrowLeftRight className="w-4 h-4 text-[#0284C7]" />
-            Transfer
-          </button>
-
-          <button
+        <div className="grid grid-cols-2 gap-3 pt-3.5 border-t border-[#EAE8DF]">
+          <Button
+            variant="primary"
+            icon={Send}
+            size="md"
+            className="w-full py-2.5 text-xs"
             onClick={() => { setShowPaySheet(true); setPayError(''); }}
-            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-[#0284C7] text-white font-black uppercase text-xs tracking-wider cursor-pointer shadow-md shadow-sky-600/20"
           >
-            <Send className="w-4 h-4" />
             Send Payment
-          </button>
+          </Button>
+          <Button
+            variant="secondary"
+            icon={ArrowLeftRight}
+            size="md"
+            className="w-full py-2.5 text-xs"
+            onClick={() => { setShowTransferSheet(true); setTransferError(''); }}
+          >
+            Transfer Funds
+          </Button>
         </div>
-      </div>
+      </Card>
 
-      {/* Growth Multipliers */}
-      <div className="bg-white rounded-3xl p-5 border border-[#E5DFD1] shadow-xs space-y-3">
+      {/* ── Growth Engine Tier Selector ── */}
+      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
         <div className="flex justify-between items-center">
-          <h3 className="text-sm font-black text-[#1C1917] uppercase tracking-tight italic">Growth Multipliers</h3>
-          <span className="text-[9px] font-black text-[#0284C7] bg-[#E0F2FE] px-2.5 py-0.5 rounded-full uppercase">
-            Active: {wallet.growthRate}
-          </span>
+          <h3 className="text-xs font-bold text-[#22251F]">Growth Multiplier Tier</h3>
+          <Badge variant="accent">
+            <Zap className="w-3 h-3 mr-1" />
+            {wallet.growthRate || 'Stable'} Tier
+          </Badge>
         </div>
 
-        <div className="grid grid-cols-5 gap-1.5 bg-[#F4EFE6] p-1.5 rounded-2xl border border-[#E2DAC8]">
-          {GROWTH_TIERS.map((tier) => {
+        <div className="grid grid-cols-5 gap-1.5">
+          {GROWTH_TIERS.map(tier => {
             const isActive = wallet.growthRate === tier.id;
             return (
               <button
                 key={tier.id}
-                onClick={() => setWallet(prev => ({ ...prev, growthRate: tier.id }))}
-                className={`py-2 px-1 rounded-xl text-center transition-all cursor-pointer ${
+                onClick={() => setWallet(w => ({ ...w, growthRate: tier.id }))}
+                className={`p-2 rounded-xl border text-center transition-all cursor-pointer ${
                   isActive
-                    ? 'bg-[#0284C7] text-white shadow-xs font-black'
-                    : 'text-[#57534E] hover:text-[#1C1917]'
+                    ? 'border-[#526B56] bg-[#EDF2E9] shadow-2xs font-bold'
+                    : 'border-[#EAE8DF] bg-[#FCFBF8] text-[#77786F]'
                 }`}
               >
-                <p className="text-[10px] font-black">{tier.mult}</p>
-                <p className="text-[8px] uppercase font-bold tracking-tighter truncate">{tier.label}</p>
+                <p className={`text-[9px] uppercase tracking-wider truncate ${isActive ? 'text-[#526B56]' : 'text-[#A3A297]'}`}>
+                  {tier.label}
+                </p>
+                <p className={`text-xs font-extrabold mt-0.5 ${isActive ? 'text-[#526B56]' : 'text-[#22251F]'}`}>
+                  {tier.mult}
+                </p>
               </button>
             );
           })}
         </div>
-      </div>
+      </Card>
 
-      {/* SEND PAYMENT BOTTOM SHEET */}
+      {/* ── BOTTOM SHEET: SEND PAYMENT ── */}
       <MobileActionSheet
         isOpen={showPaySheet}
         onClose={() => setShowPaySheet(false)}
         title="Send Payment"
-        subtitle="Disburse Liquid Funds"
+        subtitle="Direct P2P Settlement"
       >
         {payError && (
-          <div className="p-3 mb-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs font-bold">
-            {payError}
+          <div className="flex items-center gap-2 p-3 mb-4 bg-[#FCEEED] border border-[#E8C5C3] rounded-xl text-[#C66D65] text-xs font-semibold">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{payError}</span>
           </div>
         )}
         <form onSubmit={handlePay} className="space-y-4">
-          <div>
-            <label className="text-[10px] font-black uppercase text-[#57534E] tracking-wider block mb-1">Recipient</label>
-            <input
-              required
-              value={payData.recipient}
-              onChange={e => setPayData({ ...payData, recipient: e.target.value })}
-              placeholder="e.g. Apex Holdings..."
-              className="w-full bg-white border border-[#E5DFD1] rounded-xl p-3 text-sm font-bold text-[#1C1917] outline-none"
-            />
-          </div>
-          <div>
-            <label className="text-[10px] font-black uppercase text-[#57534E] tracking-wider block mb-1">Amount ($)</label>
-            <input
-              type="number"
-              required
-              value={payData.amount}
-              onChange={e => setPayData({ ...payData, amount: e.target.value })}
-              placeholder="0.00"
-              className="w-full bg-white border border-[#E5DFD1] rounded-xl p-3 text-sm font-bold text-[#1C1917] outline-none"
-            />
-          </div>
-          <div>
-            <label className="text-[10px] font-black uppercase text-[#57534E] tracking-wider block mb-1">Purpose</label>
-            <input
-              value={payData.purpose}
-              onChange={e => setPayData({ ...payData, purpose: e.target.value })}
-              placeholder="e.g. Dividend Distribution"
-              className="w-full bg-white border border-[#E5DFD1] rounded-xl p-3 text-sm font-bold text-[#1C1917] outline-none"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full py-3.5 rounded-2xl bg-[#0284C7] text-white font-black uppercase text-xs tracking-wider cursor-pointer shadow-md mt-2"
-          >
+          <Input
+            label="Recipient Account / Handle"
+            required
+            value={payData.recipient}
+            onChange={e => setPayData({ ...payData, recipient: e.target.value })}
+            placeholder="@recipient"
+          />
+          <Input
+            label="Amount (USD)"
+            type="number"
+            required
+            value={payData.amount}
+            onChange={e => setPayData({ ...payData, amount: e.target.value })}
+            placeholder="0.00"
+            min="1"
+          />
+          <Input
+            label="Transfer Purpose"
+            value={payData.purpose}
+            onChange={e => setPayData({ ...payData, purpose: e.target.value })}
+            placeholder="e.g. Dividend distribution"
+          />
+          <Button type="submit" variant="primary" className="w-full py-3 mt-2">
             Confirm & Send
-          </button>
+          </Button>
         </form>
       </MobileActionSheet>
 
-      {/* TRANSFER BOTTOM SHEET */}
+      {/* ── BOTTOM SHEET: TRANSFER ── */}
       <MobileActionSheet
         isOpen={showTransferSheet}
         onClose={() => setShowTransferSheet(false)}
         title="Internal Transfer"
-        subtitle="Move Capital Between Vaults"
+        subtitle="Wallet ⇄ Bank Treasury"
       >
         {transferError && (
-          <div className="p-3 mb-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs font-bold">
-            {transferError}
+          <div className="flex items-center gap-2 p-3 mb-4 bg-[#FCEEED] border border-[#E8C5C3] rounded-xl text-[#C66D65] text-xs font-semibold">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{transferError}</span>
           </div>
         )}
         <form onSubmit={handleTransfer} className="space-y-4">
-          <div className="grid grid-cols-2 gap-2 bg-[#F4EFE6] p-1.5 rounded-2xl border border-[#E2DAC8]">
-            <button
-              type="button"
-              onClick={() => setTransferDir('wallet-to-bank')}
-              className={`py-2 px-3 rounded-xl text-xs font-black uppercase transition-all cursor-pointer ${
-                transferDir === 'wallet-to-bank' ? 'bg-[#0284C7] text-white shadow-xs' : 'text-[#57534E]'
-              }`}
-            >
-              Wallet → Bank
-            </button>
-            <button
-              type="button"
-              onClick={() => setTransferDir('bank-to-wallet')}
-              className={`py-2 px-3 rounded-xl text-xs font-black uppercase transition-all cursor-pointer ${
-                transferDir === 'bank-to-wallet' ? 'bg-[#0284C7] text-white shadow-xs' : 'text-[#57534E]'
-              }`}
-            >
-              Bank → Wallet
-            </button>
+          <div className="grid grid-cols-2 gap-2 p-1.5 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl">
+            {[
+              { val: 'wallet-to-bank', label: 'Wallet → Bank' },
+              { val: 'bank-to-wallet', label: 'Bank → Wallet' },
+            ].map(dir => (
+              <button
+                key={dir.val}
+                type="button"
+                onClick={() => setTransferDir(dir.val)}
+                className={`py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  transferDir === dir.val ? 'bg-[#526B56] text-white shadow-2xs' : 'text-[#77786F]'
+                }`}
+              >
+                {dir.label}
+              </button>
+            ))}
           </div>
-
-          <div>
-            <label className="text-[10px] font-black uppercase text-[#57534E] tracking-wider block mb-1">Transfer Amount ($)</label>
-            <input
-              type="number"
-              required
-              value={transferAmount}
-              onChange={e => setTransferAmount(e.target.value)}
-              placeholder="0.00"
-              className="w-full bg-white border border-[#E5DFD1] rounded-xl p-3 text-sm font-bold text-[#1C1917] outline-none"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full py-3.5 rounded-2xl bg-[#0284C7] text-white font-black uppercase text-xs tracking-wider cursor-pointer shadow-md mt-2"
-          >
+          <Input
+            label="Transfer Amount (USD)"
+            type="number"
+            required
+            value={transferAmount}
+            onChange={e => setTransferAmount(e.target.value)}
+            placeholder="0.00"
+            min="1"
+          />
+          <Button type="submit" variant="primary" className="w-full py-3 mt-2">
             Execute Transfer
-          </button>
+          </Button>
         </form>
       </MobileActionSheet>
     </div>

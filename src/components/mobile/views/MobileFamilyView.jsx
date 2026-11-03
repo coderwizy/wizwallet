@@ -1,28 +1,34 @@
 import React, { useState } from 'react';
 import { useEmpire } from '../../../context/EmpireContext';
 import { motion } from 'framer-motion';
-import { Users, UserPlus, Heart, ChevronRight } from 'lucide-react';
+import { Users, UserPlus, Heart, ChevronRight, Edit3, PieChart as PieIcon } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import MobileActionSheet from '../MobileActionSheet';
+import Card from '../../ui/Card';
+import Button from '../../ui/Button';
+import Badge from '../../ui/Badge';
+import Input from '../../ui/Input';
 
-const COLORS = ['#0284C7', '#7C3AED', '#059669', '#E11D48', '#D97706'];
+const COLORS = ['#526B56', '#82977B', '#C18A48', '#7C5ABF', '#4A90A4'];
 
 const MobileFamilyView = () => {
   const { wallet, bank, members, addFamilyMember, updateFamilyMember } = useEmpire();
   const [showAddSheet, setShowAddSheet] = useState(false);
   const [editingMember, setEditingMember] = useState(null);
+  const [hoveredMember, setHoveredMember] = useState(null);
 
   const [addForm, setAddForm] = useState({ name: '', role: 'Strategist', goal: '', wealth: 5 });
   const [editForm, setEditForm] = useState({ name: '', role: '', goal: '', wealth: 0 });
 
   const totalTrustWealth = (wallet?.balance || 0) + (bank?.balance || 0);
+  const totalAllocated = members.reduce((s, m) => s + (m.wealth || 0), 0);
 
   const handleAddSubmit = (e) => {
     e.preventDefault();
     if (!addForm.name.trim()) return;
     addFamilyMember({
       id: Date.now(),
-      name: addForm.name,
+      name: addForm.name.trim(),
       role: addForm.role,
       goal: addForm.goal || 'Legacy Goal',
       wealth: parseInt(addForm.wealth) || 5,
@@ -40,198 +46,254 @@ const MobileFamilyView = () => {
   };
 
   return (
-    <div className="space-y-5 pb-8">
-      {/* Hero Sovereign Trust Card */}
-      <div className="bg-white rounded-3xl p-6 border border-[#E5DFD1] shadow-[0_8px_30px_rgba(28,25,23,0.06)] text-[#1C1917] space-y-4">
+    <div className="space-y-4 pb-8">
+      {/* ── Hero Sovereign Trust Card ── */}
+      <Card className="p-5 border border-[#EAE8DF] bg-white space-y-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2.5">
-            <div className="p-2.5 rounded-2xl bg-purple-50 text-purple-600 border border-purple-200">
-              <Users className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-xl bg-[#F3EEF8] border border-[#DECDEE] text-[#7C5ABF] flex items-center justify-center">
+              <Users className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-[#78716C]">Family Trust</p>
-              <p className="text-[10px] text-purple-600 font-bold uppercase">Council Governance</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Family Office</p>
+              <p className="text-xs font-bold text-[#22251F]">Council Governance</p>
             </div>
           </div>
-          <button
+          <Button
+            variant="primary"
+            size="sm"
+            icon={UserPlus}
             onClick={() => setShowAddSheet(true)}
-            className="flex items-center gap-1.5 py-2.5 px-3.5 rounded-2xl bg-[#0284C7] text-white font-black uppercase text-xs tracking-wider cursor-pointer shadow-md shadow-sky-600/20"
           >
-            <UserPlus className="w-4 h-4" />
             Add Member
-          </button>
+          </Button>
         </div>
 
         <div>
-          <p className="text-[10px] font-black uppercase text-[#78716C]">Protected Trust Capital</p>
-          <h2 className="text-3xl font-black text-[#1C1917] tracking-tight tabular-nums mt-0.5">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Protected Trust Capital</p>
+          <h2 className="text-3xl font-extrabold text-[#22251F] tracking-tight tabular-nums mt-0.5">
             ${totalTrustWealth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 pt-3 border-t border-[#E5DFD1] text-center">
-          <div className="p-2.5 bg-[#F9F7F1] rounded-2xl border border-[#E8E2D5]">
-            <p className="text-[8px] font-black text-[#78716C] uppercase">Members</p>
-            <p className="text-sm font-black text-purple-600 tabular-nums mt-0.5">{members.length}</p>
+        <div className="grid grid-cols-2 gap-2.5 pt-3 border-t border-[#EAE8DF] text-center">
+          <div className="p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
+            <p className="text-[9px] font-semibold text-[#A3A297] uppercase">Members</p>
+            <p className="text-sm font-bold text-[#7C5ABF] tabular-nums mt-0.5">{members.length}</p>
           </div>
-          <div className="p-2.5 bg-[#F9F7F1] rounded-2xl border border-[#E8E2D5]">
-            <p className="text-[8px] font-black text-[#78716C] uppercase">Allocated Share</p>
-            <p className="text-sm font-black text-emerald-600 tabular-nums mt-0.5">
-              {members.reduce((s, m) => s + (m.wealth || 0), 0)}%
+          <div className="p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
+            <p className="text-[9px] font-semibold text-[#A3A297] uppercase">Allocated Share</p>
+            <p className="text-sm font-bold text-[#526B56] tabular-nums mt-0.5">
+              {totalAllocated}%
             </p>
           </div>
         </div>
-      </div>
+      </Card>
 
-      {/* Wealth Share Pie Chart */}
-      <div className="bg-white rounded-3xl p-5 border border-[#E5DFD1] shadow-xs space-y-3">
-        <h3 className="text-sm font-black text-[#1C1917] uppercase tracking-tight italic">Share Allocation</h3>
-        <div className="h-44 w-full">
-          <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-            <PieChart>
-              <Pie data={members} dataKey="wealth" nameKey="name" cx="50%" cy="50%" innerRadius={40} outerRadius={60} paddingAngle={4}>
-                {members.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
-              </Pie>
-              <Tooltip formatter={v => [`${v}%`, 'Wealth Share']} contentStyle={{ backgroundColor: '#FFFFFF', border: '1px solid #E5DFD1', borderRadius: '12px' }} />
-            </PieChart>
-          </ResponsiveContainer>
+      {/* ── Wealth Share Donut Chart ── */}
+      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
+        <div className="flex justify-between items-center">
+          <h3 className="text-xs font-bold text-[#22251F]">Share Allocation</h3>
+          <Badge variant="violet">{totalAllocated}% Allocated</Badge>
         </div>
-      </div>
 
-      {/* Council Members List */}
-      <div className="space-y-3">
-        <h3 className="text-xs font-black text-[#1C1917] uppercase tracking-wider px-1">Council Members</h3>
+        <div className="relative flex items-center justify-center my-2">
+          <div className="h-48 w-full max-w-[220px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={members}
+                  dataKey="wealth"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={50}
+                  outerRadius={72}
+                  paddingAngle={3}
+                  cornerRadius={3}
+                  onMouseEnter={(_, idx) => setHoveredMember(members[idx])}
+                  onMouseLeave={() => setHoveredMember(null)}
+                >
+                  {members.map((_, i) => (
+                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+            <span className="text-[9px] font-semibold uppercase tracking-wider text-[#A3A297] truncate max-w-[120px]">
+              {hoveredMember ? hoveredMember.name : 'Trust Share'}
+            </span>
+            <span className="text-base font-extrabold text-[#22251F] tabular-nums mt-0.5">
+              {hoveredMember ? `${hoveredMember.wealth}%` : `${totalAllocated}%`}
+            </span>
+            <span className="text-[10px] font-bold text-[#7C5ABF]">
+              {hoveredMember ? 'Allocated' : `${members.length} Members`}
+            </span>
+          </div>
+        </div>
+
+        <div className="space-y-2 pt-2 border-t border-[#EAE8DF]">
+          {members.map((member, i) => {
+            const isHovered = hoveredMember?.id === member.id;
+            const color = COLORS[i % COLORS.length];
+            return (
+              <div
+                key={member.id}
+                onMouseEnter={() => setHoveredMember(member)}
+                onMouseLeave={() => setHoveredMember(null)}
+                className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+                  isHovered ? 'bg-[#F3EEF8]' : ''
+                }`}
+              >
+                <div className="flex items-center justify-between text-xs mb-1">
+                  <div className="flex items-center gap-2 truncate mr-2">
+                    <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: color }} />
+                    <span className={`font-semibold text-xs truncate ${isHovered ? 'text-[#7C5ABF]' : 'text-[#22251F]'}`}>
+                      {member.name}
+                    </span>
+                  </div>
+                  <span className="font-bold tabular-nums text-xs text-[#22251F]">{member.wealth}%</span>
+                </div>
+                <div className="w-full h-1 bg-[#F1EFE7] rounded-full overflow-hidden">
+                  <div
+                    className="h-full rounded-full"
+                    style={{ width: `${member.wealth}%`, backgroundColor: color }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      {/* ── Members List ── */}
+      <div className="space-y-2.5">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-[#A3A297] px-1">
+          Council Members ({members.length})
+        </h3>
         {members.map(member => (
-          <div key={member.id} className="bg-white p-4 rounded-2xl border border-[#E5DFD1] shadow-xs space-y-3">
-            <div className="flex items-center justify-between">
+          <Card
+            key={member.id}
+            className="p-4 border border-[#EAE8DF] bg-white space-y-2.5 cursor-pointer hover:border-[#D5D2C8] transition-all"
+            onClick={() => {
+              setEditingMember(member);
+              setEditForm({ name: member.name, role: member.role, goal: member.goal, wealth: member.wealth });
+            }}
+          >
+            <div className="flex justify-between items-start">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-purple-50 border border-purple-200 text-purple-600 flex items-center justify-center">
-                  <Heart className="w-5 h-5" />
+                <div className="w-8 h-8 rounded-lg bg-[#F3EEF8] border border-[#DECDEE] text-[#7C5ABF] flex items-center justify-center shrink-0">
+                  <Heart className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-black uppercase text-[#1C1917]">{member.name}</h4>
-                  <p className="text-[9px] text-[#78716C] font-bold uppercase">{member.role} • {member.wealth}% Share</p>
+                  <h4 className="text-xs font-bold text-[#22251F]">{member.name}</h4>
+                  <p className="text-[10px] text-[#77786F]">{member.role} · Goal: {member.goal}</p>
                 </div>
               </div>
-              <button
-                onClick={() => { setEditingMember(member); setEditForm({ name: member.name, role: member.role, goal: member.goal, wealth: member.wealth }); }}
-                className="p-2 rounded-xl bg-[#F4EFE6] border border-[#E2DAC8] text-[#57534E]"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
+              <Badge variant="violet">{member.wealth}%</Badge>
             </div>
 
-            <div className="space-y-1">
-              <div className="flex justify-between text-[9px] font-black uppercase text-[#78716C]">
-                <span>Goal: {member.goal}</span>
-                <span>{member.wealth}%</span>
-              </div>
-              <div className="w-full h-1.5 bg-[#F4EFE6] rounded-full overflow-hidden">
-                <div className="h-full bg-purple-600 rounded-full" style={{ width: `${member.wealth}%` }} />
-              </div>
+            <div className="w-full h-1.5 bg-[#F1EFE7] rounded-full overflow-hidden">
+              <div
+                className="h-full bg-[#7C5ABF] rounded-full transition-all duration-500"
+                style={{ width: `${Math.min(member.wealth, 100)}%` }}
+              />
             </div>
-          </div>
+          </Card>
         ))}
       </div>
 
-      {/* ADD MEMBER SHEET */}
+      {/* ── BOTTOM SHEET: ADD MEMBER ── */}
       <MobileActionSheet
         isOpen={showAddSheet}
         onClose={() => setShowAddSheet(false)}
         title="Add Council Member"
-        subtitle="Enshrine Member into Sovereign Trust"
+        subtitle="Enshrine into Sovereign Trust"
       >
         <form onSubmit={handleAddSubmit} className="space-y-4">
-          <div>
-            <label className="text-[10px] font-black uppercase text-[#57534E] tracking-wider block mb-1">Member Name</label>
-            <input
-              required
-              value={addForm.name}
-              onChange={e => setAddForm({ ...addForm, name: e.target.value })}
-              placeholder="Full Name..."
-              className="w-full bg-white border border-[#E5DFD1] rounded-xl p-3 text-sm font-bold text-[#1C1917] outline-none"
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
+          <Input
+            label="Full Name"
+            required
+            value={addForm.name}
+            onChange={e => setAddForm({ ...addForm, name: e.target.value })}
+            placeholder="e.g. Jordan (Associate)"
+          />
+          <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-[10px] font-black uppercase text-[#57534E] tracking-wider block mb-1">Role</label>
-              <input
+              <label className="text-[10px] font-bold text-[#77786F] block mb-1">Role</label>
+              <select
                 value={addForm.role}
                 onChange={e => setAddForm({ ...addForm, role: e.target.value })}
-                className="w-full bg-white border border-[#E5DFD1] rounded-xl p-3 text-sm font-bold text-[#1C1917] outline-none"
-              />
+                className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2.5 text-xs font-semibold text-[#22251F] outline-none"
+              >
+                <option value="Strategist">Strategist</option>
+                <option value="Analyst">Analyst</option>
+                <option value="Guardian">Guardian</option>
+                <option value="Apprentice">Apprentice</option>
+              </select>
             </div>
-            <div>
-              <label className="text-[10px] font-black uppercase text-[#57534E] tracking-wider block mb-1">Share (%)</label>
-              <input
-                type="number"
-                value={addForm.wealth}
-                onChange={e => setAddForm({ ...addForm, wealth: e.target.value })}
-                className="w-full bg-white border border-[#E5DFD1] rounded-xl p-3 text-sm font-bold text-[#1C1917] outline-none"
-              />
-            </div>
-          </div>
-          <div>
-            <label className="text-[10px] font-black uppercase text-[#57534E] tracking-wider block mb-1">Legacy Goal</label>
-            <input
-              value={addForm.goal}
-              onChange={e => setAddForm({ ...addForm, goal: e.target.value })}
-              placeholder="e.g. Trust Allocation"
-              className="w-full bg-white border border-[#E5DFD1] rounded-xl p-3 text-sm font-bold text-[#1C1917] outline-none"
+            <Input
+              label="Share (%)"
+              type="number"
+              value={addForm.wealth}
+              onChange={e => setAddForm({ ...addForm, wealth: e.target.value })}
+              min="0"
+              max="100"
             />
           </div>
-          <button
-            type="submit"
-            className="w-full py-3.5 rounded-2xl bg-[#0284C7] text-white font-black uppercase text-xs tracking-wider cursor-pointer shadow-md mt-2"
-          >
+          <Input
+            label="Legacy Goal"
+            value={addForm.goal}
+            onChange={e => setAddForm({ ...addForm, goal: e.target.value })}
+            placeholder="e.g. Tech Venture Fund"
+          />
+          <Button type="submit" variant="primary" className="w-full py-3 mt-2">
             Enshrine Member
-          </button>
+          </Button>
         </form>
       </MobileActionSheet>
 
-      {/* EDIT MEMBER SHEET */}
+      {/* ── BOTTOM SHEET: EDIT MEMBER ── */}
       <MobileActionSheet
         isOpen={!!editingMember}
         onClose={() => setEditingMember(null)}
         title="Edit Council Member"
-        subtitle="Calibrate Member Goal & Share"
+        subtitle="Update Trust Allocation"
       >
         {editingMember && (
           <form onSubmit={handleEditSubmit} className="space-y-4">
-            <div>
-              <label className="text-[10px] font-black uppercase text-[#57534E] tracking-wider block mb-1">Member Name</label>
-              <input
-                required
-                value={editForm.name}
-                onChange={e => setEditForm({ ...editForm, name: e.target.value })}
-                className="w-full bg-white border border-[#E5DFD1] rounded-xl p-3 text-sm font-bold text-[#1C1917] outline-none"
+            <Input
+              label="Full Name"
+              required
+              value={editForm.name}
+              onChange={e => setEditForm({ ...editForm, name: e.target.value })}
+            />
+            <div className="grid grid-cols-2 gap-2">
+              <Input
+                label="Role"
+                value={editForm.role}
+                onChange={e => setEditForm({ ...editForm, role: e.target.value })}
+              />
+              <Input
+                label="Share (%)"
+                type="number"
+                value={editForm.wealth}
+                onChange={e => setEditForm({ ...editForm, wealth: parseInt(e.target.value) || 0 })}
+                min="0"
+                max="100"
               />
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="text-[10px] font-black uppercase text-[#57534E] tracking-wider block mb-1">Role</label>
-                <input
-                  value={editForm.role}
-                  onChange={e => setEditForm({ ...editForm, role: e.target.value })}
-                  className="w-full bg-white border border-[#E5DFD1] rounded-xl p-3 text-sm font-bold text-[#1C1917] outline-none"
-                />
-              </div>
-              <div>
-                <label className="text-[10px] font-black uppercase text-[#57534E] tracking-wider block mb-1">Share (%)</label>
-                <input
-                  type="number"
-                  value={editForm.wealth}
-                  onChange={e => setEditForm({ ...editForm, wealth: parseInt(e.target.value) || 0 })}
-                  className="w-full bg-white border border-[#E5DFD1] rounded-xl p-3 text-sm font-bold text-[#1C1917] outline-none"
-                />
-              </div>
-            </div>
-            <button
-              type="submit"
-              className="w-full py-3.5 rounded-2xl bg-[#0284C7] text-white font-black uppercase text-xs tracking-wider cursor-pointer shadow-md mt-2"
-            >
+            <Input
+              label="Legacy Goal"
+              value={editForm.goal}
+              onChange={e => setEditForm({ ...editForm, goal: e.target.value })}
+            />
+            <Button type="submit" variant="primary" className="w-full py-3 mt-2">
               Save Changes
-            </button>
+            </Button>
           </form>
         )}
       </MobileActionSheet>

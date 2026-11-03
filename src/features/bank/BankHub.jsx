@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useEmpire } from '../../context/EmpireContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Landmark, ArrowDownCircle, ArrowUpCircle, TrendingUp, 
+import {
+  Landmark, ArrowDownCircle, ArrowUpCircle, TrendingUp,
   Coins, PieChart, Shield, ChevronRight, AlertCircle,
-  CheckCircle, ArrowLeftRight, Percent, RefreshCw
+  CheckCircle, ArrowLeftRight, Percent, RefreshCw,
+  Building, DollarSign, Wallet
 } from 'lucide-react';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
@@ -12,7 +13,7 @@ import Modal from '../../components/ui/Modal';
 import Badge from '../../components/ui/Badge';
 import Input from '../../components/ui/Input';
 
-const useCountUp = (target, duration = 1200) => {
+const useCountUp = (target, duration = 1000) => {
   const [display, setDisplay] = useState(0);
   const prevTarget = useRef(target);
   useEffect(() => {
@@ -33,9 +34,15 @@ const useCountUp = (target, duration = 1200) => {
   return display;
 };
 
-const RATES = { Safe: 0.01, Moderate: 0.02, 'High Yield': 0.05, Tycoon: 0.08, Imperial: 0.12 };
+const RATES = {
+  Safe: 0.01,
+  Moderate: 0.02,
+  'High Yield': 0.05,
+  Tycoon: 0.08,
+  Imperial: 0.12,
+};
 
-const BankHub = () => {
+const BankHub = ({ setActiveTab }) => {
   const { bank, setBank, addTransaction } = useEmpire();
   const [modal, setModal] = useState({ show: false, type: '' });
   const [amount, setAmount] = useState('');
@@ -45,32 +52,36 @@ const BankHub = () => {
   const [repayAmount, setRepayAmount] = useState('');
 
   // Forex Converter state
-  const [forexAmount,    setForexAmount]    = useState('');
+  const [forexAmount,    setForexAmount]    = useState('1000');
   const [forexCurrency,  setForexCurrency]  = useState('inr');
   const [forexConverted, setForexConverted] = useState(null);
 
   // Asset manager state
   const [assetInput, setAssetInput] = useState('');
 
-  const monthlyAccrual = (bank.balance * (RATES[bank.interestTier] || 0.02)) / 12;
+  const currentRate = RATES[bank.interestTier] || 0.02;
+  const monthlyAccrual = (bank.balance * currentRate) / 12;
   const animatedBalance = useCountUp(bank.balance);
 
   const handleTransaction = (e) => {
     e.preventDefault();
     setTxError('');
     const amt = parseFloat(amount);
-    if (isNaN(amt) || amt <= 0) { setTxError('Enter a valid amount.'); return; }
+    if (isNaN(amt) || amt <= 0) {
+      setTxError('Please enter a valid positive amount.');
+      return;
+    }
 
     if (modal.type === 'Deposit') {
       setBank(prev => ({ ...prev, balance: prev.balance + amt }));
-      addTransaction('Bank', 'Credit', amt, 'Global Bank Deposit');
+      addTransaction('Bank', 'Credit', amt, 'Global Bank Treasury Deposit');
     } else {
       if (bank.balance < amt) {
-        setTxError(`Insufficient funds. Available: $${bank.balance.toLocaleString()}`);
+        setTxError(`Insufficient funds. Available balance: $${bank.balance.toLocaleString()}`);
         return;
       }
       setBank(prev => ({ ...prev, balance: prev.balance - amt }));
-      addTransaction('Bank', 'Debit', amt, 'Global Bank Withdrawal');
+      addTransaction('Bank', 'Debit', amt, 'Global Bank Treasury Withdrawal');
     }
     setModal({ show: false, type: '' });
     setAmount('');
@@ -81,22 +92,25 @@ const BankHub = () => {
     const amt = parseFloat(loanAmount);
     if (isNaN(amt) || amt <= 0) return;
     setBank(prev => ({ ...prev, balance: prev.balance + amt, loans: (prev.loans || 0) + amt }));
-    addTransaction('Bank', 'Credit', amt, 'Credit Line Drawdown');
+    addTransaction('Bank', 'Credit', amt, 'Credit Line Facility Drawdown');
     setLoanSuccess(true);
     setTimeout(() => {
       setLoanSuccess(false);
       setLoanAmount('');
       setModal({ show: false, type: '' });
-    }, 1800);
+    }, 1500);
   };
 
   const handleRepay = (e) => {
     e.preventDefault();
     const amt = parseFloat(repayAmount);
     if (isNaN(amt) || amt <= 0 || amt > (bank.loans || 0)) return;
-    if (bank.balance < amt) return;
+    if (bank.balance < amt) {
+      setTxError('Insufficient balance to repay this amount.');
+      return;
+    }
     setBank(prev => ({ ...prev, balance: prev.balance - amt, loans: Math.max(0, (prev.loans || 0) - amt) }));
-    addTransaction('Bank', 'Debit', amt, 'Credit Line Repayment');
+    addTransaction('Bank', 'Debit', amt, 'Credit Line Facility Repayment');
     setRepayAmount('');
     setModal({ show: false, type: '' });
   };
@@ -105,8 +119,15 @@ const BankHub = () => {
     e.preventDefault();
     const amt = parseFloat(forexAmount);
     if (isNaN(amt) || amt <= 0) return;
-    const rate = bank?.forex?.[forexCurrency] || 1;
-    setForexConverted((amt * rate).toFixed(2));
+    const rates = {
+      inr: bank?.forex?.inr || 83.5,
+      aed: bank?.forex?.aed || 3.67,
+      usd: 1,
+      eur: 0.92,
+      gbp: 0.79
+    };
+    const rate = rates[forexCurrency] || 1;
+    setForexConverted((amt * rate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
   };
 
   const handleUpdateAssets = (e) => {
@@ -114,108 +135,177 @@ const BankHub = () => {
     const val = parseFloat(assetInput);
     if (isNaN(val) || val < 0) return;
     setBank(prev => ({ ...prev, assets: val }));
+    addTransaction('Bank', 'Credit', 0, `Asset Reserve Revalued to $${val.toLocaleString()}`);
     setAssetInput('');
     setModal({ show: false, type: '' });
   };
 
   return (
-    <div className="space-y-8 pb-12">
-      {/* Page Header */}
+    <div className="space-y-6 pb-12">
+      {/* ── Page Header ── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-cyan-400/70 mb-1">Vault & Credit Management</p>
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white">Global Bank</h2>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A3A297] mb-1">
+            Global Bank & Institutional Treasury
+          </p>
+          <h2 className="text-2xl md:text-3xl font-bold text-[#22251F] tracking-tight">
+            Reserve Banking
+          </h2>
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="primary" icon={ArrowDownCircle} onClick={() => setModal({ show: true, type: 'Deposit' })}>
-            Deposit
-          </Button>
-          <Button variant="outline" icon={ArrowUpCircle} onClick={() => setModal({ show: true, type: 'Withdraw' })}>
+          <Button
+            variant="outline"
+            icon={ArrowUpCircle}
+            onClick={() => { setModal({ show: true, type: 'Withdraw' }); setTxError(''); }}
+          >
             Withdraw
+          </Button>
+          <Button
+            variant="primary"
+            icon={ArrowDownCircle}
+            onClick={() => { setModal({ show: true, type: 'Deposit' }); setTxError(''); }}
+          >
+            Deposit Capital
           </Button>
         </div>
       </div>
 
-      {/* Main Grid: Vault Balance Hero & Quick Actions */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="lg:col-span-8">
-          <Card variant="accent" className="relative overflow-hidden p-8 md:p-10 min-h-72 flex flex-col justify-between">
+      {/* ── Main Grid ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        {/* HERO RESERVE CARD */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="lg:col-span-8"
+        >
+          <Card className="relative overflow-hidden p-7 md:p-9 min-h-72 flex flex-col justify-between border border-[#EAE8DF] bg-white">
             <div className="flex justify-between items-start">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-cyan-400/15 border border-cyan-400/30 flex items-center justify-center">
-                  <Landmark className="w-6 h-6 text-cyan-300" />
+                <div className="w-11 h-11 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] flex items-center justify-center">
+                  <Landmark className="w-5 h-5 text-[#526B56]" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-cyan-400/70">Institutional Vault</p>
-                  <p className="text-xs text-slate-300 font-bold uppercase">Compound Savings Engine</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Institutional Vault</p>
+                  <p className="text-xs text-[#22251F] font-bold">Compound Interest Treasury</p>
                 </div>
               </div>
-              <Badge variant="cyan">{bank.interestTier || 'Moderate'} Tier APY</Badge>
+              <Badge variant="accent">
+                {bank.interestTier || 'Moderate'} Tier ({(currentRate * 100).toFixed(0)}% APY)
+              </Badge>
             </div>
 
-            <div className="mt-6">
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Available Reserve Balance</p>
-              <h1 className="text-4xl md:text-6xl font-black text-white tabular-nums tracking-tight">
+            <div className="my-6">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297] mb-1">
+                Available Reserve Balance
+              </p>
+              <h1 className="text-4xl md:text-5xl font-extrabold text-[#22251F] tabular-nums tracking-tight">
                 ${animatedBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </h1>
+              <p className="text-xs text-[#77786F] mt-1.5 flex items-center gap-1.5 font-medium">
+                <TrendingUp className="w-3.5 h-3.5 text-[#66866A]" />
+                <span>Est. monthly compounding yield:</span>
+                <span className="font-bold text-[#66866A] tabular-nums">+${monthlyAccrual.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
+              </p>
             </div>
 
-            <div className="mt-6 pt-5 border-t border-white/10 grid grid-cols-3 gap-4 text-center">
-              <div>
-                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Est. Monthly Interest</p>
-                <p className="text-sm font-black text-emerald-400 tabular-nums mt-0.5">+${monthlyAccrual.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+            {/* Bottom 3 metrics */}
+            <div className="pt-5 border-t border-[#EAE8DF] grid grid-cols-3 gap-4 text-center">
+              <div className="p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
+                <p className="text-[10px] font-semibold text-[#A3A297] uppercase tracking-wider">Annual Yield</p>
+                <p className="text-sm font-bold text-[#526B56] tabular-nums mt-0.5">
+                  {(currentRate * 100).toFixed(1)}% APY
+                </p>
               </div>
-              <div>
-                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Active Credit Line</p>
-                <p className="text-sm font-black text-violet-400 tabular-nums mt-0.5">${(bank.loans || 0).toLocaleString()}</p>
+              <div className="p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
+                <p className="text-[10px] font-semibold text-[#A3A297] uppercase tracking-wider">Active Credit Line</p>
+                <p className="text-sm font-bold text-[#C18A48] tabular-nums mt-0.5">
+                  ${(bank.loans || 0).toLocaleString()}
+                </p>
               </div>
-              <div>
-                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Physical Assets</p>
-                <p className="text-sm font-black text-cyan-300 tabular-nums mt-0.5">${(bank.assets || 0).toLocaleString()}</p>
+              <div className="p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
+                <p className="text-[10px] font-semibold text-[#A3A297] uppercase tracking-wider">Reserve Assets</p>
+                <p className="text-sm font-bold text-[#22251F] tabular-nums mt-0.5">
+                  ${(bank.assets || 0).toLocaleString()}
+                </p>
               </div>
             </div>
           </Card>
         </motion.div>
 
+        {/* SIDE ACTIONS */}
         <div className="lg:col-span-4 flex flex-col gap-4">
-          <Card className="p-6 flex-1 flex flex-col justify-between">
+          <Card className="p-6 flex-1 flex flex-col justify-between border border-[#EAE8DF] bg-white">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xs font-black uppercase tracking-widest text-white">Credit & Facility</h3>
-              <Coins className="w-4 h-4 text-neon-blue" />
+              <div>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-[#A3A297]">Treasury Facilities</h3>
+                <p className="text-sm font-bold text-[#22251F] mt-0.5">Banking Operations</p>
+              </div>
+              <Coins className="w-4 h-4 text-[#526B56]" />
             </div>
-            <div className="space-y-3">
-              <Button variant="secondary" className="w-full justify-between" onClick={() => setModal({ show: true, type: 'CreditLine' })}>
-                <span>Drawdown Credit Line</span>
-                <ChevronRight className="w-4 h-4" />
-              </Button>
+
+            <div className="space-y-2.5">
+              <button
+                onClick={() => setModal({ show: true, type: 'CreditLine' })}
+                className="w-full flex items-center justify-between p-3 rounded-xl bg-[#FCFBF8] hover:bg-[#F1EFE7] border border-[#EAE8DF] transition-all text-left cursor-pointer group"
+              >
+                <div>
+                  <p className="text-xs font-bold text-[#22251F]">Drawdown Credit Line</p>
+                  <p className="text-[10px] text-[#A3A297]">Access low-interest credit facility</p>
+                </div>
+                <ChevronRight className="w-4 h-4 text-[#A3A297] group-hover:text-[#526B56] transition-colors" />
+              </button>
+
               {bank.loans > 0 && (
-                <Button variant="outline" className="w-full justify-between text-rose-300 border-rose-500/30 hover:bg-rose-500/10" onClick={() => setModal({ show: true, type: 'RepayLoan' })}>
-                  <span>Repay Credit Line</span>
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
+                <button
+                  onClick={() => setModal({ show: true, type: 'RepayLoan' })}
+                  className="w-full flex items-center justify-between p-3 rounded-xl bg-[#FCEEED] hover:bg-[#FCE0DE] border border-[#E8C5C3] transition-all text-left cursor-pointer group"
+                >
+                  <div>
+                    <p className="text-xs font-bold text-[#C66D65]">Repay Credit Line</p>
+                    <p className="text-[10px] text-[#C66D65]/80">Outstanding: ${(bank.loans || 0).toLocaleString()}</p>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-[#C66D65]" />
+                </button>
               )}
-              <Button variant="secondary" className="w-full justify-between" onClick={() => setModal({ show: true, type: 'Forex' })}>
-                <span>Forex Currency Converter</span>
-                <ArrowLeftRight className="w-4 h-4" />
-              </Button>
-              <Button variant="secondary" className="w-full justify-between" onClick={() => setModal({ show: true, type: 'AssetManager' })}>
-                <span>Asset Reserve Manager</span>
-                <PieChart className="w-4 h-4" />
-              </Button>
+
+              <button
+                onClick={() => setModal({ show: true, type: 'Forex' })}
+                className="w-full flex items-center justify-between p-3 rounded-xl bg-[#FCFBF8] hover:bg-[#F1EFE7] border border-[#EAE8DF] transition-all text-left cursor-pointer group"
+              >
+                <div>
+                  <p className="text-xs font-bold text-[#22251F]">Forex Converter</p>
+                  <p className="text-[10px] text-[#A3A297]">Live institutional foreign exchange</p>
+                </div>
+                <ArrowLeftRight className="w-4 h-4 text-[#A3A297] group-hover:text-[#526B56] transition-colors" />
+              </button>
+
+              <button
+                onClick={() => setModal({ show: true, type: 'AssetManager' })}
+                className="w-full flex items-center justify-between p-3 rounded-xl bg-[#FCFBF8] hover:bg-[#F1EFE7] border border-[#EAE8DF] transition-all text-left cursor-pointer group"
+              >
+                <div>
+                  <p className="text-xs font-bold text-[#22251F]">Asset Valuation</p>
+                  <p className="text-[10px] text-[#A3A297]">Manage physical asset reserves</p>
+                </div>
+                <PieChart className="w-4 h-4 text-[#A3A297] group-hover:text-[#526B56] transition-colors" />
+              </button>
             </div>
           </Card>
         </div>
       </div>
 
-      {/* APY Interest Tier Calibration */}
-      <Card className="p-8">
-        <div className="flex items-center justify-between mb-6">
+      {/* ── APY Interest Tier Calibration ── */}
+      <Card className="p-6 md:p-8 border border-[#EAE8DF] bg-white">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
           <div>
-            <h3 className="text-lg font-black uppercase tracking-widest">APY Interest Tier Calibration</h3>
-            <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Select vault yield tier</p>
+            <h3 className="text-base font-bold text-[#22251F]">APY Interest Tier Calibration</h3>
+            <p className="text-xs text-[#77786F] mt-0.5">
+              Select your compounding reserve tier. Earnings automatically compound into bank balance on simulation pulses.
+            </p>
           </div>
-          <Badge variant="emerald">Auto-Compounding</Badge>
+          <Badge variant="success">Auto-Compounding Pulse</Badge>
         </div>
+
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
           {Object.entries(RATES).map(([tier, rate]) => {
             const isActive = bank.interestTier === tier;
@@ -225,153 +315,201 @@ const BankHub = () => {
                 onClick={() => setBank(prev => ({ ...prev, interestTier: tier }))}
                 className={`p-4 rounded-xl border flex flex-col items-center text-center transition-all cursor-pointer ${
                   isActive
-                    ? 'border-neon-blue bg-neon-blue/10 shadow-[0_0_20px_rgba(0,243,255,0.15)]'
-                    : 'border-white/10 hover:border-white/20 hover:bg-white/5'
+                    ? 'border-[#526B56] bg-[#EDF2E9] shadow-xs'
+                    : 'border-[#EAE8DF] bg-[#FCFBF8] hover:border-[#D5D2C8] hover:bg-[#F1EFE7]'
                 }`}
               >
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{tier}</span>
-                <span className={`text-xl font-black mt-1 ${isActive ? 'text-neon-blue' : 'text-white'}`}>{(rate * 100).toFixed(0)}% APY</span>
+                <span className={`text-[10px] font-bold uppercase tracking-wider ${isActive ? 'text-[#526B56]' : 'text-[#77786F]'}`}>
+                  {tier}
+                </span>
+                <span className={`text-xl font-extrabold mt-1.5 tabular-nums ${isActive ? 'text-[#526B56]' : 'text-[#22251F]'}`}>
+                  {(rate * 100).toFixed(0)}% APY
+                </span>
+                <span className="text-[10px] text-[#A3A297] mt-1">
+                  ~${Math.round((bank.balance * rate) / 12).toLocaleString()}/mo
+                </span>
               </button>
             );
           })}
         </div>
       </Card>
 
-      {/* MODALS */}
-      {/* Deposit / Withdraw Modal */}
+      {/* ── MODALS ── */}
+
+      {/* 1. Deposit / Withdraw Modal */}
       <Modal
         isOpen={modal.show && (modal.type === 'Deposit' || modal.type === 'Withdraw')}
         onClose={() => setModal({ show: false, type: '' })}
-        title={`${modal.type} Capital`}
+        title={`${modal.type} Treasury Funds`}
         subtitle="Global Bank Vault Facility"
       >
         {txError && (
-          <div className="flex items-center gap-3 mb-5 p-3.5 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-300 text-xs font-bold">
-            <AlertCircle className="w-4 h-4 shrink-0" />{txError}
+          <div className="flex items-center gap-2 mb-4 p-3 bg-[#FCEEED] border border-[#E8C5C3] rounded-xl text-[#C66D65] text-xs font-semibold">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{txError}</span>
           </div>
         )}
-        <form onSubmit={handleTransaction} className="space-y-5">
+        <form onSubmit={handleTransaction} className="space-y-4">
           <Input
             label="Amount (USD)"
             type="number"
             required
             value={amount}
             onChange={(e) => { setAmount(e.target.value); setTxError(''); }}
-            placeholder="0.00"
+            placeholder="e.g. 25000"
+            min="1"
+            step="any"
           />
-          <Button type="submit" variant="primary" className="w-full py-3.5 text-sm">
-            {modal.type} Now
+          <div className="flex justify-between text-xs text-[#77786F] pt-1">
+            <span>Available Bank Balance:</span>
+            <span className="font-bold text-[#22251F]">${(bank.balance || 0).toLocaleString()}</span>
+          </div>
+          <Button type="submit" variant="primary" className="w-full py-2.5 mt-2">
+            Confirm {modal.type}
           </Button>
         </form>
       </Modal>
 
-      {/* Credit Line Drawdown Modal */}
+      {/* 2. Credit Line Drawdown Modal */}
       <Modal
         isOpen={modal.show && modal.type === 'CreditLine'}
         onClose={() => setModal({ show: false, type: '' })}
         title="Drawdown Credit Line"
-        subtitle="Imperial Credit Line Facility"
+        subtitle="Low-interest institutional liquidity facility"
       >
         {loanSuccess && (
-          <div className="flex items-center gap-3 mb-5 p-3.5 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-300 text-xs font-bold">
-            <CheckCircle className="w-4 h-4 shrink-0" />Credit facility extended successfully.
+          <div className="flex items-center gap-2 mb-4 p-3 bg-[#EDF2E9] border border-[#C8D9CA] rounded-xl text-[#66866A] text-xs font-semibold">
+            <CheckCircle className="w-4 h-4 shrink-0" />
+            <span>Credit facility approved and deposited into reserve.</span>
           </div>
         )}
-        <form onSubmit={handleLoan} className="space-y-5">
+        <form onSubmit={handleLoan} className="space-y-4">
           <Input
             label="Requested Credit Amount (USD)"
             type="number"
             required
             value={loanAmount}
             onChange={(e) => setLoanAmount(e.target.value)}
-            placeholder="50,000"
+            placeholder="e.g. 50000"
+            min="1"
           />
-          <Button type="submit" variant="primary" className="w-full py-3.5 text-sm">
+          <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl text-xs text-[#77786F] space-y-1">
+            <div className="flex justify-between">
+              <span>Facility Rate:</span>
+              <span className="font-semibold text-[#22251F]">2.5% Fixed APR</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Current Outstanding:</span>
+              <span className="font-semibold text-[#C18A48]">${(bank.loans || 0).toLocaleString()}</span>
+            </div>
+          </div>
+          <Button type="submit" variant="primary" className="w-full py-2.5 mt-2">
             Confirm Drawdown
           </Button>
         </form>
       </Modal>
 
-      {/* Loan Repay Modal */}
+      {/* 3. Loan Repay Modal */}
       <Modal
         isOpen={modal.show && modal.type === 'RepayLoan'}
         onClose={() => setModal({ show: false, type: '' })}
         title="Repay Credit Line"
-        subtitle="Outstanding Debt Facility"
+        subtitle="Settle outstanding facility debt"
       >
-        <form onSubmit={handleRepay} className="space-y-5">
-          <p className="text-xs text-slate-400 font-bold uppercase">Outstanding Debt: <span className="text-rose-400 font-black">${(bank.loans || 0).toLocaleString()}</span></p>
+        <form onSubmit={handleRepay} className="space-y-4">
+          <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl text-xs space-y-1.5">
+            <div className="flex justify-between">
+              <span className="text-[#77786F]">Total Outstanding Debt:</span>
+              <span className="font-bold text-[#C66D65]">${(bank.loans || 0).toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-[#77786F]">Available Balance:</span>
+              <span className="font-bold text-[#22251F]">${(bank.balance || 0).toLocaleString()}</span>
+            </div>
+          </div>
           <Input
             label="Repayment Amount (USD)"
             type="number"
             required
             value={repayAmount}
             onChange={(e) => setRepayAmount(e.target.value)}
-            placeholder="10,000"
+            placeholder="e.g. 10000"
+            max={bank.loans || 0}
+            min="1"
           />
-          <Button type="submit" variant="primary" className="w-full py-3.5 text-sm">
+          <Button type="submit" variant="primary" className="w-full py-2.5 mt-2">
             Confirm Repayment
           </Button>
         </form>
       </Modal>
 
-      {/* Forex Converter Modal */}
+      {/* 4. Forex Converter Modal */}
       <Modal
         isOpen={modal.show && modal.type === 'Forex'}
         onClose={() => setModal({ show: false, type: '' })}
         title="Forex Currency Converter"
-        subtitle="Institutional Exchange Rates"
+        subtitle="Institutional exchange rates"
       >
         <form onSubmit={handleForexConvert} className="space-y-4">
           <Input
-            label="USD Amount"
+            label="USD Amount to Convert"
             type="number"
             required
             value={forexAmount}
             onChange={(e) => { setForexAmount(e.target.value); setForexConverted(null); }}
-            placeholder="1,000"
+            placeholder="1000"
+            min="1"
           />
           <div>
-            <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest block mb-2">Target Currency</label>
+            <label className="text-xs font-bold text-[#77786F] block mb-1.5">Target Currency</label>
             <select
               value={forexCurrency}
               onChange={(e) => { setForexCurrency(e.target.value); setForexConverted(null); }}
-              className="w-full bg-black/40 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-neon-blue"
+              className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2.5 text-sm text-[#22251F] font-semibold outline-none focus:border-[#526B56]"
             >
-              <Option value="inr">INR (Indian Rupee - ₹83.5)</Option>
-              <Option value="aed">AED (UAE Dirham - 3.67 AED)</Option>
-              <Option value="usd">USD (US Dollar - $1.00)</Option>
+              <option value="inr">INR — Indian Rupee (₹83.50)</option>
+              <option value="aed">AED — UAE Dirham (3.67 AED)</option>
+              <option value="eur">EUR — Euro (€0.92)</option>
+              <option value="gbp">GBP — British Pound (£0.79)</option>
+              <option value="usd">USD — United States Dollar ($1.00)</option>
             </select>
           </div>
-          <Button type="submit" variant="primary" icon={RefreshCw} className="w-full py-3">
-            Calculate Conversion
+          <Button type="submit" variant="primary" icon={RefreshCw} className="w-full py-2.5">
+            Calculate Exchange Rate
           </Button>
           {forexConverted && (
-            <div className="p-4 bg-white/5 border border-neon-cyan/20 rounded-xl text-center mt-3">
-              <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Converted Value</p>
-              <p className="text-2xl font-black text-neon-blue mt-1">{forexConverted} {forexCurrency.toUpperCase()}</p>
+            <div className="p-4 bg-[#EDF2E9] border border-[#C8D9CA] rounded-xl text-center mt-3">
+              <p className="text-[10px] font-semibold uppercase text-[#526B56] tracking-wider">Converted Value</p>
+              <p className="text-2xl font-black text-[#22251F] mt-1 tabular-nums">
+                {forexConverted} <span className="text-sm font-bold text-[#526B56]">{forexCurrency.toUpperCase()}</span>
+              </p>
             </div>
           )}
         </form>
       </Modal>
 
-      {/* Asset Manager Modal */}
+      {/* 5. Asset Manager Modal */}
       <Modal
         isOpen={modal.show && modal.type === 'AssetManager'}
         onClose={() => setModal({ show: false, type: '' })}
-        title="Asset Reserve Manager"
-        subtitle="Update Total Asset Valuation"
+        title="Asset Reserve Valuation"
+        subtitle="Update total physical asset balance"
       >
-        <form onSubmit={handleUpdateAssets} className="space-y-5">
+        <form onSubmit={handleUpdateAssets} className="space-y-4">
+          <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl text-xs text-[#77786F] flex justify-between">
+            <span>Current Asset Reserve:</span>
+            <span className="font-bold text-[#22251F]">${(bank.assets || 0).toLocaleString()}</span>
+          </div>
           <Input
-            label="Total Asset Valuation (USD)"
+            label="New Total Asset Valuation (USD)"
             type="number"
             required
             value={assetInput}
             onChange={(e) => setAssetInput(e.target.value)}
-            placeholder="450,000"
+            placeholder="e.g. 500000"
+            min="0"
           />
-          <Button type="submit" variant="primary" className="w-full py-3.5 text-sm">
+          <Button type="submit" variant="primary" className="w-full py-2.5 mt-2">
             Save Valuation
           </Button>
         </form>

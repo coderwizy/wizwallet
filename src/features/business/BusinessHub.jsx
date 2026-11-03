@@ -1,11 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { useEmpire } from '../../context/EmpireContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  BarChart3, Video, ShoppingBag, BookOpen, Cpu, 
+import {
+  BarChart3, Video, ShoppingBag, BookOpen, Cpu,
   Palette, Share2, Globe2, Plus, Briefcase,
   Factory, Truck, Car, Building2, Gamepad2, Store,
-  X, Trash2, Edit3
+  X, Trash2, Edit3, TrendingUp, TrendingDown,
+  Search, Filter, CheckCircle2, PauseCircle, PlayCircle,
+  PieChart as PieIcon, Sparkles
 } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import Card from '../../components/ui/Card';
@@ -13,18 +15,33 @@ import Button from '../../components/ui/Button';
 import Modal from '../../components/ui/Modal';
 import Badge from '../../components/ui/Badge';
 import Input from '../../components/ui/Input';
+import ConfirmationDialog from '../../components/ui/ConfirmationDialog';
 
 const iconMap = {
   BarChart: BarChart3, Video, ShoppingBag, BookOpen, Cpu, Palette, Share2,
   Globe2, Factory, Truck, Car, Building2, Gamepad2, Store
 };
 
-const COLORS = ['#00f3ff', '#a855f7', '#10b981', '#f43f5e', '#3b82f6', '#eab308', '#ec4899', '#06b6d4'];
+const FINTECH_PALETTE = [
+  '#526B56', // Primary Forest Sage
+  '#82977B', // Soft Muted Sage
+  '#C18A48', // Warm Ochre
+  '#4A7C8A', // Slate Blue
+  '#7C5ABF', // Imperial Lilac
+  '#C66D65', // Terracotta Wine
+  '#8B7355', // Rich Khaki
+  '#5F8575', // Forest Mint
+];
 
 const BusinessHub = () => {
   const { businesses, setBusinesses, addBusiness, removeBusiness } = useEmpire();
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [editingBiz, setEditingBiz] = useState(null);
+  const [deleteConfirmBiz, setDeleteConfirmBiz] = useState(null);
+  const [hoveredVenture, setHoveredVenture] = useState(null);
+  const [search, setSearch] = useState('');
+  const [filterStatus, setFilterStatus] = useState('All');
+  const [sortBy, setSortBy] = useState('revenue');
 
   // Form states
   const [addForm, setAddForm] = useState({ name: '', income: 5000, expense: 2000, desc: '' });
@@ -33,20 +50,53 @@ const BusinessHub = () => {
   const totalIncome  = useMemo(() => businesses.reduce((s, b) => s + (b.income  || 0), 0), [businesses]);
   const totalExpense = useMemo(() => businesses.reduce((s, b) => s + (b.expense || 0), 0), [businesses]);
   const netMargin    = totalIncome - totalExpense;
+  const activeBusinesses = useMemo(() => businesses.filter(b => b.status === 'Active'), [businesses]);
+  const activeCount  = activeBusinesses.length;
+
+  const activeTotalIncome = useMemo(() => {
+    return activeBusinesses.reduce((s, b) => s + (b.income || 0), 0);
+  }, [activeBusinesses]);
 
   const pieData = useMemo(() => {
-    return businesses
-      .filter(b => b.status === 'Active')
+    return activeBusinesses
+      .sort((a, b) => (b.income || 0) - (a.income || 0))
       .slice(0, 8)
-      .map(b => ({ name: b.name, value: b.income }));
-  }, [businesses]);
+      .map((b, idx) => {
+        const pct = activeTotalIncome > 0 ? (((b.income || 0) / activeTotalIncome) * 100).toFixed(1) : '0';
+        return {
+          id: b.id,
+          name: b.name,
+          value: b.income || 0,
+          percentage: pct,
+          color: FINTECH_PALETTE[idx % FINTECH_PALETTE.length]
+        };
+      });
+  }, [activeBusinesses, activeTotalIncome]);
+
+  const topVenture = pieData[0] || null;
+
+  const filteredBusinesses = useMemo(() => {
+    return businesses
+      .filter(b => {
+        const matchesSearch = b.name.toLowerCase().includes(search.toLowerCase()) ||
+          (b.desc || '').toLowerCase().includes(search.toLowerCase());
+        const matchesStatus = filterStatus === 'All' || b.status === filterStatus;
+        return matchesSearch && matchesStatus;
+      })
+      .sort((a, b) => {
+        if (sortBy === 'revenue') return (b.income || 0) - (a.income || 0);
+        if (sortBy === 'profit') return ((b.income || 0) - (b.expense || 0)) - ((a.income || 0) - (a.expense || 0));
+        if (sortBy === 'name') return a.name.localeCompare(b.name);
+        return 0;
+      });
+  }, [businesses, search, filterStatus, sortBy]);
 
   const handleAddSubmit = (e) => {
     e.preventDefault();
     if (!addForm.name.trim()) return;
     addBusiness({
       id: `biz-${Date.now()}`,
-      name: addForm.name,
+      name: addForm.name.trim(),
       income: parseFloat(addForm.income) || 0,
       expense: parseFloat(addForm.expense) || 0,
       desc: addForm.desc || 'New Venture',
@@ -61,7 +111,13 @@ const BusinessHub = () => {
 
   const handleEditClick = (biz) => {
     setEditingBiz(biz);
-    setEditForm({ name: biz.name, income: biz.income, expense: biz.expense, desc: biz.desc || '', notes: biz.notes || '' });
+    setEditForm({
+      name: biz.name,
+      income: biz.income,
+      expense: biz.expense,
+      desc: biz.desc || '',
+      notes: biz.notes || ''
+    });
   };
 
   const handleEditSubmit = (e) => {
@@ -71,195 +127,383 @@ const BusinessHub = () => {
     setEditingBiz(null);
   };
 
-  const handleDelete = (id) => {
-    removeBusiness(id);
-    setEditingBiz(null);
+  const confirmDelete = () => {
+    if (!deleteConfirmBiz) return;
+    removeBusiness(deleteConfirmBiz.id);
+    if (editingBiz?.id === deleteConfirmBiz.id) {
+      setEditingBiz(null);
+    }
+    setDeleteConfirmBiz(null);
   };
 
   const toggleStatus = (id) => {
-    setBusinesses(prev => prev.map(b => b.id === id ? { ...b, status: b.status === 'Active' ? 'Paused' : 'Active' } : b));
+    setBusinesses(prev => prev.map(b =>
+      b.id === id ? { ...b, status: b.status === 'Active' ? 'Paused' : 'Active' } : b
+    ));
   };
 
+  const netMarginPct = totalIncome > 0 ? Math.round((netMargin / totalIncome) * 100) : 0;
+
   return (
-    <div className="space-y-8 pb-12">
-      {/* Page Header */}
+    <div className="space-y-6 pb-12">
+      {/* Delete Confirmation Dialog */}
+      <ConfirmationDialog
+        isOpen={!!deleteConfirmBiz}
+        onClose={() => setDeleteConfirmBiz(null)}
+        onConfirm={confirmDelete}
+        title={`Terminate ${deleteConfirmBiz?.name || 'Venture'}?`}
+        description="Are you sure you want to permanently divest and terminate this corporate venture? All historical metrics for this entity will be removed."
+        confirmText="Terminate Venture"
+        variant="danger"
+      />
+
+      {/* ── Page Header ── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-cyan-400/70 mb-1">Corporate Ventures</p>
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white">Business Hub</h2>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A3A297] mb-1">
+            Corporate Ventures & Yield Holdings
+          </p>
+          <h2 className="text-2xl md:text-3xl font-bold text-[#22251F] tracking-tight">
+            Business Hub
+          </h2>
         </div>
         <Button variant="primary" icon={Plus} onClick={() => setIsAddOpen(true)}>
-          Initiate Venture
+          Add Venture
         </Button>
       </div>
 
-      {/* Overview Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="p-5 text-center">
-          <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Total Monthly Yield</p>
-          <p className="text-2xl md:text-3xl font-black text-emerald-400 tabular-nums mt-1">${totalIncome.toLocaleString()}</p>
+      {/* ── Summary Stats ── */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <Card className="p-5 border border-[#EAE8DF] bg-white">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Combined Revenue</p>
+          <h3 className="text-2xl font-bold text-[#526B56] tabular-nums mt-1">
+            ${totalIncome.toLocaleString()}
+          </h3>
+          <p className="text-[10px] text-[#77786F] mt-1">Monthly enterprise income</p>
         </Card>
-        <Card className="p-5 text-center">
-          <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Total Overhead Expense</p>
-          <p className="text-2xl md:text-3xl font-black text-rose-400 tabular-nums mt-1">${totalExpense.toLocaleString()}</p>
+        <Card className="p-5 border border-[#EAE8DF] bg-white">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Operating Costs</p>
+          <h3 className="text-2xl font-bold text-[#C66D65] tabular-nums mt-1">
+            ${totalExpense.toLocaleString()}
+          </h3>
+          <p className="text-[10px] text-[#77786F] mt-1">Monthly operational burn</p>
         </Card>
-        <Card className="p-5 text-center">
-          <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Net Profit Margin</p>
-          <p className="text-2xl md:text-3xl font-black text-neon-blue tabular-nums mt-1">${netMargin.toLocaleString()}</p>
+        <Card className="p-5 border border-[#EAE8DF] bg-white">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Net Profit</p>
+          <h3 className={`text-2xl font-bold tabular-nums mt-1 ${netMargin >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
+            ${netMargin.toLocaleString()}
+          </h3>
+          <p className="text-[10px] text-[#77786F] mt-1">{netMarginPct}% net margin</p>
+        </Card>
+        <Card className="p-5 border border-[#EAE8DF] bg-white">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Active Ventures</p>
+          <h3 className="text-2xl font-bold text-[#22251F] tabular-nums mt-1">
+            {activeCount} / {businesses.length}
+          </h3>
+          <p className="text-[10px] text-[#77786F] mt-1">Commercial entities</p>
         </Card>
       </div>
 
-      {/* Grid of Ventures & Analytics Chart */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* ── Main Grid ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         {/* Venture Cards */}
         <div className="lg:col-span-8 space-y-4">
-          <div className="flex justify-between items-center mb-2">
-            <h3 className="text-sm font-black uppercase tracking-widest text-slate-300">Active Ventures ({businesses.length})</h3>
+          {/* Controls Bar */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-between items-stretch sm:items-center bg-white p-3.5 rounded-2xl border border-[#EAE8DF]">
+            <div className="relative flex-1 max-w-sm">
+              <Search className="w-4 h-4 text-[#A3A297] absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Search ventures by name or description..."
+                className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl pl-9 pr-3 py-1.5 text-xs text-[#22251F] placeholder-[#A3A297] outline-none focus:border-[#526B56]"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <select
+                value={filterStatus}
+                onChange={e => setFilterStatus(e.target.value)}
+                className="bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl px-3 py-1.5 text-xs font-semibold text-[#22251F] outline-none"
+              >
+                <option value="All">All Statuses</option>
+                <option value="Active">Active Only</option>
+                <option value="Paused">Paused Only</option>
+              </select>
+              <select
+                value={sortBy}
+                onChange={e => setSortBy(e.target.value)}
+                className="bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl px-3 py-1.5 text-xs font-semibold text-[#22251F] outline-none"
+              >
+                <option value="revenue">Sort by Revenue</option>
+                <option value="profit">Sort by Profit</option>
+                <option value="name">Sort by Name</option>
+              </select>
+            </div>
           </div>
+
+          {/* Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {businesses.map(biz => {
+            {filteredBusinesses.map(biz => {
               const IconComponent = iconMap[biz.icon] || Briefcase;
               const net = (biz.income || 0) - (biz.expense || 0);
               const isActive = biz.status === 'Active';
+              const marginPct = biz.income > 0 ? Math.round((net / biz.income) * 100) : 0;
               return (
-                <Card key={biz.id} className={`p-5 flex flex-col justify-between ${!isActive ? 'opacity-60' : ''}`}>
+                <Card
+                  key={biz.id}
+                  className={`p-5 flex flex-col justify-between transition-all border border-[#EAE8DF] bg-white ${
+                    !isActive ? 'opacity-65' : ''
+                  }`}
+                >
                   <div>
                     <div className="flex justify-between items-start mb-3">
-                      <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-neon-blue">
-                        <IconComponent className="w-5 h-5" />
+                      <div className="p-2.5 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56]">
+                        <IconComponent className="w-4 h-4" />
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Badge variant={isActive ? 'emerald' : 'rose'}>{biz.status}</Badge>
+                      <div className="flex items-center gap-1.5">
+                        <Badge variant={isActive ? 'success' : 'default'}>
+                          {biz.status}
+                        </Badge>
                         <button
                           onClick={() => handleEditClick(biz)}
-                          className="p-1.5 hover:bg-white/10 rounded-lg text-slate-400 hover:text-white transition-all cursor-pointer"
+                          className="p-1.5 rounded-lg text-[#A3A297] hover:text-[#22251F] hover:bg-[#F1EFE7] transition-all cursor-pointer"
+                          title="Edit venture details"
                         >
-                          <Edit3 className="w-4 h-4" />
+                          <Edit3 className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          onClick={() => setDeleteConfirmBiz(biz)}
+                          className="p-1.5 rounded-lg text-[#A3A297] hover:text-[#C66D65] hover:bg-[#FCEEED] transition-all cursor-pointer"
+                          title="Delete venture"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </div>
-                    <h4 className="text-base font-black text-white uppercase tracking-tight">{biz.name}</h4>
-                    <p className="text-xs text-slate-400 font-medium line-clamp-2 mt-1">{biz.desc}</p>
+                    <h4 className="text-sm font-bold text-[#22251F] tracking-tight">{biz.name}</h4>
+                    <p className="text-xs text-[#77786F] line-clamp-2 mt-1 leading-relaxed">{biz.desc}</p>
+                    {biz.notes && (
+                      <p className="text-[10px] text-[#A3A297] bg-[#FCFBF8] p-2 rounded-lg border border-[#EAE8DF] mt-2 italic">
+                        "{biz.notes}"
+                      </p>
+                    )}
                   </div>
 
-                  <div className="mt-5 pt-4 border-t border-white/10 flex justify-between items-end">
+                  <div className="mt-4 pt-4 border-t border-[#EAE8DF] flex justify-between items-center">
                     <div>
-                      <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Monthly Net</p>
-                      <p className={`text-base font-black tabular-nums ${net >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                        {net >= 0 ? '+' : ''}${net.toLocaleString()}
+                      <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Monthly Net Profit</p>
+                      <p className={`text-base font-bold tabular-nums ${net >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
+                        {net >= 0 ? '+' : '−'}${Math.abs(net).toLocaleString()}
                       </p>
+                      <p className="text-[10px] text-[#A3A297] font-medium">{marginPct}% margin</p>
                     </div>
-                    <Button
-                      size="sm"
-                      variant={isActive ? 'ghost' : 'outline'}
+                    <button
                       onClick={() => toggleStatus(biz.id)}
+                      className={`text-xs font-semibold px-3 py-1.5 rounded-xl border transition-all cursor-pointer flex items-center gap-1.5 ${
+                        isActive
+                          ? 'border-[#EAE8DF] text-[#77786F] hover:bg-[#F1EFE7]'
+                          : 'border-[#526B56] text-[#526B56] bg-[#EDF2E9]'
+                      }`}
                     >
-                      {isActive ? 'Pause' : 'Activate'}
-                    </Button>
+                      {isActive ? <PauseCircle className="w-3.5 h-3.5" /> : <PlayCircle className="w-3.5 h-3.5" />}
+                      <span>{isActive ? 'Pause' : 'Resume'}</span>
+                    </button>
                   </div>
                 </Card>
               );
             })}
+
+            {filteredBusinesses.length === 0 && (
+              <div className="col-span-2 py-16 text-center text-[#A3A297] bg-white rounded-2xl border border-[#EAE8DF]">
+                <Briefcase className="w-10 h-10 mx-auto mb-2.5 opacity-40" />
+                <p className="text-xs font-bold uppercase tracking-wider text-[#22251F]">No ventures match criteria</p>
+                <p className="text-[11px] text-[#77786F] mt-1">Try resetting search or status filters</p>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Revenue Pie Chart */}
+        {/* ── ELEVATED YIELD BREAKDOWN CARD (DESKTOP) ── */}
         <div className="lg:col-span-4">
-          <Card className="p-6 h-full flex flex-col justify-between">
+          <Card className="p-6 h-full flex flex-col justify-between border border-[#EAE8DF] bg-white shadow-sm space-y-4">
             <div>
-              <h3 className="text-sm font-black uppercase tracking-widest text-white mb-1">Yield Breakdown</h3>
-              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-4">Top Revenue Generators</p>
-              <div className="h-64 w-full min-w-0">
-                <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-                  <PieChart>
-                    <Pie
-                      data={pieData}
-                      dataKey="value"
-                      nameKey="name"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={80}
-                      innerRadius={50}
-                      paddingAngle={4}
+              <div className="flex justify-between items-start mb-1">
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <PieIcon className="w-3.5 h-3.5 text-[#526B56]" />
+                    <h3 className="text-sm font-bold text-[#22251F]">Yield Breakdown</h3>
+                  </div>
+                  <p className="text-[11px] text-[#77786F] mt-0.5">Top revenue contributors</p>
+                </div>
+                <Badge variant="accent">
+                  ${activeTotalIncome.toLocaleString()} / mo
+                </Badge>
+              </div>
+
+              {/* Donut Chart with Center Metric */}
+              <div className="relative flex items-center justify-center my-3">
+                <div className="h-56 w-full max-w-[260px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={pieData}
+                        dataKey="value"
+                        nameKey="name"
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={88}
+                        innerRadius={60}
+                        paddingAngle={3}
+                        cornerRadius={3}
+                        isAnimationActive={true}
+                        onMouseEnter={(_, index) => setHoveredVenture(pieData[index])}
+                        onMouseLeave={() => setHoveredVenture(null)}
+                      >
+                        {pieData.map((entry, index) => (
+                          <Cell
+                            key={`cell-${entry.id || index}`}
+                            fill={entry.color}
+                            className="cursor-pointer transition-opacity duration-200 hover:opacity-85"
+                          />
+                        ))}
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+
+                {/* Center Badge */}
+                <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297] line-clamp-1">
+                    {hoveredVenture ? hoveredVenture.name : 'Total Yield'}
+                  </span>
+                  <span className="text-lg font-extrabold text-[#22251F] tabular-nums leading-tight mt-0.5">
+                    ${(hoveredVenture ? hoveredVenture.value : activeTotalIncome).toLocaleString()}
+                  </span>
+                  <span className="text-[11px] font-bold text-[#526B56] tabular-nums">
+                    {hoveredVenture ? `${hoveredVenture.percentage}% share` : `${activeCount} Active`}
+                  </span>
+                </div>
+              </div>
+
+              {/* Segment Breakdown with proportional bars */}
+              <div className="space-y-2 mt-2 pt-3 border-t border-[#EAE8DF] max-h-56 overflow-y-auto scroll-hide">
+                {pieData.map((item) => {
+                  const isHovered = hoveredVenture?.name === item.name;
+                  return (
+                    <div
+                      key={item.name}
+                      onMouseEnter={() => setHoveredVenture(item)}
+                      onMouseLeave={() => setHoveredVenture(null)}
+                      className={`p-2 rounded-xl transition-all cursor-pointer ${
+                        isHovered ? 'bg-[#EDF2E9]' : 'hover:bg-[#FCFBF8]'
+                      }`}
                     >
-                      {pieData.map((_, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip
-                      formatter={(val) => [`$${val.toLocaleString()}`, 'Income']}
-                      contentStyle={{ backgroundColor: '#041a1e', borderColor: 'rgba(0,243,255,0.3)', borderRadius: '0.75rem' }}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
+                      <div className="flex items-center justify-between text-xs mb-1">
+                        <div className="flex items-center gap-2 truncate mr-2">
+                          <span
+                            className="w-2.5 h-2.5 rounded-full shrink-0 shadow-2xs"
+                            style={{ backgroundColor: item.color }}
+                          />
+                          <span className={`font-semibold truncate ${isHovered ? 'text-[#526B56]' : 'text-[#22251F]'}`}>
+                            {item.name}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <span className="text-[10px] font-semibold text-[#77786F] tabular-nums">
+                            {item.percentage}%
+                          </span>
+                          <span className="font-bold text-[#22251F] tabular-nums">
+                            ${item.value.toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="w-full h-1.5 bg-[#F1EFE7] rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full transition-all duration-300"
+                          style={{
+                            width: `${item.percentage}%`,
+                            backgroundColor: item.color
+                          }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
-            <div className="space-y-2 mt-4 pt-4 border-t border-white/10 max-h-40 overflow-y-auto scroll-hide">
-              {pieData.map((entry, i) => (
-                <div key={entry.name} className="flex justify-between items-center text-xs">
-                  <div className="flex items-center gap-2 truncate mr-2">
-                    <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
-                    <span className="font-bold text-slate-300 truncate">{entry.name}</span>
-                  </div>
-                  <span className="font-black text-white tabular-nums">${entry.value.toLocaleString()}</span>
+
+            {/* Top Contributor Summary Callout */}
+            {topVenture && (
+              <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl flex items-center justify-between text-xs mt-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Sparkles className="w-3.5 h-3.5 text-[#C18A48] shrink-0" />
+                  <p className="text-[11px] text-[#77786F] truncate">
+                    Top Contributor: <strong className="text-[#22251F] font-bold">{topVenture.name}</strong> ({topVenture.percentage}%)
+                  </p>
                 </div>
-              ))}
-            </div>
+                <span className="text-[11px] font-bold text-[#526B56] shrink-0">
+                  ${topVenture.value.toLocaleString()}
+                </span>
+              </div>
+            )}
           </Card>
         </div>
       </div>
 
-      {/* ADD VENTURE MODAL */}
+      {/* ── ADD VENTURE MODAL ── */}
       <Modal
         isOpen={isAddOpen}
         onClose={() => setIsAddOpen(false)}
-        title="Initiate Venture"
-        subtitle="Establish New Business Node"
+        title="Add Corporate Venture"
+        subtitle="Establish a new enterprise revenue node"
       >
         <form onSubmit={handleAddSubmit} className="space-y-4">
           <Input
-            label="Venture Designation"
+            label="Venture Name"
             required
             value={addForm.name}
             onChange={(e) => setAddForm({ ...addForm, name: e.target.value })}
-            placeholder="Designation Alpha..."
+            placeholder="e.g. Autonomous Logistics Fleet"
           />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <Input
-              label="Target Yield (Monthly)"
+              label="Monthly Income (USD)"
               type="number"
               value={addForm.income}
               onChange={(e) => setAddForm({ ...addForm, income: e.target.value })}
+              min="0"
             />
             <Input
-              label="Overhead Cap (Monthly)"
+              label="Monthly Expense (USD)"
               type="number"
               value={addForm.expense}
               onChange={(e) => setAddForm({ ...addForm, expense: e.target.value })}
+              min="0"
             />
           </div>
           <div>
-            <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest block mb-2">Description</label>
+            <label className="text-xs font-bold text-[#77786F] block mb-1.5">Description</label>
             <textarea
               value={addForm.desc}
               onChange={(e) => setAddForm({ ...addForm, desc: e.target.value })}
-              placeholder="Venture operational details..."
+              placeholder="Operational capabilities, customer profile, and revenue model..."
               rows={3}
-              className="w-full bg-black/40 border border-white/10 rounded-xl p-3 text-sm text-white placeholder-slate-600 outline-none focus:border-neon-blue resize-none font-medium"
+              className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-3 text-sm text-[#22251F] outline-none resize-none focus:border-[#526B56]"
             />
           </div>
-          <Button type="submit" variant="primary" className="w-full py-3.5 text-sm mt-2">
-            Establish Node
+          <Button type="submit" variant="primary" className="w-full py-2.5 mt-2">
+            Establish Venture
           </Button>
         </form>
       </Modal>
 
-      {/* EDIT VENTURE MODAL */}
+      {/* ── EDIT VENTURE MODAL ── */}
       <Modal
         isOpen={!!editingBiz}
         onClose={() => setEditingBiz(null)}
-        title="Edit Venture"
-        subtitle="Calibrate Operational Metrics"
+        title="Edit Corporate Venture"
+        subtitle="Calibrate venture parameters and operating margins"
       >
         {editingBiz && (
           <form onSubmit={handleEditSubmit} className="space-y-4">
@@ -269,34 +513,45 @@ const BusinessHub = () => {
               value={editForm.name}
               onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
             />
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               <Input
-                label="Monthly Income"
+                label="Monthly Income (USD)"
                 type="number"
                 value={editForm.income}
                 onChange={(e) => setEditForm({ ...editForm, income: parseFloat(e.target.value) || 0 })}
               />
               <Input
-                label="Monthly Expense"
+                label="Monthly Expense (USD)"
                 type="number"
                 value={editForm.expense}
                 onChange={(e) => setEditForm({ ...editForm, expense: parseFloat(e.target.value) || 0 })}
               />
             </div>
             <div>
-              <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest block mb-2">Notes</label>
+              <label className="text-xs font-bold text-[#77786F] block mb-1.5">Executive Notes</label>
               <textarea
                 value={editForm.notes}
                 onChange={(e) => setEditForm({ ...editForm, notes: e.target.value })}
                 rows={3}
-                className="w-full bg-black/40 border border-white/10 rounded-xl p-3 text-sm text-white placeholder-slate-600 outline-none focus:border-neon-blue resize-none font-medium"
+                placeholder="Strategic priorities, expansion plans, contract milestones..."
+                className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-3 text-sm text-[#22251F] outline-none resize-none focus:border-[#526B56]"
               />
             </div>
             <div className="flex gap-3 pt-2">
-              <Button type="button" variant="danger" icon={Trash2} onClick={() => handleDelete(editingBiz.id)} className="flex-1">
+              <Button
+                type="button"
+                variant="danger"
+                className="flex-1"
+                onClick={() => setDeleteConfirmBiz(editingBiz)}
+              >
+                <Trash2 className="w-4 h-4 mr-1" />
                 Delete
               </Button>
-              <Button type="submit" variant="primary" className="flex-1">
+              <Button
+                type="submit"
+                variant="primary"
+                className="flex-1"
+              >
                 Save Changes
               </Button>
             </div>

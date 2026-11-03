@@ -2,19 +2,24 @@ import React from 'react';
 
 const Badge = ({
   children,
-  variant = 'cyan',
+  variant = 'default',
   className = '',
 }) => {
   const variants = {
-    cyan: 'bg-cyan-500/10 border-cyan-500/25 text-cyan-300',
-    emerald: 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400',
-    rose: 'bg-rose-500/10 border-rose-500/25 text-rose-400',
-    violet: 'bg-violet-500/10 border-violet-500/25 text-violet-300',
-    amber: 'bg-amber-500/10 border-amber-500/25 text-amber-300',
+    default: 'bg-[#F1EFE7] border-[#EAE8DF] text-[#77786F]',
+    accent: 'bg-[#EDF2E9] border-[#C8D9CA] text-[#526B56]',
+    cyan: 'bg-[#EDF2E9] border-[#C8D9CA] text-[#526B56]',
+    emerald: 'bg-[#EDF2E9] border-[#C8D9CA] text-[#66866A]',
+    success: 'bg-[#EDF2E9] border-[#C8D9CA] text-[#66866A]',
+    rose: 'bg-[#FCEEED] border-[#E8C5C3] text-[#C66D65]',
+    danger: 'bg-[#FCEEED] border-[#E8C5C3] text-[#C66D65]',
+    amber: 'bg-[#FDF3E3] border-[#E8D5B0] text-[#C18A48]',
+    warning: 'bg-[#FDF3E3] border-[#E8D5B0] text-[#C18A48]',
+    violet: 'bg-[#F3EEF8] border-[#DECDEE] text-[#7C5ABF]',
   };
 
   return (
-    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-wider ${variants[variant] || variants.cyan} ${className}`}>
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border text-xs font-semibold ${variants[variant] || variants.default} ${className}`}>
       {children}
     </span>
   );

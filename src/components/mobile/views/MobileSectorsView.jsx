@@ -1,14 +1,18 @@
 import React, { useState, useMemo } from 'react';
 import { useEmpire } from '../../../context/EmpireContext';
 import { motion } from 'framer-motion';
-import { Search, Zap, Layers, BarChart3 } from 'lucide-react';
+import { Search, Zap, Layers, BarChart3, X, CheckCircle2 } from 'lucide-react';
 import MobileActionSheet from '../MobileActionSheet';
+import Card from '../../ui/Card';
+import Button from '../../ui/Button';
+import Badge from '../../ui/Badge';
 
 const MobileSectorsView = () => {
   const { sectors, setSectors } = useEmpire();
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('revenue');
   const [selectedSector, setSelectedSector] = useState(null);
+  const [optimizedId, setOptimizedId] = useState(null);
 
   const filteredSectors = useMemo(() => {
     return sectors
@@ -25,6 +29,8 @@ const MobileSectorsView = () => {
     setSectors(prev => prev.map(sec =>
       sec.id === id ? { ...sec, revenue: sec.revenue * 1.05 } : sec
     ));
+    setOptimizedId(id);
+    setTimeout(() => setOptimizedId(null), 1500);
     if (selectedSector?.id === id) {
       setSelectedSector(prev => prev ? { ...prev, revenue: prev.revenue * 1.05 } : null);
     }
@@ -32,92 +38,123 @@ const MobileSectorsView = () => {
 
   return (
     <div className="space-y-4 pb-8">
-      {/* Search & Toolbar */}
-      <div className="bg-white rounded-3xl p-4 border border-[#E5DFD1] shadow-xs space-y-3">
+      {/* ── Search & Filter Card ── */}
+      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
         <div className="relative">
-          <Search className="w-4 h-4 text-[#A8A29E] absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#A3A297] absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search 30 domain nodes..."
-            className="w-full bg-[#F9F7F1] border border-[#E5DFD1] rounded-2xl py-2.5 pl-10 pr-4 text-xs font-bold text-[#1C1917] outline-none"
+            className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl py-2 pl-9 pr-3 text-xs font-medium text-[#22251F] placeholder-[#A3A297] outline-none focus:border-[#526B56]"
           />
         </div>
 
         <div className="flex justify-between items-center text-xs">
-          <span className="text-[10px] font-black uppercase text-[#78716C]">Sort By:</span>
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#77786F]">Sort Nodes:</span>
           <select
             value={sortBy}
             onChange={e => setSortBy(e.target.value)}
-            className="bg-[#F4EFE6] border border-[#E2DAC8] rounded-xl px-3 py-1.5 text-[10px] font-black uppercase text-[#1C1917] outline-none cursor-pointer"
+            className="bg-[#FCFBF8] border border-[#EAE8DF] rounded-lg px-2.5 py-1 text-xs font-semibold text-[#22251F] outline-none"
           >
-            <option value="revenue">Revenue</option>
-            <option value="name">Name</option>
-            <option value="expense">Expense</option>
+            <option value="revenue">By Revenue</option>
+            <option value="expense">By Expense</option>
+            <option value="name">By Name</option>
           </select>
         </div>
+      </Card>
+
+      {/* ── Sectors List ── */}
+      <div className="space-y-2.5">
+        <div className="flex justify-between items-center px-1">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-[#A3A297]">
+            Domain Nodes ({filteredSectors.length})
+          </h3>
+          <span className="text-[10px] text-[#526B56] font-semibold">+5% yield boost active</span>
+        </div>
+
+        {filteredSectors.map(sec => {
+          const net = (sec.revenue || 0) - (sec.expense || 0);
+          const isOptimized = optimizedId === sec.id;
+          return (
+            <Card
+              key={sec.id}
+              className="p-3.5 border border-[#EAE8DF] bg-white transition-all cursor-pointer relative overflow-hidden"
+              onClick={() => setSelectedSector(sec)}
+            >
+              <div className="flex justify-between items-start mb-1.5">
+                <h4 className="text-xs font-bold uppercase text-[#22251F] truncate mr-2">
+                  {sec.name}
+                </h4>
+                <Badge variant="accent">
+                  {sec.growth ? `${sec.growth}×` : '1.0×'}
+                </Badge>
+              </div>
+
+              <div className="flex justify-between items-end">
+                <div>
+                  <p className="text-[10px] text-[#A3A297]">Gross Revenue</p>
+                  <p className="text-base font-bold text-[#526B56] tabular-nums">
+                    ${Math.round(sec.revenue || 0).toLocaleString()}
+                  </p>
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    optimizeSector(sec.id);
+                  }}
+                  className="px-3 py-1.5 rounded-lg bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56] text-xs font-bold flex items-center gap-1 cursor-pointer hover:bg-[#526B56] hover:text-white transition-all"
+                >
+                  <Zap className="w-3 h-3" />
+                  <span>+5% Boost</span>
+                </button>
+              </div>
+
+              {isOptimized && (
+                <div className="absolute inset-0 bg-[#EDF2E9]/95 flex items-center justify-center text-xs font-bold text-[#526B56] gap-1">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>+5% Optimization Applied</span>
+                </div>
+              )}
+            </Card>
+          );
+        })}
       </div>
 
-      {/* Nodes 2-Column Grid */}
-      <div className="grid grid-cols-2 gap-3">
-        {filteredSectors.map(sec => (
-          <div
-            key={sec.id}
-            onClick={() => setSelectedSector(sec)}
-            className="bg-white p-3.5 rounded-2xl border border-[#E5DFD1] shadow-xs cursor-pointer hover:border-[#0284C7] transition-all space-y-2"
-          >
-            <div className="flex justify-between items-start">
-              <h4 className="text-[11px] font-black text-[#1C1917] uppercase truncate max-w-24">{sec.name}</h4>
-              <span className="text-[8px] font-black text-[#0284C7] bg-[#E0F2FE] px-1.5 py-0.5 rounded-md">
-                {sec.growth ? `${sec.growth}x` : '1.0x'}
-              </span>
-            </div>
-
-            <p className="text-sm font-black text-[#0284C7] tabular-nums">
-              ${Math.round(sec.revenue || 0).toLocaleString()}
-            </p>
-
-            <div className="pt-2 border-t border-[#E5DFD1] flex justify-between items-center text-[8px] font-bold text-[#78716C] uppercase">
-              <span>Expense</span>
-              <span className="text-[#1C1917] tabular-nums">${Math.round(sec.expense || 0).toLocaleString()}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* DOMAIN INSPECTOR SHEET */}
+      {/* ── BOTTOM SHEET: SECTOR DETAILS ── */}
       <MobileActionSheet
         isOpen={!!selectedSector}
         onClose={() => setSelectedSector(null)}
-        title={selectedSector?.name || 'Sector Details'}
-        subtitle="Industrial Domain Control Node"
+        title={selectedSector?.name}
+        subtitle="Industrial Domain Node Metrics"
       >
         {selectedSector && (
           <div className="space-y-4">
-            <div className="p-4 bg-white border border-[#E5DFD1] rounded-2xl space-y-2.5">
-              <div className="flex justify-between text-xs font-bold">
-                <span className="text-[#78716C] uppercase">Gross Revenue</span>
-                <span className="font-black text-[#0284C7] tabular-nums">${Math.round(selectedSector.revenue || 0).toLocaleString()}</span>
+            <div className="p-4 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl space-y-2.5 text-xs">
+              <div className="flex justify-between">
+                <span className="text-[#77786F]">Gross Revenue:</span>
+                <span className="font-bold text-[#526B56] tabular-nums">${Math.round(selectedSector.revenue || 0).toLocaleString()}</span>
               </div>
-              <div className="flex justify-between text-xs font-bold">
-                <span className="text-[#78716C] uppercase">Operational Expense</span>
-                <span className="font-black text-rose-600 tabular-nums">${Math.round(selectedSector.expense || 0).toLocaleString()}</span>
+              <div className="flex justify-between">
+                <span className="text-[#77786F]">Operational Burn:</span>
+                <span className="font-bold text-[#C66D65] tabular-nums">${Math.round(selectedSector.expense || 0).toLocaleString()}</span>
               </div>
-              <div className="flex justify-between text-xs font-bold pt-2 border-t border-[#E5DFD1]">
-                <span className="text-[#78716C] uppercase">Net Profit Margin</span>
-                <span className="font-black text-emerald-600 tabular-nums">
+              <div className="flex justify-between pt-2 border-t border-[#EAE8DF]">
+                <span className="text-[#22251F] font-bold">Net Profit Margin:</span>
+                <span className="font-bold text-[#526B56] tabular-nums">
                   ${Math.round((selectedSector.revenue || 0) - (selectedSector.expense || 0)).toLocaleString()}
                 </span>
               </div>
             </div>
 
-            <button
+            <Button
+              variant="primary"
+              icon={Zap}
+              className="w-full py-3"
               onClick={() => optimizeSector(selectedSector.id)}
-              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-[#0284C7] text-white font-black uppercase text-xs tracking-wider cursor-pointer shadow-md"
             >
-              <Zap className="w-4 h-4" />
-              Optimize Domain Node (+5%)
-            </button>
+              Optimize Yield (+5%)
+            </Button>
           </div>
         )}
       </MobileActionSheet>

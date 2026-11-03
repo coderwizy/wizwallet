@@ -27,31 +27,33 @@ const MobileActionSheet = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-[#1C1917]/50 backdrop-blur-md"
+          className="absolute inset-0 bg-[#22251F]/40 backdrop-blur-sm"
         />
         <motion.div
           initial={{ y: '100%' }}
           animate={{ y: 0 }}
           exit={{ y: '100%' }}
-          transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-          className="relative z-10 w-full bg-[#F7F4EC] rounded-t-3xl border-t border-[#E5DFD1] p-6 shadow-[0_-20px_50px_rgba(28,25,23,0.15)] max-h-[85vh] overflow-y-auto scroll-hide pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
+          transition={{ type: 'spring', stiffness: 400, damping: 32 }}
+          className="relative z-10 w-full bg-white rounded-t-2xl border-t border-[#EAE8DF] shadow-[0_-10px_40px_rgba(34,37,31,0.12)] max-h-[85vh] overflow-y-auto scroll-hide pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
         >
-          <div className="w-12 h-1 bg-[#D6CDB8] rounded-full mx-auto mb-5" />
+          <div className="w-10 h-1 bg-[#D5D2C8] rounded-full mx-auto mt-4 mb-2" />
 
-          <div className="flex items-start justify-between mb-5 pb-3 border-b border-[#E5DFD1]">
+          <div className="px-5 pb-2 pt-3 flex items-start justify-between border-b border-[#EAE8DF]">
             <div>
-              {title && <h3 className="text-lg font-black text-[#1C1917] uppercase tracking-tight italic">{title}</h3>}
-              {subtitle && <p className="text-[10px] text-[#0284C7] font-bold uppercase tracking-widest mt-0.5">{subtitle}</p>}
+              {title && <h3 className="text-base font-semibold text-[#22251F]">{title}</h3>}
+              {subtitle && <p className="text-xs text-[#77786F] mt-0.5">{subtitle}</p>}
             </div>
             <button
               onClick={onClose}
-              className="p-2 rounded-xl bg-white border border-[#E5DFD1] text-[#78716C] hover:text-[#1C1917] transition-all cursor-pointer shadow-xs"
+              className="p-1.5 rounded-lg text-[#A3A297] hover:text-[#22251F] hover:bg-[#F1EFE7] transition-all cursor-pointer"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
 
-          {children}
+          <div className="p-5">
+            {children}
+          </div>
         </motion.div>
       </div>
     </AnimatePresence>
