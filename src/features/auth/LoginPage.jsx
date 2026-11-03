@@ -10,15 +10,14 @@ import {
   ArrowRight,
   Loader2,
   AlertCircle,
-  KeyRound,
-  CheckCircle2
+  KeyRound
 } from 'lucide-react';
 import './LoginPage.css';
 
 const LoginPage = () => {
   const { login } = useEmpire();
-  const [username, setUsername] = useState('raghav94');
-  const [password, setPassword] = useState('098123456');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState(false);
@@ -57,12 +56,6 @@ const LoginPage = () => {
         }
       }
     }, 600);
-  };
-
-  const autofillDemo = () => {
-    setUsername('raghav94');
-    setPassword('098123456');
-    setError(false);
   };
 
   return (
@@ -123,7 +116,7 @@ const LoginPage = () => {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="e.g. raghav94"
+                  placeholder="Enter account identifier..."
                   className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl py-2.5 pl-10 pr-3.5 text-sm text-[#22251F] placeholder-[#A3A297] outline-none font-medium focus:border-[#526B56] focus:bg-white focus:ring-2 focus:ring-[#526B56]/15 transition-all"
                   autoComplete="username"
                   required
@@ -133,23 +126,14 @@ const LoginPage = () => {
 
             {/* Password Input */}
             <div className="space-y-1.5">
-              <div className="flex justify-between items-center">
-                <label className="text-xs font-bold text-[#77786F]">Security PIN / Master Key</label>
-                <button
-                  type="button"
-                  onClick={autofillDemo}
-                  className="text-[11px] font-semibold text-[#526B56] hover:underline cursor-pointer"
-                >
-                  Fill Demo Key
-                </button>
-              </div>
+              <label className="text-xs font-bold text-[#77786F] block">Security PIN / Master Key</label>
               <div className="relative">
                 <Lock className="w-4 h-4 text-[#A3A297] absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="•••••••••"
+                  placeholder="Enter master key..."
                   className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl py-2.5 pl-10 pr-10 text-sm text-[#22251F] placeholder-[#A3A297] outline-none font-medium focus:border-[#526B56] focus:bg-white focus:ring-2 focus:ring-[#526B56]/15 transition-all"
                   autoComplete="current-password"
                   required
@@ -198,13 +182,6 @@ const LoginPage = () => {
               )}
             </button>
           </form>
-
-          {/* Quick Demo Credentials Footer Helper */}
-          <div className="mt-6 pt-5 border-t border-[#EAE8DF] bg-[#FCFBF8] -mx-6 -mb-6 p-4 rounded-b-2xl text-center">
-            <p className="text-[11px] text-[#77786F]">
-              Default Credentials: <code className="bg-white px-1.5 py-0.5 rounded border border-[#EAE8DF] font-mono text-[#22251F] text-[10px]">raghav94</code> / <code className="bg-white px-1.5 py-0.5 rounded border border-[#EAE8DF] font-mono text-[#22251F] text-[10px]">098123456</code>
-            </p>
-          </div>
         </div>
 
         {/* Security Footer */}
