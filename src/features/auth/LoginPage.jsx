@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useEmpire } from '../../context/EmpireContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -23,39 +23,51 @@ const LoginPage = () => {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
     const savedUser = localStorage.getItem('wz_remembered_user');
     if (savedUser) {
       setUsername(savedUser);
     }
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!username.trim() || !password) {
+    const cleanUser = username.trim();
+    if (!cleanUser || !password) {
       setError(true);
       setErrorMessage('Please provide both username and master key.');
+      return;
+    }
+
+    if (password.length < 6) {
+      setError(true);
+      setErrorMessage('Master key must be at least 6 characters.');
       return;
     }
 
     setLoading(true);
     setError(false);
 
-    setTimeout(() => {
-      const success = login(username.trim(), password);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      const success = login(cleanUser, password);
       if (!success) {
         setError(true);
         setErrorMessage('Invalid credentials. Check username or master key.');
         setLoading(false);
       } else {
         if (rememberMe) {
-          localStorage.setItem('wz_remembered_user', username.trim());
+          localStorage.setItem('wz_remembered_user', cleanUser);
         } else {
           localStorage.removeItem('wz_remembered_user');
         }
       }
-    }, 600);
+    }, 400);
   };
 
   return (
@@ -109,13 +121,20 @@ const LoginPage = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Username Input */}
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-[#77786F] block">Account Identifier</label>
+              <label htmlFor="account-identifier" className="text-xs font-bold text-[#77786F] block">
+                Account Identifier
+              </label>
               <div className="relative">
                 <User className="w-4 h-4 text-[#A3A297] absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
+                  id="account-identifier"
+                  name="username"
                   type="text"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                    if (error) setError(false);
+                  }}
                   placeholder="Enter account identifier..."
                   className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl py-2.5 pl-10 pr-3.5 text-sm text-[#22251F] placeholder-[#A3A297] outline-none font-medium focus:border-[#526B56] focus:bg-white focus:ring-2 focus:ring-[#526B56]/15 transition-all"
                   autoComplete="username"
@@ -126,13 +145,20 @@ const LoginPage = () => {
 
             {/* Password Input */}
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-[#77786F] block">Security PIN / Master Key</label>
+              <label htmlFor="security-pin" className="text-xs font-bold text-[#77786F] block">
+                Security PIN / Master Key
+              </label>
               <div className="relative">
                 <Lock className="w-4 h-4 text-[#A3A297] absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
+                  id="security-pin"
+                  name="password"
                   type={showPassword ? 'text' : 'password'}
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (error) setError(false);
+                  }}
                   placeholder="Enter master key..."
                   className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl py-2.5 pl-10 pr-10 text-sm text-[#22251F] placeholder-[#A3A297] outline-none font-medium focus:border-[#526B56] focus:bg-white focus:ring-2 focus:ring-[#526B56]/15 transition-all"
                   autoComplete="current-password"

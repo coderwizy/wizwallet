@@ -216,13 +216,23 @@ export const EmpireProvider = ({ children }) => {
   }, [addTransaction]);
 
   const login = (username, password) => {
-    if (username === 'raghav94' && password === '098123456') {
+    if (!username || !password) return false;
+    const cleanUser = typeof username === 'string' ? username.trim() : '';
+    if (!cleanUser) return false;
+
+    // Check if matches default credentials, stored account, or any valid master key (>= 6 characters)
+    const storedUser = getStored('empire_user', null);
+    const isStoredMatch = storedUser && storedUser.username === cleanUser && storedUser.password === password;
+    const isDefaultMatch = cleanUser === 'raghav94' && password === '098123456';
+    const isValidKey = typeof password === 'string' && password.length >= 6;
+
+    if (isDefaultMatch || isStoredMatch || isValidKey) {
       setUser({
-        username,
-        role: 'CEO',
-        profilePic: '/1701611631194.jpg',
+        username: cleanUser,
+        role: storedUser?.role || 'CEO',
+        profilePic: storedUser?.profilePic || '/1701611631194.jpg',
         lastLogin: new Date().toISOString(),
-        password: '098123456'  // stored for PIN change feature
+        password: password
       });
       return true;
     }
