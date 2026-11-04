@@ -15,7 +15,7 @@ const TITLES = {
 };
 
 const MobileHeader = ({ activeTab }) => {
-  const { wallet, user, transactions } = useEmpire();
+  const { wallet, user, transactions, isPulseActive, togglePulse } = useEmpire();
   const [showNotifications, setShowNotifications] = useState(false);
 
   const title = TITLES[activeTab] || 'Overview';
@@ -33,7 +33,14 @@ const MobileHeader = ({ activeTab }) => {
             <span className="text-[10px] font-semibold text-[#526B56] tabular-nums">
               ${(wallet?.balance || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#66866A] animate-pulse shrink-0" />
+            <button
+              type="button"
+              onClick={togglePulse}
+              title={isPulseActive ? 'Pulse Active · Tap to Stop' : 'Pulse Stopped · Tap to Start'}
+              className="flex items-center p-0.5 rounded cursor-pointer"
+            >
+              <span className={`w-1.5 h-1.5 rounded-full ${isPulseActive ? 'bg-[#66866A] animate-pulse' : 'bg-[#A3A297]'} shrink-0`} />
+            </button>
           </div>
         </div>
       </div>

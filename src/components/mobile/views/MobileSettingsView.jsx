@@ -8,7 +8,11 @@ import Input from '../../ui/Input';
 import ConfirmationDialog from '../../ui/ConfirmationDialog';
 
 const MobileSettingsView = () => {
-  const { logout, wipeAllData, changePassword, config, setConfig, user } = useEmpire();
+  const {
+    logout, wipeAllData, changePassword,
+    config, setConfig, user,
+    isPulseActive, togglePulse
+  } = useEmpire();
 
   // Password sheet
   const [showPasswordSheet, setShowPasswordSheet] = useState(false);
@@ -51,14 +55,31 @@ const MobileSettingsView = () => {
 
       {/* ── Pulse Engine Speed ── */}
       <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
-        <div className="flex items-center gap-2.5 pb-2 border-b border-[#EAE8DF]">
-          <div className="p-2 rounded-xl bg-[#EDF2E9] text-[#526B56] border border-[#D5DFD1]">
-            <Zap className="w-4 h-4" />
+        <div className="flex items-center justify-between pb-2 border-b border-[#EAE8DF]">
+          <div className="flex items-center gap-2.5">
+            <div className={`p-2 rounded-xl border transition-colors ${
+              isPulseActive
+                ? 'bg-[#EDF2E9] text-[#526B56] border-[#D5DFD1]'
+                : 'bg-[#F1EFE7] text-[#77786F] border-[#D5D2C8]'
+            }`}>
+              <Zap className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="text-xs font-bold text-[#22251F]">Simulation Heartbeat</h3>
+              <p className="text-[10px] text-[#77786F]">{isPulseActive ? 'Compounding Active' : 'Simulation Stopped'}</p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-xs font-bold text-[#22251F]">Simulation Heartbeat</h3>
-            <p className="text-[10px] text-[#77786F]">Compounding Frequency</p>
-          </div>
+          <button
+            type="button"
+            onClick={togglePulse}
+            className={`px-2.5 py-1 rounded-lg text-[10px] font-bold border transition-colors cursor-pointer ${
+              isPulseActive
+                ? 'bg-[#FCFBF8] border-[#EAE8DF] text-[#C66D65] hover:bg-[#FCEEED]'
+                : 'bg-[#526B56] border-[#526B56] text-white hover:bg-[#445A48]'
+            }`}
+          >
+            {isPulseActive ? 'Stop Pulse' : 'Start Pulse'}
+          </button>
         </div>
 
         <div className="flex items-center justify-between py-1">

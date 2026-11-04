@@ -29,7 +29,7 @@ const BREADCRUMBS = {
 };
 
 const Header = ({ activeTab, setActiveTab, onOpenCommandPalette }) => {
-  const { wallet, bank, user, transactions } = useEmpire();
+  const { wallet, bank, user, transactions, isPulseActive, togglePulse } = useEmpire();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showQuickMenu, setShowQuickMenu] = useState(false);
 
@@ -52,10 +52,21 @@ const Header = ({ activeTab, setActiveTab, onOpenCommandPalette }) => {
           </p>
           <div className="flex items-center gap-2.5">
             <h1 className="text-base font-bold text-[#22251F] leading-none">{title}</h1>
-            <div className="flex items-center gap-1.5 px-2 py-0.5 bg-[#EDF2E9] rounded-full border border-[#D5DFD1]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#66866A] animate-pulse" />
-              <span className="text-[10px] font-semibold text-[#526B56]">Live Engine</span>
-            </div>
+            <button
+              type="button"
+              onClick={togglePulse}
+              title={isPulseActive ? 'Pulse Heartbeat Active · Click to Stop' : 'Pulse Heartbeat Stopped · Click to Start'}
+              className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full border transition-colors cursor-pointer ${
+                isPulseActive
+                  ? 'bg-[#EDF2E9] border-[#D5DFD1] hover:bg-[#E2EBDD]'
+                  : 'bg-[#F1EFE7] border-[#D5D2C8] hover:bg-[#EAE8DF]'
+              }`}
+            >
+              <span className={`w-1.5 h-1.5 rounded-full ${isPulseActive ? 'bg-[#66866A] animate-pulse' : 'bg-[#A3A297]'}`} />
+              <span className={`text-[10px] font-semibold ${isPulseActive ? 'text-[#526B56]' : 'text-[#77786F]'}`}>
+                {isPulseActive ? 'Live Engine' : 'Engine Paused'}
+              </span>
+            </button>
           </div>
         </div>
       </div>

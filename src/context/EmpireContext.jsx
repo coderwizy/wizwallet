@@ -96,8 +96,49 @@ export const EmpireProvider = ({ children }) => {
     autoSave: true,
     neonMode: true,
     transparency: true,
-    vibration: true
+    vibration: true,
+    isPulseActive: true
   }));
+
+  // ── Pulse State & Control (Stop / Start / Toggle) ──────────────────
+  const [isPulseActive, setIsPulseActive] = useState(() => {
+    const storedCfg = getStored('empire_config', null);
+    return storedCfg?.isPulseActive !== false;
+  });
+
+  const stopPulse = useCallback(() => {
+    setIsPulseActive(false);
+    setConfig(prev => ({ ...prev, isPulseActive: false }));
+  }, []);
+
+  const startPulse = useCallback(() => {
+    setIsPulseActive(true);
+    setConfig(prev => ({ ...prev, isPulseActive: true }));
+  }, []);
+
+  const togglePulse = useCallback(() => {
+    setIsPulseActive(prev => {
+      const next = !prev;
+      setConfig(c => ({ ...c, isPulseActive: next }));
+      return next;
+    });
+  }, []);
+
+  // Expose on global window object for developer / console access
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.stopPulse = stopPulse;
+      window.startPulse = startPulse;
+      window.togglePulse = togglePulse;
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        delete window.stopPulse;
+        delete window.startPulse;
+        delete window.togglePulse;
+      }
+    };
+  }, [stopPulse, startPulse, togglePulse]);
 
   // ── Refs to stable state for the growth engine ──────────────────
   const sectorsRef = useRef(sectors);
@@ -128,8 +169,10 @@ export const EmpireProvider = ({ children }) => {
     }
   }, [wallet, bank, businesses, sectors, transactions, members, theme, user, balanceHistory, config]);
 
-  // ── Unified Growth Engine — stable interval (re-creates if simulationSpeed changes) ──
+  // ── Unified Growth Engine — stable interval (re-creates if simulationSpeed changes or pulse toggles) ──
   useEffect(() => {
+    if (!isPulseActive) return;
+
     const pulse = setInterval(() => {
       // 1. Grow Sectors
       setSectors(prev => {
@@ -187,7 +230,7 @@ export const EmpireProvider = ({ children }) => {
     }, config.simulationSpeed);
 
     return () => clearInterval(pulse);
-  }, [config.simulationSpeed]); 
+  }, [config.simulationSpeed, isPulseActive]); 
 
   const addTransaction = useCallback((module, type, amount, description) => {
     const newTx = {
@@ -205,15 +248,17 @@ export const EmpireProvider = ({ children }) => {
     });
   }, []);
 
-  // Events
+  // Events (paused when pulse is stopped)
   useEffect(() => {
+    if (!isPulseActive) return;
+
     const eventInterval = setInterval(() => {
       if (Math.random() > 0.9) {
         addTransaction('Imperial Business', 'Credit', 1000, 'Global Asset Dividends');
       }
     }, 15000);
     return () => clearInterval(eventInterval);
-  }, [addTransaction]);
+  }, [addTransaction, isPulseActive]);
 
   const login = (username, password) => {
     if (!username || !password) return false;
@@ -306,11 +351,15 @@ export const EmpireProvider = ({ children }) => {
     balanceHistory,
     config, setConfig,
     transferFunds,
+    isPulseActive,
+    stopPulse,
+    startPulse,
+    togglePulse,
   }), [
     user, wallet, bank, businesses, sectors, transactions, 
     members, theme, balanceHistory, addTransaction, addBusiness, 
     removeBusiness, changePassword, addFamilyMember, updateFamilyMember, 
-    transferFunds, config
+    transferFunds, config, isPulseActive, stopPulse, startPulse, togglePulse
   ]);
 
   return <EmpireContext.Provider value={value}>{children}</EmpireContext.Provider>;

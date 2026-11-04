@@ -3,7 +3,8 @@ import { useEmpire } from '../../context/EmpireContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Zap, Shield, Palette, Lock, CheckCircle2, AlertCircle,
-  Trash2, Sliders, Database, KeyRound, RefreshCw, Smartphone
+  Trash2, Sliders, Database, KeyRound, RefreshCw, Smartphone,
+  Play, Pause
 } from 'lucide-react';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
@@ -13,7 +14,11 @@ import Input from '../../components/ui/Input';
 import ConfirmationDialog from '../../components/ui/ConfirmationDialog';
 
 const SettingsHub = () => {
-  const { theme, setTheme, logout, wipeAllData, changePassword, config, setConfig, user } = useEmpire();
+  const {
+    theme, setTheme, logout, wipeAllData, changePassword,
+    config, setConfig, user,
+    isPulseActive, stopPulse, startPulse, togglePulse
+  } = useEmpire();
 
   // Password change state
   const [showPinChange, setShowPinChange] = useState(false);
@@ -76,9 +81,13 @@ const SettingsHub = () => {
       <div className="space-y-5">
         {/* ── SECTION 1: SIMULATION HEARTBEAT ENGINE ── */}
         <Card className="overflow-hidden p-0 border border-[#EAE8DF] bg-white">
-          <div className="p-5 border-b border-[#EAE8DF] bg-[#FCFBF8] flex items-center justify-between">
+          <div className="p-5 border-b border-[#EAE8DF] bg-[#FCFBF8] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56] flex items-center justify-center">
+              <div className={`w-9 h-9 rounded-xl border flex items-center justify-center transition-colors ${
+                isPulseActive
+                  ? 'bg-[#EDF2E9] border-[#D5DFD1] text-[#526B56]'
+                  : 'bg-[#F1EFE7] border-[#D5D2C8] text-[#77786F]'
+              }`}>
                 <Zap className="w-4 h-4" />
               </div>
               <div>
@@ -86,7 +95,19 @@ const SettingsHub = () => {
                 <p className="text-[11px] text-[#77786F]">Unified heartbeat for compounding, dividends, and sector growth</p>
               </div>
             </div>
-            <Badge variant="success">Heartbeat Active ({speedSeconds}s)</Badge>
+            <div className="flex items-center gap-2">
+              <Badge variant={isPulseActive ? 'success' : 'default'}>
+                {isPulseActive ? `Heartbeat Active (${speedSeconds}s)` : 'Heartbeat Stopped'}
+              </Badge>
+              <Button
+                variant={isPulseActive ? 'outline' : 'primary'}
+                size="sm"
+                icon={isPulseActive ? Pause : Play}
+                onClick={togglePulse}
+              >
+                {isPulseActive ? 'Stop Pulse' : 'Resume Pulse'}
+              </Button>
+            </div>
           </div>
 
           <div className="p-5 space-y-4">
