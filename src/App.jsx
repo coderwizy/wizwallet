@@ -11,16 +11,32 @@ import SectorHub from './features/sectors/SectorHub';
 import TransactionHub from './features/transactions/TransactionHub';
 import FamilyHub from './features/family/FamilyHub';
 import SettingsHub from './features/settings/SettingsHub';
+import InvestmentsHub from './features/investments/InvestmentsHub';
+import RealEstateHub from './features/realestate/RealEstateHub';
+import ExpenseHub from './features/expenses/ExpenseHub';
+import AICommanderHub from './features/commander/AICommanderHub';
+import FutureSimulatorHub from './features/simulator/FutureSimulatorHub';
+import TaxHub from './features/tax/TaxHub';
+import DocumentVaultHub from './features/vault/DocumentVaultHub';
+import GoalsHub from './features/goals/GoalsHub';
 import CommandPalette from './components/ui/CommandPalette';
 import MobileAppLayout from './components/mobile/MobileAppLayout';
 
 // Keyboard shortcut map
 const SHORTCUTS = [
   { key: 'D', action: 'Portfolio Overview' },
+  { key: 'A', action: 'AI Empire Commander' },
   { key: 'W', action: 'Smart Wallet & Vault' },
   { key: 'B', action: 'Global Bank & APY' },
+  { key: 'I', action: 'Investments & Stocks' },
+  { key: 'R', action: 'Real Estate & Properties' },
   { key: 'E', action: 'Corporate Ventures' },
   { key: 'S', action: '30 Industrial Sectors' },
+  { key: 'X', action: 'Expenses & Budgets' },
+  { key: 'M', action: 'Future Wealth Simulator' },
+  { key: 'T', action: 'Tax Planning Center' },
+  { key: 'V', action: 'Document & Asset Vault' },
+  { key: 'G', action: 'Wealth Goals & Missions' },
   { key: 'F', action: 'Family Wealth Office' },
   { key: 'L', action: 'Global Ledger' },
   { key: 'C', action: 'Control Settings' },
@@ -71,10 +87,18 @@ const App = () => {
 
       switch (e.key.toUpperCase()) {
         case 'D': setActiveTab('dashboard'); break;
+        case 'A': setActiveTab('commander'); break;
         case 'W': setActiveTab('wallet'); break;
         case 'B': setActiveTab('bank'); break;
+        case 'I': setActiveTab('investments'); break;
+        case 'R': setActiveTab('realestate'); break;
         case 'E': setActiveTab('business'); break;
         case 'S': setActiveTab('sectors'); break;
+        case 'X': setActiveTab('expenses'); break;
+        case 'M': setActiveTab('simulator'); break;
+        case 'T': setActiveTab('tax'); break;
+        case 'V': setActiveTab('vault'); break;
+        case 'G': setActiveTab('goals'); break;
         case 'F': setActiveTab('family'); break;
         case 'L': setActiveTab('transactions'); break;
         case 'C': setActiveTab('settings'); break;
@@ -99,10 +123,18 @@ const App = () => {
       case 'dashboard': return <MainDashboard setActiveTab={setActiveTab} />;
       case 'wallet': return <WalletHub setActiveTab={setActiveTab} />;
       case 'bank': return <BankHub setActiveTab={setActiveTab} />;
+      case 'investments': return <InvestmentsHub setActiveTab={setActiveTab} />;
+      case 'realestate': return <RealEstateHub setActiveTab={setActiveTab} />;
       case 'business': return <BusinessHub setActiveTab={setActiveTab} />;
       case 'sectors': return <SectorHub setActiveTab={setActiveTab} />;
-      case 'transactions': return <TransactionHub setActiveTab={setActiveTab} />;
+      case 'expenses': return <ExpenseHub setActiveTab={setActiveTab} />;
       case 'family': return <FamilyHub setActiveTab={setActiveTab} />;
+      case 'commander': return <AICommanderHub setActiveTab={setActiveTab} />;
+      case 'simulator': return <FutureSimulatorHub setActiveTab={setActiveTab} />;
+      case 'tax': return <TaxHub setActiveTab={setActiveTab} />;
+      case 'vault': return <DocumentVaultHub setActiveTab={setActiveTab} />;
+      case 'goals': return <GoalsHub setActiveTab={setActiveTab} />;
+      case 'transactions': return <TransactionHub setActiveTab={setActiveTab} />;
       case 'settings': return <SettingsHub setActiveTab={setActiveTab} />;
       default: return <MainDashboard setActiveTab={setActiveTab} />;
     }
@@ -143,7 +175,7 @@ const App = () => {
           <footer className="py-2.5 px-6 text-center text-xs text-[#A3A297] border-t border-[#EAE8DF] bg-white flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#66866A]" />
-              <span>WizWallet v5.0 · Personal Wealth Management SaaS</span>
+              <span>WizWallet 3.0 · Personal Financial & Empire Command Center</span>
             </div>
             <div>
               Press{' '}

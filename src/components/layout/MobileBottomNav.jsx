@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useEmpire } from '../../context/EmpireContext';
 import {
   LayoutDashboard, Wallet, Landmark, History,
-  MoreHorizontal, Briefcase, Layers, Users, Settings, X, LogOut, ChevronRight
+  MoreHorizontal, Briefcase, Layers, Users, Settings, X, LogOut, ChevronRight,
+  Sparkles, TrendingUp, Trophy, Receipt, Scale, BarChart3, Building2, FolderLock
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -11,18 +12,28 @@ const MobileBottomNav = ({ activeTab, setActiveTab }) => {
   const [showMoreMenu, setShowMoreMenu] = useState(false);
 
   const mainNavItems = [
-    { id: 'dashboard', label: 'Home', icon: LayoutDashboard },
+    { id: 'dashboard', label: 'Command', icon: LayoutDashboard },
+    { id: 'commander', label: 'AI Pilot', icon: Sparkles },
     { id: 'wallet', label: 'Wallet', icon: Wallet },
-    { id: 'bank', label: 'Bank', icon: Landmark },
-    { id: 'transactions', label: 'Ledger', icon: History },
+    { id: 'investments', label: 'Markets', icon: BarChart3 },
   ];
 
   const secondaryNavItems = [
-    { id: 'business', label: 'Ventures', icon: Briefcase, desc: 'Corporate ventures & yield' },
-    { id: 'sectors', label: 'Sectors', icon: Layers, desc: '30 industrial domain nodes' },
-    { id: 'family', label: 'Family', icon: Users, desc: 'Governance & wealth council' },
-    { id: 'settings', label: 'Settings', icon: Settings, desc: 'Configuration & security' },
+    { id: 'bank', label: 'Global Bank & Treasury', icon: Landmark, desc: 'APY compounding & currency exchange' },
+    { id: 'realestate', label: 'Real Estate Empire', icon: Building2, desc: 'Property acquisitions, leases & equity' },
+    { id: 'business', label: 'Corporate Ventures', icon: Briefcase, desc: '13 commercial nodes & yield' },
+    { id: 'sectors', label: 'Industrial Sectors', icon: Layers, desc: '30 industrial technology sectors' },
+    { id: 'expenses', label: 'Expense & Budget Hub', icon: Receipt, desc: 'Personal & business outflows' },
+    { id: 'simulator', label: 'Future Wealth Simulator', icon: TrendingUp, desc: 'Deterministic multi-year projections' },
+    { id: 'tax', label: 'Tax & Compliance Center', icon: Scale, desc: 'Multi-jurisdiction liability estimates' },
+    { id: 'goals', label: 'Goals & Missions', icon: Trophy, desc: 'Dynasty XP, ranks & achievements' },
+    { id: 'vault', label: 'Document Vault', icon: FolderLock, desc: 'Encrypted IndexedDB records' },
+    { id: 'family', label: 'Family Empire', icon: Users, desc: 'Council governance & trust shares' },
+    { id: 'transactions', label: 'Global Audit Ledger', icon: History, desc: 'Chronological transaction stream' },
+    { id: 'settings', label: 'Control & Settings', icon: Settings, desc: 'Pulse frequency & backup engine' },
   ];
+
+  const isMoreActive = secondaryNavItems.some(i => i.id === activeTab);
 
   return (
     <>
@@ -58,10 +69,10 @@ const MobileBottomNav = ({ activeTab, setActiveTab }) => {
           <button
             onClick={() => setShowMoreMenu(p => !p)}
             aria-label="More"
-            className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all focus-visible:outline-none cursor-pointer ${showMoreMenu || ['business', 'sectors', 'family', 'settings'].includes(activeTab) ? 'text-[#526B56]' : 'text-[#A3A297]'}`}
+            className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all focus-visible:outline-none cursor-pointer ${showMoreMenu || isMoreActive ? 'text-[#526B56]' : 'text-[#A3A297]'}`}
           >
             <MoreHorizontal className="w-5 h-5" />
-            <span className="text-[10px] font-medium">More</span>
+            <span className="text-[10px] font-medium">Empire</span>
           </button>
         </div>
       </nav>
@@ -82,12 +93,12 @@ const MobileBottomNav = ({ activeTab, setActiveTab }) => {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', stiffness: 400, damping: 32 }}
-              className="relative z-10 w-full bg-white rounded-t-2xl border-t border-[#EAE8DF] p-5 shadow-[0_-10px_40px_rgba(34,37,31,0.12)] max-h-[80vh] overflow-y-auto scroll-hide pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
+              className="relative z-10 w-full bg-white rounded-t-2xl border-t border-[#EAE8DF] p-5 shadow-[0_-10px_40px_rgba(34,37,31,0.12)] max-h-[82vh] overflow-y-auto scroll-hide pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
             >
               <div className="w-10 h-1 bg-[#D5D2C8] rounded-full mx-auto mb-4" />
 
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-base font-semibold text-[#22251F]">More</h3>
+                <h3 className="text-base font-bold text-[#22251F]">Empire Command Modules</h3>
                 <button
                   onClick={() => setShowMoreMenu(false)}
                   className="p-1.5 rounded-lg text-[#A3A297] hover:text-[#22251F] hover:bg-[#F1EFE7] transition-all cursor-pointer"
@@ -101,18 +112,18 @@ const MobileBottomNav = ({ activeTab, setActiveTab }) => {
                   <button
                     key={item.id}
                     onClick={() => { setActiveTab(item.id); setShowMoreMenu(false); }}
-                    className={`w-full flex items-center justify-between p-3.5 rounded-xl border transition-all text-left cursor-pointer ${activeTab === item.id ? 'border-[#526B56]/30 bg-[#EDF2E9] text-[#526B56]' : 'border-[#EAE8DF] bg-white text-[#22251F] hover:bg-[#F8F7F2]'}`}
+                    className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all text-left cursor-pointer ${activeTab === item.id ? 'border-[#526B56]/30 bg-[#EDF2E9] text-[#526B56]' : 'border-[#EAE8DF] bg-white text-[#22251F] hover:bg-[#F8F7F2]'}`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-lg border ${activeTab === item.id ? 'bg-[#526B56] border-[#526B56] text-white' : 'bg-[#F1EFE7] border-[#EAE8DF] text-[#77786F]'}`}>
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className={`p-2 rounded-lg border shrink-0 ${activeTab === item.id ? 'bg-[#526B56] border-[#526B56] text-white' : 'bg-[#F1EFE7] border-[#EAE8DF] text-[#77786F]'}`}>
                         <item.icon className="w-4 h-4" />
                       </div>
-                      <div>
-                        <p className="text-xs font-semibold">{item.label}</p>
-                        <p className="text-[10px] text-[#A3A297] mt-0.5">{item.desc}</p>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold truncate">{item.label}</p>
+                        <p className="text-[10px] text-[#A3A297] truncate">{item.desc}</p>
                       </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-[#A3A297]" />
+                    <ChevronRight className="w-4 h-4 text-[#A3A297] shrink-0" />
                   </button>
                 ))}
               </div>

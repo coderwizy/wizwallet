@@ -1,10 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { useEmpire } from '../../context/EmpireContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Zap, Shield, Palette, Lock, CheckCircle2, AlertCircle,
   Trash2, Sliders, Database, KeyRound, RefreshCw, Smartphone,
-  Play, Pause
+  Play, Pause, Download, Upload, FileSpreadsheet, Eye, EyeOff
 } from 'lucide-react';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
@@ -12,12 +12,14 @@ import Modal from '../../components/ui/Modal';
 import Badge from '../../components/ui/Badge';
 import Input from '../../components/ui/Input';
 import ConfirmationDialog from '../../components/ui/ConfirmationDialog';
+import { downloadEmpireBackupFile, restoreEmpireBackupFile, exportToCSV } from '../../utils/exportImport';
 
 const SettingsHub = () => {
   const {
     theme, setTheme, logout, wipeAllData, changePassword,
     config, setConfig, user,
-    isPulseActive, stopPulse, startPulse, togglePulse
+    isPulseActive, stopPulse, startPulse, togglePulse,
+    privacyMode, togglePrivacyMode, transactions
   } = useEmpire();
 
   // Password change state
@@ -26,8 +28,62 @@ const SettingsHub = () => {
   const [pinError, setPinError] = useState('');
   const [pinSuccess, setPinSuccess] = useState(false);
 
+  // Backup & restore state
+  const [backupStatus, setBackupStatus] = useState({ message: '', error: false });
+  const fileInputRef = useRef(null);
+
   // Wipe data confirmation modal
   const [showWipeModal, setShowWipeModal] = useState(false);
+
+  const handleDownloadBackup = async () => {
+    try {
+      setBackupStatus({ message: 'Generating full backup payload...', error: false });
+      await downloadEmpireBackupFile();
+      setBackupStatus({ message: 'Empire backup downloaded successfully.', error: false });
+      setTimeout(() => setBackupStatus({ message: '', error: false }), 4000);
+    } catch (err) {
+      setBackupStatus({ message: 'Failed to generate backup: ' + err.message, error: true });
+    }
+  };
+
+  const handleFileRestore = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setBackupStatus({ message: 'Reading and validating backup file...', error: false });
+      const text = await file.text();
+      const res = await restoreEmpireBackupFile(text);
+      if (res.success) {
+        setBackupStatus({ message: 'Backup restored! Reloading application...', error: false });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1200);
+      } else {
+        setBackupStatus({ message: res.error || 'Failed to restore backup.', error: true });
+      }
+    } catch (err) {
+      setBackupStatus({ message: 'Error parsing file: ' + err.message, error: true });
+    }
+  };
+
+  const handleExportTransactionsCSV = () => {
+    if (!transactions || !transactions.length) {
+      setBackupStatus({ message: 'No transactions found to export.', error: true });
+      return;
+    }
+    const headers = {
+      date: 'Date & Time',
+      type: 'Transaction Type',
+      title: 'Description',
+      amount: 'Amount ($)',
+      category: 'Category',
+      reference: 'Reference ID'
+    };
+    exportToCSV(`wizwallet-ledger-${new Date().toISOString().split('T')[0]}`, transactions, headers);
+    setBackupStatus({ message: 'Transactions exported to CSV successfully.', error: false });
+    setTimeout(() => setBackupStatus({ message: '', error: false }), 4000);
+  };
 
   const handlePinChange = (e) => {
     e.preventDefault();
@@ -182,6 +238,23 @@ const SettingsHub = () => {
 
             <div className="flex items-center justify-between p-3.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
               <div>
+                <p className="text-xs font-bold text-[#22251F]">Privacy Mode (Mask Balances)</p>
+                <p className="text-[11px] text-[#77786F]">Hide financial metrics with dots (••••••) for shoulder surfing protection</p>
+              </div>
+              <button
+                onClick={togglePrivacyMode}
+                className={`w-11 h-6 rounded-full p-0.5 transition-colors cursor-pointer ${
+                  privacyMode ? 'bg-[#526B56]' : 'bg-[#D5D2C8]'
+                }`}
+              >
+                <div className={`w-5 h-5 rounded-full bg-white shadow-2xs transition-transform ${
+                  privacyMode ? 'translate-x-5' : 'translate-x-0'
+                }`} />
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between p-3.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
+              <div>
                 <p className="text-xs font-bold text-[#22251F]">Haptic & Motion Feedback</p>
                 <p className="text-[11px] text-[#77786F]">Subtle feedback on financial transactions</p>
               </div>
@@ -195,6 +268,97 @@ const SettingsHub = () => {
                   config?.vibration ? 'translate-x-5' : 'translate-x-0'
                 }`} />
               </button>
+            </div>
+          </div>
+        </Card>
+
+        {/* ── SECTION 2.5: BACKUP, EXPORT & RESTORE ── */}
+        <Card className="overflow-hidden p-0 border border-[#EAE8DF] bg-white">
+          <div className="p-5 border-b border-[#EAE8DF] bg-[#FCFBF8] flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56] flex items-center justify-center">
+                <Download className="w-4 h-4" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-[#22251F]">Backup & Data Portability</h3>
+                <p className="text-[11px] text-[#77786F]">Full local JSON snapshots and ledger CSV downloads</p>
+              </div>
+            </div>
+            <Badge variant="success">Local-First Engine</Badge>
+          </div>
+
+          <div className="p-5 space-y-4">
+            {backupStatus.message && (
+              <div className={`p-3 rounded-xl border text-xs font-semibold flex items-center gap-2 ${
+                backupStatus.error
+                  ? 'bg-[#FCEEED] border-[#E8C5C3] text-[#C66D65]'
+                  : 'bg-[#EDF2E9] border-[#C8D9CA] text-[#66866A]'
+              }`}>
+                {backupStatus.error ? <AlertCircle className="w-4 h-4 shrink-0" /> : <CheckCircle2 className="w-4 h-4 shrink-0" />}
+                <span>{backupStatus.message}</span>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {/* Full JSON Export */}
+              <div className="p-4 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF] flex flex-col justify-between space-y-3">
+                <div>
+                  <h4 className="text-xs font-bold text-[#22251F]">Full Empire Backup</h4>
+                  <p className="text-[11px] text-[#77786F] mt-0.5">Exports all 16 domains + IndexedDB Vault files into single JSON</p>
+                </div>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  icon={Download}
+                  onClick={handleDownloadBackup}
+                  className="w-full text-xs"
+                >
+                  Download JSON
+                </Button>
+              </div>
+
+              {/* Restore JSON Backup */}
+              <div className="p-4 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF] flex flex-col justify-between space-y-3">
+                <div>
+                  <h4 className="text-xs font-bold text-[#22251F]">Restore from Backup</h4>
+                  <p className="text-[11px] text-[#77786F] mt-0.5">Restore all local state and encrypted vault documents</p>
+                </div>
+                <div>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileRestore}
+                    accept=".json"
+                    className="hidden"
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    icon={Upload}
+                    onClick={() => fileInputRef.current?.click()}
+                    className="w-full text-xs"
+                  >
+                    Select Backup File
+                  </Button>
+                </div>
+              </div>
+
+              {/* Export CSV */}
+              <div className="p-4 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF] flex flex-col justify-between space-y-3">
+                <div>
+                  <h4 className="text-xs font-bold text-[#22251F]">Export Ledger (CSV)</h4>
+                  <p className="text-[11px] text-[#77786F] mt-0.5">Download full audit history with dates and balances for Excel</p>
+                </div>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  icon={FileSpreadsheet}
+                  onClick={handleExportTransactionsCSV}
+                  className="w-full text-xs"
+                >
+                  Export CSV
+                </Button>
+              </div>
             </div>
           </div>
         </Card>

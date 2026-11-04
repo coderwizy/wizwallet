@@ -34,9 +34,10 @@ const FINTECH_PALETTE = [
 ];
 
 const BusinessHub = () => {
-  const { businesses, setBusinesses, addBusiness, removeBusiness } = useEmpire();
+  const { businesses, setBusinesses, addBusiness, removeBusiness, wallet, setWallet, addTransaction, privacyMode } = useEmpire();
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [editingBiz, setEditingBiz] = useState(null);
+  const [detailBiz, setDetailBiz] = useState(null);
   const [deleteConfirmBiz, setDeleteConfirmBiz] = useState(null);
   const [hoveredVenture, setHoveredVenture] = useState(null);
   const [search, setSearch] = useState('');
@@ -140,6 +141,44 @@ const BusinessHub = () => {
     setBusinesses(prev => prev.map(b =>
       b.id === id ? { ...b, status: b.status === 'Active' ? 'Paused' : 'Active' } : b
     ));
+  };
+
+  const handleUpgradeCapacity = (biz) => {
+    const upgradeCost = 25000;
+    if ((wallet?.balance || 0) < upgradeCost) {
+      alert('Insufficient liquid funds in Smart Wallet ($25,000 required).');
+      return;
+    }
+    setWallet(prev => ({ ...prev, balance: prev.balance - upgradeCost }));
+    setBusinesses(prev => prev.map(b => {
+      if (b.id !== biz.id) return b;
+      const newIncome = Math.round((b.income || 0) * 1.15);
+      const newEmployees = (b.employees || 10) + 4;
+      const newValuation = Math.round((b.valuation || (b.income * 30)) * 1.2);
+      return {
+        ...b,
+        income: newIncome,
+        employees: newEmployees,
+        valuation: newValuation
+      };
+    }));
+    addTransaction('Business Hub', 'Debit', upgradeCost, `Capital Expansion: ${biz.name}`);
+    if (detailBiz && detailBiz.id === biz.id) {
+      setDetailBiz(prev => ({
+        ...prev,
+        income: Math.round((prev.income || 0) * 1.15),
+        employees: (prev.employees || 10) + 4,
+        valuation: Math.round((prev.valuation || (prev.income * 30)) * 1.2)
+      }));
+    }
+  };
+
+  const handleSellEnterprise = (biz) => {
+    const val = Number(biz.valuation) || Math.round((Number(biz.income || 0) - Number(biz.expense || 0)) * 12 * 5);
+    setWallet(prev => ({ ...prev, balance: prev.balance + val }));
+    removeBusiness(biz.id);
+    addTransaction('Business Hub', 'Credit', val, `Divested Enterprise: ${biz.name}`);
+    setDetailBiz(null);
   };
 
   const netMarginPct = totalIncome > 0 ? Math.round((netMargin / totalIncome) * 100) : 0;
@@ -297,17 +336,28 @@ const BusinessHub = () => {
                       </p>
                       <p className="text-[10px] text-[#A3A297] font-medium">{marginPct}% margin</p>
                     </div>
-                    <button
-                      onClick={() => toggleStatus(biz.id)}
-                      className={`text-xs font-semibold px-3 py-1.5 rounded-xl border transition-all cursor-pointer flex items-center gap-1.5 ${
-                        isActive
-                          ? 'border-[#EAE8DF] text-[#77786F] hover:bg-[#F1EFE7]'
-                          : 'border-[#526B56] text-[#526B56] bg-[#EDF2E9]'
-                      }`}
-                    >
-                      {isActive ? <PauseCircle className="w-3.5 h-3.5" /> : <PlayCircle className="w-3.5 h-3.5" />}
-                      <span>{isActive ? 'Pause' : 'Resume'}</span>
-                    </button>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => setDetailBiz(biz)}
+                        className="text-xs font-semibold px-2.5 py-1.5 rounded-xl border border-[#D5DFD1] text-[#526B56] bg-[#EDF2E9] hover:bg-[#D5DFD1] transition-all cursor-pointer"
+                        title="Manage Enterprise Dashboard"
+                      >
+                        Manage
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => toggleStatus(biz.id)}
+                        className={`text-xs font-semibold px-2.5 py-1.5 rounded-xl border transition-all cursor-pointer flex items-center gap-1 ${
+                          isActive
+                            ? 'border-[#EAE8DF] text-[#77786F] hover:bg-[#F1EFE7]'
+                            : 'border-[#526B56] text-[#526B56] bg-[#EDF2E9]'
+                        }`}
+                      >
+                        {isActive ? <PauseCircle className="w-3.5 h-3.5" /> : <PlayCircle className="w-3.5 h-3.5" />}
+                        <span>{isActive ? 'Pause' : 'Resume'}</span>
+                      </button>
+                    </div>
                   </div>
                 </Card>
               );
@@ -558,6 +608,89 @@ const BusinessHub = () => {
           </form>
         )}
       </Modal>
+
+      {/* ── ENTERPRISE DRILLDOWN & ACQUISITION MODAL ── */}
+      {detailBiz && (
+        <Modal
+          isOpen={true}
+          onClose={() => setDetailBiz(null)}
+          title={`Enterprise Command: ${detailBiz.name}`}
+          subtitle="Corporate structure, valuation metrics, and expansion simulations"
+        >
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl">
+                <span className="text-[10px] font-bold uppercase text-[#A3A297]">Enterprise Valuation</span>
+                <p className="text-base font-extrabold text-[#22251F] tabular-nums mt-0.5">
+                  ${(detailBiz.valuation || (Math.max(0, (detailBiz.income || 0) - (detailBiz.expense || 0)) * 60)).toLocaleString()}
+                </p>
+              </div>
+
+              <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl">
+                <span className="text-[10px] font-bold uppercase text-[#A3A297]">Workforce Headcount</span>
+                <p className="text-base font-extrabold text-[#526B56] tabular-nums mt-0.5">
+                  {detailBiz.employees || 14} Employees
+                </p>
+              </div>
+
+              <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl col-span-2 sm:col-span-1">
+                <span className="text-[10px] font-bold uppercase text-[#A3A297]">Operational Branches</span>
+                <p className="text-base font-extrabold text-[#4A7C8A] tabular-nums mt-0.5">
+                  {detailBiz.branches || 2} Commercial Nodes
+                </p>
+              </div>
+            </div>
+
+            <div className="p-3.5 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl space-y-2 text-xs">
+              <div className="flex justify-between items-center">
+                <span className="text-[#77786F]">Monthly Gross Income:</span>
+                <span className="font-bold text-[#526B56] tabular-nums">+${(detailBiz.income || 0).toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-[#77786F]">Operating Burn & Payroll:</span>
+                <span className="font-bold text-[#C66D65] tabular-nums">-${(detailBiz.expense || 0).toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between items-center pt-2 border-t border-[#EAE8DF]">
+                <span className="font-bold text-[#22251F]">Monthly Operating Net:</span>
+                <span className="font-extrabold text-sm text-[#526B56] tabular-nums">
+                  +${((detailBiz.income || 0) - (detailBiz.expense || 0)).toLocaleString()}
+                </span>
+              </div>
+            </div>
+
+            {/* Strategic Expansion Controls */}
+            <div className="p-3.5 bg-[#EDF2E9] border border-[#D5DFD1] rounded-xl space-y-3">
+              <div>
+                <h4 className="text-xs font-bold text-[#526B56]">Strategic Expansion & Reinvestment</h4>
+                <p className="text-[11px] text-[#77786F] mt-0.5">
+                  Inject $25,000 from Smart Wallet to scale workforce and boost monthly yields by 15%.
+                </p>
+              </div>
+              <Button
+                type="button"
+                variant="primary"
+                className="w-full py-2 text-xs"
+                onClick={() => handleUpgradeCapacity(detailBiz)}
+              >
+                Execute $25k Capital Expansion (+15% Yield)
+              </Button>
+            </div>
+
+            {/* Divestment Simulation */}
+            <div className="pt-2 flex justify-between items-center border-t border-[#EAE8DF]">
+              <span className="text-xs text-[#77786F]">Divest and liquidate enterprise:</span>
+              <Button
+                type="button"
+                variant="danger"
+                size="sm"
+                onClick={() => handleSellEnterprise(detailBiz)}
+              >
+                Liquidate Venture into Vault
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

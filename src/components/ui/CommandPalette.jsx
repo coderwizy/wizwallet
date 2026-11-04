@@ -3,7 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search, LayoutDashboard, Wallet, Landmark, Briefcase,
   Layers, Users, History, Settings, ArrowRight, Zap,
-  Send, ArrowLeftRight, Download, Plus, X
+  Send, ArrowLeftRight, Download, Plus, X,
+  TrendingUp, Building2, PieChart, Bot, LineChart,
+  FileSpreadsheet, FolderLock, Target, Eye, EyeOff, Play, Pause
 } from 'lucide-react';
 import { useEmpire } from '../../context/EmpireContext';
 
@@ -12,7 +14,7 @@ const CommandPalette = ({ isOpen, onClose, setActiveTab, onTriggerAction }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef(null);
   const listRef = useRef(null);
-  const { businesses, sectors, setSectors, transactions } = useEmpire();
+  const { setSectors, privacyMode, togglePrivacyMode, isPulseActive, togglePulse } = useEmpire();
 
   useEffect(() => {
     if (isOpen) {
@@ -28,15 +30,33 @@ const CommandPalette = ({ isOpen, onClose, setActiveTab, onTriggerAction }) => {
 
   const items = useMemo(() => {
     const list = [
-      { id: 'nav-dashboard', category: 'Navigation', title: 'Dashboard & Overview', icon: LayoutDashboard, action: () => { setActiveTab('dashboard'); onClose(); } },
-      { id: 'nav-wallet', category: 'Navigation', title: 'Smart Wallet & Liquidity Vault', icon: Wallet, action: () => { setActiveTab('wallet'); onClose(); } },
-      { id: 'nav-bank', category: 'Navigation', title: 'Global Bank & APY Reserve', icon: Landmark, action: () => { setActiveTab('bank'); onClose(); } },
-      { id: 'nav-business', category: 'Navigation', title: 'Business Ventures Hub', icon: Briefcase, action: () => { setActiveTab('business'); onClose(); } },
-      { id: 'nav-sectors', category: 'Navigation', title: '30 Industrial Sectors', icon: Layers, action: () => { setActiveTab('sectors'); onClose(); } },
-      { id: 'nav-family', category: 'Navigation', title: 'Family Wealth & Council Trust', icon: Users, action: () => { setActiveTab('family'); onClose(); } },
-      { id: 'nav-ledger', category: 'Navigation', title: 'Global Ledger & Transactions', icon: History, action: () => { setActiveTab('transactions'); onClose(); } },
-      { id: 'nav-settings', category: 'Navigation', title: 'Settings & Security Control', icon: Settings, action: () => { setActiveTab('settings'); onClose(); } },
+      // Navigation: Command & Intelligence
+      { id: 'nav-dashboard', category: 'Navigation · Intelligence', title: 'Command Center & God Mode Overview', icon: LayoutDashboard, action: () => { setActiveTab('dashboard'); onClose(); } },
+      { id: 'nav-commander', category: 'Navigation · Intelligence', title: 'AI Empire Commander & Local Intelligence', icon: Bot, action: () => { setActiveTab('commander'); onClose(); } },
+      { id: 'nav-simulator', category: 'Navigation · Intelligence', title: 'Future Wealth Simulator & Growth Models', icon: LineChart, action: () => { setActiveTab('simulator'); onClose(); } },
+      { id: 'nav-goals', category: 'Navigation · Intelligence', title: 'Wealth Goals & Empire Milestone Missions', icon: Target, action: () => { setActiveTab('goals'); onClose(); } },
 
+      // Navigation: Liquid & Treasury
+      { id: 'nav-wallet', category: 'Navigation · Treasury', title: 'Smart Wallet & Multi-Currency Liquidity', icon: Wallet, action: () => { setActiveTab('wallet'); onClose(); } },
+      { id: 'nav-bank', category: 'Navigation · Treasury', title: 'Global Bank & High-Yield APY Reserves', icon: Landmark, action: () => { setActiveTab('bank'); onClose(); } },
+      { id: 'nav-expenses', category: 'Navigation · Treasury', title: 'Expense & Budget Tracking Center', icon: PieChart, action: () => { setActiveTab('expenses'); onClose(); } },
+      { id: 'nav-tax', category: 'Navigation · Treasury', title: 'Tax Planning & Multi-Jurisdiction Hub', icon: FileSpreadsheet, action: () => { setActiveTab('tax'); onClose(); } },
+
+      // Navigation: Empire Assets
+      { id: 'nav-investments', category: 'Navigation · Assets', title: 'Investment & Stock Market Portfolio', icon: TrendingUp, action: () => { setActiveTab('investments'); onClose(); } },
+      { id: 'nav-realestate', category: 'Navigation · Assets', title: 'Real Estate & Property Portfolio', icon: Building2, action: () => { setActiveTab('realestate'); onClose(); } },
+      { id: 'nav-business', category: 'Navigation · Assets', title: 'Corporate Ventures & 13 Enterprises', icon: Briefcase, action: () => { setActiveTab('business'); onClose(); } },
+      { id: 'nav-sectors', category: 'Navigation · Assets', title: '30 Advanced Industrial Sectors', icon: Layers, action: () => { setActiveTab('sectors'); onClose(); } },
+
+      // Navigation: Governance & System
+      { id: 'nav-family', category: 'Navigation · Governance', title: 'Family Wealth Office & Governance Trust', icon: Users, action: () => { setActiveTab('family'); onClose(); } },
+      { id: 'nav-vault', category: 'Navigation · Governance', title: 'Document & Encrypted Asset Vault (IndexedDB)', icon: FolderLock, action: () => { setActiveTab('vault'); onClose(); } },
+      { id: 'nav-ledger', category: 'Navigation · Governance', title: 'Global Ledger & Immutable Audit Trail', icon: History, action: () => { setActiveTab('transactions'); onClose(); } },
+      { id: 'nav-settings', category: 'Navigation · Governance', title: 'System Settings & Security Command', icon: Settings, action: () => { setActiveTab('settings'); onClose(); } },
+
+      // Quick Actions
+      { id: 'act-privacy', category: 'Quick Action', title: privacyMode ? 'Disable Privacy Mode (Reveal Balances)' : 'Enable Privacy Mode (Mask Balances)', icon: privacyMode ? EyeOff : Eye, action: () => { togglePrivacyMode?.(); onClose(); } },
+      { id: 'act-pulse', category: 'Quick Action', title: isPulseActive ? 'Pause Simulation Pulse Engine' : 'Resume Simulation Pulse Engine', icon: isPulseActive ? Pause : Play, action: () => { togglePulse?.(); onClose(); } },
       { id: 'act-transfer', category: 'Quick Action', title: 'Transfer Funds (Wallet ⇄ Bank)', icon: ArrowLeftRight, action: () => { setActiveTab('wallet'); onClose(); onTriggerAction?.('transfer'); } },
       { id: 'act-pay', category: 'Quick Action', title: 'Send P2P Payment', icon: Send, action: () => { setActiveTab('wallet'); onClose(); onTriggerAction?.('pay'); } },
       { id: 'act-add-biz', category: 'Quick Action', title: 'Launch New Corporate Venture', icon: Plus, action: () => { setActiveTab('business'); onClose(); onTriggerAction?.('add-business'); } },
@@ -58,7 +78,7 @@ const CommandPalette = ({ isOpen, onClose, setActiveTab, onTriggerAction }) => {
       item.title.toLowerCase().includes(q) ||
       item.category.toLowerCase().includes(q)
     );
-  }, [query, setActiveTab, onClose, onTriggerAction, setSectors]);
+  }, [query, setActiveTab, onClose, onTriggerAction, setSectors, privacyMode, togglePrivacyMode, isPulseActive, togglePulse]);
 
   useEffect(() => {
     setSelectedIndex(0);
@@ -172,7 +192,7 @@ const CommandPalette = ({ isOpen, onClose, setActiveTab, onTriggerAction }) => {
               <span>Use <kbd className="px-1 py-0.2 bg-white border border-[#EAE8DF] rounded text-[9px] font-mono">↑</kbd> <kbd className="px-1 py-0.2 bg-white border border-[#EAE8DF] rounded text-[9px] font-mono">↓</kbd> to navigate</span>
               <span><kbd className="px-1 py-0.2 bg-white border border-[#EAE8DF] rounded text-[9px] font-mono">↵</kbd> to select</span>
             </div>
-            <span>WizWallet v5.0</span>
+            <span>WizWallet 3.0</span>
           </div>
         </motion.div>
       </div>

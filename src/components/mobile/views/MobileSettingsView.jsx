@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useEmpire } from '../../../context/EmpireContext';
-import { Zap, Shield, Lock, Trash2, CheckCircle2, AlertCircle, Database, LogOut } from 'lucide-react';
+import { Zap, Shield, Lock, Trash2, CheckCircle2, AlertCircle, Database, LogOut, Download, Upload, Eye, EyeOff } from 'lucide-react';
 import MobileActionSheet from '../MobileActionSheet';
 import Card from '../../ui/Card';
 import Button from '../../ui/Button';
 import Input from '../../ui/Input';
 import ConfirmationDialog from '../../ui/ConfirmationDialog';
+import { downloadEmpireBackupFile, restoreEmpireBackupFile } from '../../../utils/exportImport';
 
 const MobileSettingsView = () => {
   const {
     logout, wipeAllData, changePassword,
     config, setConfig, user,
-    isPulseActive, togglePulse
+    isPulseActive, togglePulse,
+    privacyMode, togglePrivacyMode
   } = useEmpire();
 
   // Password sheet
@@ -20,8 +22,41 @@ const MobileSettingsView = () => {
   const [pinError, setPinError] = useState('');
   const [pinSuccess, setPinSuccess] = useState(false);
 
+  // Backup & Restore
+  const [backupMsg, setBackupMsg] = useState('');
+  const fileInputRef = useRef(null);
+
   // Reset dialog
   const [showResetDialog, setShowResetDialog] = useState(false);
+
+  const handleDownload = async () => {
+    try {
+      setBackupMsg('Exporting backup...');
+      await downloadEmpireBackupFile();
+      setBackupMsg('Backup downloaded successfully!');
+      setTimeout(() => setBackupMsg(''), 3000);
+    } catch (e) {
+      setBackupMsg('Backup failed: ' + e.message);
+    }
+  };
+
+  const handleRestore = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      setBackupMsg('Restoring backup...');
+      const text = await file.text();
+      const res = await restoreEmpireBackupFile(text);
+      if (res.success) {
+        setBackupMsg('Restored! Reloading...');
+        setTimeout(() => window.location.reload(), 1200);
+      } else {
+        setBackupMsg('Restore failed: ' + res.error);
+      }
+    } catch (err) {
+      setBackupMsg('File read error: ' + err.message);
+    }
+  };
 
   const handlePasswordChange = (e) => {
     e.preventDefault();
@@ -121,6 +156,25 @@ const MobileSettingsView = () => {
 
         <div className="flex items-center justify-between py-1">
           <div>
+            <p className="text-xs font-bold text-[#22251F]">Privacy Mode (Mask Figures)</p>
+            <p className="text-[10px] text-[#77786F]">Hide balances with dots</p>
+          </div>
+          <button
+            type="button"
+            onClick={togglePrivacyMode}
+            className={`w-10 h-5.5 rounded-full p-0.5 transition-colors cursor-pointer ${
+              privacyMode ? 'bg-[#526B56]' : 'bg-[#D5D2C8]'
+            }`}
+            aria-label="Toggle Privacy Mode"
+          >
+            <div className={`w-4.5 h-4.5 rounded-full bg-white shadow-2xs transition-transform ${
+              privacyMode ? 'translate-x-4.5' : 'translate-x-0'
+            }`} />
+          </button>
+        </div>
+
+        <div className="flex items-center justify-between py-1">
+          <div>
             <p className="text-xs font-bold text-[#22251F]">Auto-Save to LocalStorage</p>
             <p className="text-[10px] text-[#77786F]">Preserves changes continuously</p>
           </div>
@@ -136,6 +190,54 @@ const MobileSettingsView = () => {
               config?.autoSave ? 'translate-x-4.5' : 'translate-x-0'
             }`} />
           </button>
+        </div>
+      </Card>
+
+      {/* ── Backup & Restore ── */}
+      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
+        <div className="flex items-center gap-2.5 pb-2 border-b border-[#EAE8DF]">
+          <div className="p-2 rounded-xl bg-[#EDF2E9] text-[#526B56] border border-[#D5DFD1]">
+            <Download className="w-4 h-4" />
+          </div>
+          <div>
+            <h3 className="text-xs font-bold text-[#22251F]">Backup & Portability</h3>
+            <p className="text-[10px] text-[#77786F]">Local-first JSON export/restore</p>
+          </div>
+        </div>
+
+        {backupMsg && (
+          <div className="p-2.5 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56] text-[11px] font-semibold">
+            {backupMsg}
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 gap-2 pt-1">
+          <Button
+            variant="primary"
+            size="sm"
+            icon={Download}
+            onClick={handleDownload}
+            className="w-full justify-center text-xs"
+          >
+            Export JSON
+          </Button>
+
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleRestore}
+            accept=".json"
+            className="hidden"
+          />
+          <Button
+            variant="outline"
+            size="sm"
+            icon={Upload}
+            onClick={() => fileInputRef.current?.click()}
+            className="w-full justify-center text-xs"
+          >
+            Restore JSON
+          </Button>
         </div>
       </Card>
 

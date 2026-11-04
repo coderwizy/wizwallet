@@ -10,6 +10,14 @@ import MobileSectorsView from './views/MobileSectorsView';
 import MobileLedgerView from './views/MobileLedgerView';
 import MobileFamilyView from './views/MobileFamilyView';
 import MobileSettingsView from './views/MobileSettingsView';
+import MobileInvestmentsView from './views/MobileInvestmentsView';
+import MobileRealEstateView from './views/MobileRealEstateView';
+import MobileExpenseView from './views/MobileExpenseView';
+import MobileCommanderView from './views/MobileCommanderView';
+import MobileSimulatorView from './views/MobileSimulatorView';
+import MobileTaxView from './views/MobileTaxView';
+import MobileVaultView from './views/MobileVaultView';
+import MobileGoalsView from './views/MobileGoalsView';
 
 const MobileAppLayout = ({ activeTab, setActiveTab }) => {
   const renderMobileView = () => {
@@ -17,10 +25,18 @@ const MobileAppLayout = ({ activeTab, setActiveTab }) => {
       case 'dashboard': return <MobileDashboardView setActiveTab={setActiveTab} />;
       case 'wallet': return <MobileWalletView setActiveTab={setActiveTab} />;
       case 'bank': return <MobileBankView setActiveTab={setActiveTab} />;
+      case 'investments': return <MobileInvestmentsView />;
+      case 'realestate': return <MobileRealEstateView />;
       case 'business': return <MobileBusinessView />;
       case 'sectors': return <MobileSectorsView />;
-      case 'transactions': return <MobileLedgerView />;
+      case 'expenses': return <MobileExpenseView />;
       case 'family': return <MobileFamilyView />;
+      case 'commander': return <MobileCommanderView />;
+      case 'simulator': return <MobileSimulatorView />;
+      case 'tax': return <MobileTaxView />;
+      case 'vault': return <MobileVaultView />;
+      case 'goals': return <MobileGoalsView />;
+      case 'transactions': return <MobileLedgerView />;
       case 'settings': return <MobileSettingsView />;
       default: return <MobileDashboardView setActiveTab={setActiveTab} />;
     }
