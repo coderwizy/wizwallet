@@ -13,7 +13,7 @@ import Button from '../../components/ui/Button';
 import Badge from '../../components/ui/Badge';
 import Modal from '../../components/ui/Modal';
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, currencySymbol = "₹" }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white border border-[#EAE8DF] rounded-xl p-3 shadow-lg">
@@ -21,7 +21,7 @@ const CustomTooltip = ({ active, payload, label }) => {
           {label}
         </p>
         <p className="text-sm font-extrabold text-[#22251F] tabular-nums">
-          ${Number(payload[0].value).toLocaleString()}
+          {currencySymbol}{Math.round(Number(payload[0].value)).toLocaleString(undefined, { maximumFractionDigits: 0 })}
         </p>
       </div>
     );
@@ -33,7 +33,8 @@ const MainDashboard = ({ setActiveTab }) => {
   const {
     wallet, bank, businesses, sectors, transactions, balanceHistory, user,
     investments, properties, portfolioNetWorth, cashFlowMetrics,
-    privacyMode, togglePrivacyMode, isPulseActive, widgetConfig, setWidgetConfig
+    privacyMode, togglePrivacyMode, isPulseActive, widgetConfig, setWidgetConfig,
+    currencySymbol, toggleCurrency, formatMoney
   } = useEmpire();
 
   const [chartRange, setChartRange] = useState('7d');
@@ -117,10 +118,10 @@ const MainDashboard = ({ setActiveTab }) => {
             </div>
             <div>
               <p className="text-xs font-bold text-[#22251F]">
-                AI Intelligence Briefing: Portfolio Net Worth is ${mask(totalNetWorth.toLocaleString())}
+                AI Intelligence Briefing: Portfolio Net Worth is {formatMoney(totalNetWorth)}
               </p>
               <p className="text-[11px] text-[#526B56] mt-0.5 font-medium">
-                Generating +${mask(cashFlowMetrics.netMonthlyCashflow.toLocaleString())}/mo net cashflow across all assets. All 13 corporate ventures operational.
+                Generating +{formatMoney(cashFlowMetrics.netMonthlyCashflow)}/mo net cashflow across all assets. All 13 corporate ventures operational.
               </p>
             </div>
           </div>
@@ -139,74 +140,78 @@ const MainDashboard = ({ setActiveTab }) => {
       {/* ── Consolidated KPI Overview ── */}
       {isWidgetVisible('kpiOverview') && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="p-5 border border-[#EAE8DF] bg-white">
-            <div className="flex justify-between items-start mb-3">
-              <div className="p-2.5 rounded-xl bg-[#EDF2E9] text-[#526B56]">
-                <DollarSign className="w-4 h-4" />
+          <Card className="p-5 border border-[#EAE8DF] bg-white overflow-hidden min-w-0">
+            <div className="flex justify-between items-start mb-3 gap-2">
+              <div className="w-9 h-9 rounded-xl bg-[#EDF2E9] text-[#526B56] flex items-center justify-center font-black text-sm shrink-0">
+                {currencySymbol}
               </div>
-              <span className={`text-[11px] font-semibold flex items-center gap-1 px-2.5 py-0.5 rounded-full ${
+              <span className={`text-[11px] font-semibold flex items-center gap-1 px-2.5 py-0.5 rounded-full shrink-0 ${
                 isNetWorthUp ? 'text-[#66866A] bg-[#EDF2E9]' : 'text-[#C66D65] bg-[#FCEEED]'
               }`}>
                 {isNetWorthUp ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                 {isNetWorthUp ? '+' : ''}{netWorthChange}%
               </span>
             </div>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Total Sovereign Net Worth</p>
-            <h3 className="text-2xl font-extrabold text-[#22251F] tabular-nums mt-1">
-              ${mask(totalNetWorth.toLocaleString())}
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297] truncate">Total Sovereign Net Worth</p>
+            <h3 className="text-xl sm:text-2xl font-extrabold text-[#22251F] tabular-nums mt-1 truncate" title={formatMoney(totalNetWorth)}>
+              {formatMoney(totalNetWorth)}
             </h3>
             <div className="mt-3 pt-3 border-t border-[#EAE8DF] grid grid-cols-2 gap-2 text-center text-[10px]">
-              <div className="p-1.5 bg-[#FCFBF8] rounded-lg">
-                <span className="text-[#A3A297] block font-semibold">Liquid Vault</span>
-                <span className="font-bold text-[#526B56] tabular-nums">${mask((wallet?.balance || 0).toLocaleString())}</span>
+              <div className="p-1.5 bg-[#FCFBF8] rounded-lg min-w-0 overflow-hidden">
+                <span className="text-[#A3A297] block font-semibold truncate">Liquid Vault</span>
+                <span className="font-bold text-[#526B56] tabular-nums truncate block" title={formatMoney(wallet?.balance || 0)}>
+                  {formatMoney(wallet?.balance || 0)}
+                </span>
               </div>
-              <div className="p-1.5 bg-[#FCFBF8] rounded-lg">
-                <span className="text-[#A3A297] block font-semibold">Bank Reserves</span>
-                <span className="font-bold text-[#526B56] tabular-nums">${mask((bank?.balance || 0).toLocaleString())}</span>
+              <div className="p-1.5 bg-[#FCFBF8] rounded-lg min-w-0 overflow-hidden">
+                <span className="text-[#A3A297] block font-semibold truncate">Bank Reserves</span>
+                <span className="font-bold text-[#526B56] tabular-nums truncate block" title={formatMoney(bank?.balance || 0)}>
+                  {formatMoney(bank?.balance || 0)}
+                </span>
               </div>
             </div>
           </Card>
 
-          <Card className="p-5 border border-[#EAE8DF] bg-white">
-            <div className="flex justify-between items-start mb-3">
-              <div className="p-2.5 rounded-xl bg-[#F3EEF8] text-[#7C5ABF]">
+          <Card className="p-5 border border-[#EAE8DF] bg-white overflow-hidden min-w-0">
+            <div className="flex justify-between items-start mb-3 gap-2">
+              <div className="p-2.5 rounded-xl bg-[#F3EEF8] text-[#7C5ABF] shrink-0">
                 <BarChart3 className="w-4 h-4" />
               </div>
-              <Badge variant="violet">Securities</Badge>
+              <Badge variant="violet" className="shrink-0">Securities</Badge>
             </div>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Investment Portfolio</p>
-            <h3 className="text-2xl font-extrabold text-[#22251F] tabular-nums mt-1">
-              ${mask((breakdown.investmentsValue || 0).toLocaleString())}
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297] truncate">Investment Portfolio</p>
+            <h3 className="text-xl sm:text-2xl font-extrabold text-[#22251F] tabular-nums mt-1 truncate" title={formatMoney(breakdown.investmentsValue || 0)}>
+              {formatMoney(breakdown.investmentsValue || 0)}
             </h3>
-            <p className="text-[11px] text-[#77786F] mt-1">{investments.length} active market positions</p>
+            <p className="text-[11px] text-[#77786F] mt-1 truncate">{investments.length} active market positions</p>
           </Card>
 
-          <Card className="p-5 border border-[#EAE8DF] bg-white">
-            <div className="flex justify-between items-start mb-3">
-              <div className="p-2.5 rounded-xl bg-[#FDF3E3] text-[#C18A48]">
+          <Card className="p-5 border border-[#EAE8DF] bg-white overflow-hidden min-w-0">
+            <div className="flex justify-between items-start mb-3 gap-2">
+              <div className="p-2.5 rounded-xl bg-[#FDF3E3] text-[#C18A48] shrink-0">
                 <Building2 className="w-4 h-4" />
               </div>
-              <Badge variant="accent">Real Estate</Badge>
+              <Badge variant="accent" className="shrink-0">Real Estate</Badge>
             </div>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Real Estate Equity</p>
-            <h3 className="text-2xl font-extrabold text-[#22251F] tabular-nums mt-1">
-              ${mask(((breakdown.realEstateValue || 0) - (breakdown.realEstateDebt || 0)).toLocaleString())}
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297] truncate">Real Estate Equity</p>
+            <h3 className="text-xl sm:text-2xl font-extrabold text-[#22251F] tabular-nums mt-1 truncate" title={formatMoney((breakdown.realEstateValue || 0) - (breakdown.realEstateDebt || 0))}>
+              {formatMoney((breakdown.realEstateValue || 0) - (breakdown.realEstateDebt || 0))}
             </h3>
-            <p className="text-[11px] text-[#77786F] mt-1">Gross assets: ${mask((breakdown.realEstateValue || 0).toLocaleString())}</p>
+            <p className="text-[11px] text-[#77786F] mt-1 truncate">Gross assets: {formatMoney(breakdown.realEstateValue || 0)}</p>
           </Card>
 
-          <Card className="p-5 border border-[#EAE8DF] bg-white">
-            <div className="flex justify-between items-start mb-3">
-              <div className="p-2.5 rounded-xl bg-[#EDF2E9] text-[#526B56]">
+          <Card className="p-5 border border-[#EAE8DF] bg-white overflow-hidden min-w-0">
+            <div className="flex justify-between items-start mb-3 gap-2">
+              <div className="p-2.5 rounded-xl bg-[#EDF2E9] text-[#526B56] shrink-0">
                 <Briefcase className="w-4 h-4" />
               </div>
-              <Badge variant="success">13 Ventures</Badge>
+              <Badge variant="success" className="shrink-0">{businesses.length} Ventures</Badge>
             </div>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Monthly Net Cash Flow</p>
-            <h3 className="text-2xl font-extrabold text-[#526B56] tabular-nums mt-1">
-              +${mask(cashFlowMetrics.netMonthlyCashflow.toLocaleString())}/mo
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297] truncate">Monthly Net Cash Flow</p>
+            <h3 className="text-xl sm:text-2xl font-extrabold text-[#526B56] tabular-nums mt-1 truncate" title={`+${formatMoney(cashFlowMetrics.netMonthlyCashflow)}/mo`}>
+              +{formatMoney(cashFlowMetrics.netMonthlyCashflow)}/mo
             </h3>
-            <p className="text-[11px] text-[#77786F] mt-1">Gross income: ${mask(cashFlowMetrics.totalMonthlyIncome.toLocaleString())}</p>
+            <p className="text-[11px] text-[#77786F] mt-1 truncate">Gross income: {formatMoney(cashFlowMetrics.totalMonthlyIncome)}</p>
           </Card>
         </div>
       )}
