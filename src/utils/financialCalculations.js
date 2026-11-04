@@ -36,17 +36,17 @@ export function calculateNetWorth({
     return acc + Number(prop.loanBalance || 0);
   }, 0);
 
-  // Business ventures enterprise valuation: (net monthly income * 12 * 6 PE multiple) or stated valuation
+  // Business ventures enterprise valuation: (net monthly income * 12 * 1.5 multiple) or stated valuation
   const businessValuation = (businesses || []).reduce((acc, biz) => {
     if (biz.valuation && Number(biz.valuation) > 0) return acc + Number(biz.valuation);
     const monthlyNet = Math.max(0, (Number(biz.income || 0) - Number(biz.expense || 0)));
-    return acc + (monthlyNet * 12 * 5); // 5x annual net earnings multiple
+    return acc + (monthlyNet * 12 * 1.5);
   }, 0);
 
-  // Sector assets capital valuation
+  // Sector assets capital valuation (scaled for hundred-thousands domain)
   const sectorsValuation = (sectors || []).reduce((acc, sec) => {
     const rev = Number(sec.revenue || 0);
-    return acc + (rev * 8); // 8x revenue multiple
+    return acc + (rev * 2);
   }, 0);
 
   const totalAssets = liquidWallet + bankBalance + bankReserveAssets + investmentsValue + realEstateValue + businessValuation + sectorsValuation;
@@ -54,20 +54,20 @@ export function calculateNetWorth({
   const netWorth = totalAssets - totalLiabilities;
 
   return {
-    netWorth: Math.max(0, netWorth),
-    totalNetWorth: Math.max(0, netWorth),
-    totalAssets,
-    totalLiabilities,
+    netWorth: Math.round(Math.max(0, netWorth)),
+    totalNetWorth: Math.round(Math.max(0, netWorth)),
+    totalAssets: Math.round(totalAssets),
+    totalLiabilities: Math.round(totalLiabilities),
     breakdown: {
-      liquidWallet,
-      bankBalance,
-      bankReserveAssets,
-      investmentsValue,
-      realEstateValue,
-      businessValuation,
-      sectorsValuation,
-      bankLoans,
-      realEstateDebt
+      liquidWallet: Math.round(liquidWallet),
+      bankBalance: Math.round(bankBalance),
+      bankReserveAssets: Math.round(bankReserveAssets),
+      investmentsValue: Math.round(investmentsValue),
+      realEstateValue: Math.round(realEstateValue),
+      businessValuation: Math.round(businessValuation),
+      sectorsValuation: Math.round(sectorsValuation),
+      bankLoans: Math.round(bankLoans),
+      realEstateDebt: Math.round(realEstateDebt)
     }
   };
 }
@@ -114,19 +114,19 @@ export function calculateCashFlow({
   const passiveIncome = rentalIncome + investmentDividends + (sectorRevenue * 0.4);
 
   return {
-    totalMonthlyIncome,
-    totalMonthlyExpense,
-    netMonthlyCashflow,
-    passiveIncome,
+    totalMonthlyIncome: Math.round(totalMonthlyIncome),
+    totalMonthlyExpense: Math.round(totalMonthlyExpense),
+    netMonthlyCashflow: Math.round(netMonthlyCashflow),
+    passiveIncome: Math.round(passiveIncome),
     profitMargin: totalMonthlyIncome > 0 ? ((netMonthlyCashflow / totalMonthlyIncome) * 100).toFixed(1) : '0',
     breakdown: {
-      businessIncome,
-      businessExpense,
-      sectorRevenue,
-      rentalIncome,
-      propertyExpenses,
-      investmentDividends,
-      personalExpenses
+      businessIncome: Math.round(businessIncome),
+      businessExpense: Math.round(businessExpense),
+      sectorRevenue: Math.round(sectorRevenue),
+      rentalIncome: Math.round(rentalIncome),
+      propertyExpenses: Math.round(propertyExpenses),
+      investmentDividends: Math.round(investmentDividends),
+      personalExpenses: Math.round(personalExpenses)
     }
   };
 }

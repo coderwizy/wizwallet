@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 720" width="512" height="720">
+  <defs>
+    <linearGradient id="cardBgBack" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141815"/>
+      <stop offset="50%" stop-color="#1E231F"/>
+      <stop offset="100%" stop-color="#111412"/>
+    </linearGradient>
+    <linearGradient id="goldGradBack" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2D06B"/>
+      <stop offset="50%" stop-color="#C59B27"/>
+      <stop offset="100%" stop-color="#E5BE53"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="720" rx="36" fill="url(#cardBgBack)"/>
+
+  <!-- Outer Border -->
+  <rect x="12" y="12" width="488" height="696" rx="28" fill="none" stroke="url(#goldGradBack)" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Top Slot Guide -->
+  <rect x="206" y="28" width="100" height="16" rx="8" fill="#000000" opacity="0.4"/>
+
+  <!-- Magnetic Stripe -->
+  <rect x="0" y="80" width="512" height="85" fill="#0A0C0B"/>
+  <rect x="0" y="90" width="512" height="65" fill="#181B19" opacity="0.6"/>
+
+  <!-- Signature Strip & Hologram -->
+  <g transform="translate(36, 200)">
+    <rect width="320" height="48" rx="6" fill="#F8F7F2"/>
+    <text x="14" y="30" font-family="'Brush Script MT', cursive, sans-serif" font-size="22" font-weight="bold" fill="#22251F">Raghav Sovereign</text>
+    <text x="345" y="30" font-family="monospace" font-size="16" font-weight="900" fill="#F2D06B">9402</text>
+    <text x="0" y="62" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#77786F">AUTHORIZED SIGNATURE · NOT TRANSFERABLE</text>
+  </g>
+
+  <!-- Legal Notice -->
+  <g transform="translate(36, 300)">
+    <text x="0" y="0" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#88928A" letter-spacing="1">SOVEREIGN PRIVILEGE NOTICE</text>
+    <text x="0" y="20" font-family="system-ui, sans-serif" font-size="9" font-weight="400" fill="#667068" width="440">
+      <tspan x="0" dy="0">This sovereign pass is the encrypted property of WizWallet Global Treasury.</tspan>
+      <tspan x="0" dy="16">Use is strictly governed by institutional private wealth protocols.</tspan>
+      <tspan x="0" dy="16">Possession conveys executive terminal authorization across all 16 hubs.</tspan>
+      <tspan x="0" dy="16">If found, deliver to nearest private fiduciary office or sovereign desk.</tspan>
+    </text>
+  </g>
+
+  <!-- Seal / Emblem -->
+  <g transform="translate(256, 470)" text-anchor="middle">
+    <circle cx="0" cy="0" r="42" fill="none" stroke="url(#goldGradBack)" stroke-width="2"/>
+    <circle cx="0" cy="0" r="36" fill="none" stroke="#526B56" stroke-width="1" stroke-dasharray="4 3"/>
+    <text x="0" y="6" font-family="system-ui, sans-serif" font-size="18" font-weight="900" fill="#F2D06B">W</text>
+    <text x="0" y="62" font-family="system-ui, sans-serif" font-size="9" font-weight="800" fill="#C59B27" letter-spacing="2">VERIFIED ASSET CLASS</text>
+  </g>
+
+  <!-- Bottom Brand -->
+  <g transform="translate(256, 620)" text-anchor="middle">
+    <text x="0" y="0" font-family="system-ui, sans-serif" font-size="13" font-weight="800" fill="#FCFBF8" letter-spacing="2">WIZWALLET 3.0 ARCHITECTURE</text>
+    <text x="0" y="18" font-family="monospace" font-size="10" font-weight="600" fill="#526B56" letter-spacing="3">HEX: 0x534F5645524549474E</text>
+  </g>
+</svg>
+

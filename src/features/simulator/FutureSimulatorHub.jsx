@@ -10,16 +10,16 @@ import Card from '../../components/ui/Card';
 import Badge from '../../components/ui/Badge';
 
 const FutureSimulatorHub = () => {
-  const { wallet, bank, portfolioNetWorth, cashFlowMetrics, privacyMode } = useEmpire();
+  const {wallet, bank, portfolioNetWorth, cashFlowMetrics, privacyMode, currencySymbol } = useEmpire();
 
   const [years, setYears] = useState(10);
-  const [monthlyContribution, setMonthlyContribution] = useState(10000);
+  const [monthlyContribution, setMonthlyContribution] = useState(1500);
   const [inflationRate, setInflationRate] = useState(3.0);
   const [activeScenario, setActiveScenario] = useState('Balanced');
 
   // Starting net worth defaulted to actual state
   const actualNetWorth = portfolioNetWorth?.netWorth ?? ((wallet?.balance || 0) + (bank?.balance || 0));
-  const startingCapital = actualNetWorth > 0 ? actualNetWorth : 100000;
+  const startingCapital = actualNetWorth > 0 ? actualNetWorth : 85000;
 
   // Forecast engine
   const forecast = useMemo(() => {
@@ -166,7 +166,7 @@ const FutureSimulatorHub = () => {
               <YAxis
                 stroke="#A3A297"
                 fontSize={11}
-                tickFormatter={val => `$${(val / 1000000).toFixed(1)}M`}
+                tickFormatter={val => val >= 1000000 ? `$${(val / 1000000).toFixed(1)}M` : `$${Math.round(val / 1000)}k`}
               />
               <Tooltip
                 formatter={(val, name) => [privacyMode ? '••••••' : `$${Number(val).toLocaleString()}`, name]}

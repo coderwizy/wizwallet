@@ -21,9 +21,7 @@ const CATEGORY_COLORS = {
 };
 
 const ExpenseHub = () => {
-  const {
-    expenses, addExpense, removeExpense, budgets, updateBudget, privacyMode
-  } = useEmpire();
+  const {expenses, addExpense, removeExpense, budgets, updateBudget, privacyMode, currencySymbol } = useEmpire();
 
   const [scope, setScope] = useState('All'); // 'All', 'Business', 'Personal'
   const [isAddOpen, setIsAddOpen] = useState(false);

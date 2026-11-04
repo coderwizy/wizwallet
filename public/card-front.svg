@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 720" width="512" height="720">
+  <defs>
+    <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E231F"/>
+      <stop offset="50%" stop-color="#28322A"/>
+      <stop offset="100%" stop-color="#141815"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2D06B"/>
+      <stop offset="50%" stop-color="#C59B27"/>
+      <stop offset="100%" stop-color="#E5BE53"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#526B56"/>
+      <stop offset="100%" stop-color="#829E87"/>
+    </linearGradient>
+    <pattern id="cardGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#FFFFFF" stroke-width="0.5" opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="720" rx="36" fill="url(#cardBg)"/>
+  <rect width="512" height="720" rx="36" fill="url(#cardGrid)"/>
+
+  <!-- Top Accent Bar -->
+  <path d="M 0 36 C 0 16.1 16.1 0 36 0 L 476 0 C 495.9 0 512 16.1 512 36 L 512 18 L 0 18 Z" fill="url(#goldGrad)"/>
+  
+  <!-- Outer Border -->
+  <rect x="12" y="12" width="488" height="696" rx="28" fill="none" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Top Lanyard Slot Guide / Watermark -->
+  <rect x="206" y="28" width="100" height="16" rx="8" fill="#000000" opacity="0.3"/>
+
+  <!-- Brand Header -->
+  <g transform="translate(48, 80)">
+    <circle cx="28" cy="28" r="24" fill="url(#goldGrad)"/>
+    <text x="28" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="900" fill="#1E231F" text-anchor="middle">W</text>
+    <text x="68" y="24" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="900" fill="#FCFBF8" letter-spacing="2">WIZWALLET</text>
+    <text x="68" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#C59B27" letter-spacing="3">SOVEREIGN WEALTH TERMINAL</text>
+  </g>
+
+  <!-- Smart Chip Simulation -->
+  <g transform="translate(48, 170)">
+    <rect width="76" height="58" rx="8" fill="url(#goldGrad)"/>
+    <rect x="4" y="4" width="68" height="50" rx="6" fill="#D4AF37"/>
+    <line x1="4" y1="29" x2="72" y2="29" stroke="#9E7811" stroke-width="1.5"/>
+    <line x1="26" y1="4" x2="26" y2="54" stroke="#9E7811" stroke-width="1.5"/>
+    <line x1="50" y1="4" x2="50" y2="54" stroke="#9E7811" stroke-width="1.5"/>
+    <circle cx="38" cy="29" r="8" fill="none" stroke="#9E7811" stroke-width="1.5"/>
+  </g>
+
+  <!-- Holographic NFC Icon -->
+  <g transform="translate(410, 180)" stroke="url(#goldGrad)" stroke-width="2.5" fill="none" stroke-linecap="round">
+    <path d="M 0 0 A 10 10 0 0 1 0 36"/>
+    <path d="M 10 -6 A 18 18 0 0 1 10 42"/>
+    <path d="M 20 -12 A 26 26 0 0 1 20 48"/>
+  </g>
+
+  <!-- Holder Identity Box -->
+  <g transform="translate(48, 275)">
+    <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#88928A" letter-spacing="2">AUTHORITY HOLDER</text>
+    <text x="0" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="26" font-weight="900" fill="#FCFBF8" letter-spacing="1">RAGHAV / EXECUTIVE</text>
+    
+    <text x="0" y="75" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#88928A" letter-spacing="2">SECURITY LEVEL</text>
+    <rect x="0" y="86" width="130" height="24" rx="6" fill="#526B56"/>
+    <text x="65" y="102" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">CLEARANCE: LEVEL 5</text>
+
+    <text x="180" y="75" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#88928A" letter-spacing="2">ISSUED</text>
+    <text x="180" y="103" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="800" fill="#EAE8DF">GEN-2026.11</text>
+  </g>
+
+  <!-- Security Waveform / QR code simulation -->
+  <g transform="translate(48, 445)">
+    <rect width="416" height="70" rx="12" fill="#141815" stroke="#343E36" stroke-width="1"/>
+    <text x="20" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#829E87" letter-spacing="2">TERMINAL ACCESS KEY</text>
+    <text x="20" y="50" font-family="monospace" font-size="15" font-weight="700" fill="#F2D06B" letter-spacing="4">WZ-8849-SOV-9402-KEY</text>
+  </g>
+
+  <!-- Footer Elements -->
+  <g transform="translate(48, 560)">
+    <line x1="0" y1="0" x2="416" y2="0" stroke="#343E36" stroke-width="1"/>
+    
+    <!-- Barcode -->
+    <g transform="translate(0, 25)" fill="#EAE8DF">
+      <rect x="0" y="0" width="3" height="40"/>
+      <rect x="6" y="0" width="2" height="40"/>
+      <rect x="12" y="0" width="6" height="40"/>
+      <rect x="22" y="0" width="2" height="40"/>
+      <rect x="28" y="0" width="4" height="40"/>
+      <rect x="36" y="0" width="8" height="40"/>
+      <rect x="48" y="0" width="3" height="40"/>
+      <rect x="55" y="0" width="5" height="40"/>
+      <rect x="64" y="0" width="2" height="40"/>
+      <rect x="70" y="0" width="6" height="40"/>
+      <rect x="80" y="0" width="3" height="40"/>
+      <rect x="88" y="0" width="4" height="40"/>
+      <rect x="96" y="0" width="7" height="40"/>
+      <rect x="108" y="0" width="2" height="40"/>
+      <rect x="114" y="0" width="5" height="40"/>
+      <rect x="124" y="0" width="4" height="40"/>
+      <rect x="132" y="0" width="2" height="40"/>
+      <rect x="138" y="0" width="6" height="40"/>
+      <rect x="148" y="0" width="4" height="40"/>
+      <rect x="156" y="0" width="2" height="40"/>
+      <rect x="162" y="0" width="5" height="40"/>
+      <rect x="172" y="0" width="3" height="40"/>
+    </g>
+
+    <text x="210" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#FCFBF8">SECURE CRYPTOGRAPHIC TOKEN</text>
+    <text x="210" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="500" fill="#77786F">256-BIT LOCAL ARCHITECTURE</text>
+  </g>
+</svg>
+

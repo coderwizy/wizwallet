@@ -10,10 +10,8 @@ import Button from '../../components/ui/Button';
 import Badge from '../../components/ui/Badge';
 
 const AICommanderHub = () => {
-  const {
-    wallet, bank, businesses, sectors, investments, properties, expenses,
-    portfolioNetWorth, cashFlowMetrics, privacyMode
-  } = useEmpire();
+  const {wallet, bank, businesses, sectors, investments, properties, expenses,
+    portfolioNetWorth, cashFlowMetrics, privacyMode, currencySymbol } = useEmpire();
 
   const [customQuery, setCustomQuery] = useState('');
   const [messages, setMessages] = useState([

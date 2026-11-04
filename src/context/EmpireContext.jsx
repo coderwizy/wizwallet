@@ -4,19 +4,19 @@ import { calculateNetWorth, calculateCashFlow } from '../utils/financialCalculat
 const EmpireContext = createContext();
 
 export const INITIAL_BUSINESSES = [
-  { id: 'smm', name: 'SMM Panel', icon: 'BarChart', desc: 'Automated social media marketing services.', income: 5000, expense: 1200, status: 'Active', growth: 1.05, notes: 'Expanding to TikTok sub-panels.', employees: 4, branches: 1, valuation: 320000 },
-  { id: 'video', name: 'Video Bundles', icon: 'Video', desc: 'Pre-edited video bundles for creators.', income: 3200, expense: 800, status: 'Active', growth: 1.02, notes: 'New fitness bundle launch.', employees: 2, branches: 1, valuation: 180000 },
-  { id: 'ecom', name: 'E-commerce Hub', icon: 'ShoppingBag', desc: 'Dropshipping & branded physical products.', income: 12500, expense: 7000, status: 'Active', growth: 1.08, notes: 'Supply chain delays in Q1.', employees: 8, branches: 2, valuation: 680000 },
-  { id: 'courses', name: 'Course Academy', icon: 'BookOpen', desc: 'Digital marketing and design courses.', income: 8400, expense: 1500, status: 'Active', growth: 1.10, notes: 'High ROI on Facebook Ads.', employees: 5, branches: 1, valuation: 450000 },
-  { id: 'factory-st', name: 'Stationary & Textile Factory', icon: 'Factory', desc: 'Large scale manufacturing of high-end stationary and textiles.', income: 45000, expense: 22000, status: 'Active', growth: 1.02, notes: 'New export contract signed.', employees: 42, branches: 2, valuation: 2200000 },
-  { id: 'transport', name: 'Imperial Transport Co.', icon: 'Truck', desc: 'Logistics and heavy-duty shipping network.', income: 28000, expense: 18000, status: 'Active', growth: 1.04, notes: 'Fleet expansion in progress.', employees: 25, branches: 4, valuation: 1400000 },
-  { id: 'tata-deal', name: 'Tata Automobile Dealership', icon: 'Car', desc: 'Flagship dealership for Tata premium vehicles.', income: 65000, expense: 45000, status: 'Active', growth: 1.03, notes: 'EV segment seeing 40% growth.', employees: 34, branches: 2, valuation: 3400000 },
-  { id: 'markets', name: 'Shops & Mini Markets', icon: 'Store', desc: 'Urban retail chain and convenience stores.', income: 15000, expense: 9000, status: 'Active', growth: 1.01, notes: 'Opening 5 new locations.', employees: 18, branches: 6, valuation: 720000 },
-  { id: 'warehousing', name: 'Strategic Warehousing', icon: 'Building2', desc: 'Industrial storage and fulfillment centers.', income: 34000, expense: 14000, status: 'Active', growth: 1.03, notes: '98% capacity utilization.', employees: 16, branches: 3, valuation: 1900000 },
-  { id: 'ai-firm', name: 'AI Services Firm', icon: 'Cpu', desc: 'B2B AI automation and machine learning solutions.', income: 92000, expense: 40000, status: 'Active', growth: 1.15, notes: 'Proprietary LLM in beta.', employees: 28, branches: 2, valuation: 5500000 },
-  { id: 'web-dev', name: 'Elite Web Dev Agency', icon: 'Globe2', desc: 'High-end development for enterprise systems.', income: 55000, expense: 20000, status: 'Active', growth: 1.09, notes: 'Backlog full for 6 months.', employees: 22, branches: 1, valuation: 2800000 },
-  { id: 'social-agency', name: 'Social Media Agency', icon: 'Share2', desc: 'Full-stack social branding and viral growth.', income: 42000, expense: 15000, status: 'Active', growth: 1.12, notes: 'New influencer pod created.', employees: 14, branches: 1, valuation: 1950000 },
-  { id: 'gaming', name: 'Gaming Services', icon: 'Gamepad2', desc: 'E-sports infrastructure and server hosting.', income: 38000, expense: 12000, status: 'Active', growth: 1.14, notes: 'Global tournament sponsorship.', employees: 15, branches: 2, valuation: 2100000 }
+  { id: 'smm', name: 'SMM Panel', icon: 'BarChart', desc: 'Automated social media marketing services.', income: 1500, expense: 400, status: 'Active', growth: 1.05, notes: 'Expanding to TikTok sub-panels.', employees: 4, branches: 1, valuation: 32000 },
+  { id: 'video', name: 'Video Bundles', icon: 'Video', desc: 'Pre-edited video bundles for creators.', income: 1200, expense: 300, status: 'Active', growth: 1.02, notes: 'New fitness bundle launch.', employees: 2, branches: 1, valuation: 22000 },
+  { id: 'ecom', name: 'E-commerce Hub', icon: 'ShoppingBag', desc: 'Dropshipping & branded physical products.', income: 2800, expense: 1200, status: 'Active', growth: 1.08, notes: 'Supply chain delays in Q1.', employees: 8, branches: 2, valuation: 48000 },
+  { id: 'courses', name: 'Course Academy', icon: 'BookOpen', desc: 'Digital marketing and design courses.', income: 1900, expense: 450, status: 'Active', growth: 1.10, notes: 'High ROI on Facebook Ads.', employees: 5, branches: 1, valuation: 35000 },
+  { id: 'factory-st', name: 'Stationary & Textile Factory', icon: 'Factory', desc: 'Manufacturing of custom stationary and textiles.', income: 4200, expense: 2100, status: 'Active', growth: 1.02, notes: 'New export contract signed.', employees: 14, branches: 1, valuation: 68000 },
+  { id: 'transport', name: 'Imperial Transport Co.', icon: 'Truck', desc: 'Logistics and regional cargo transport network.', income: 3200, expense: 1700, status: 'Active', growth: 1.04, notes: 'Fleet expansion in progress.', employees: 12, branches: 2, valuation: 52000 },
+  { id: 'tata-deal', name: 'Automobile Dealership', icon: 'Car', desc: 'Dealership for certified premium vehicles.', income: 5500, expense: 3200, status: 'Active', growth: 1.03, notes: 'EV segment seeing steady growth.', employees: 16, branches: 1, valuation: 78000 },
+  { id: 'markets', name: 'Shops & Mini Markets', icon: 'Store', desc: 'Urban retail chain and convenience outlets.', income: 2400, expense: 1100, status: 'Active', growth: 1.01, notes: 'Opening 2 new locations.', employees: 10, branches: 3, valuation: 42000 },
+  { id: 'warehousing', name: 'Strategic Warehousing', icon: 'Building2', desc: 'Regional storage and fulfillment center.', income: 2900, expense: 1300, status: 'Active', growth: 1.03, notes: '94% capacity utilization.', employees: 8, branches: 1, valuation: 46000 },
+  { id: 'ai-firm', name: 'AI Services Firm', icon: 'Cpu', desc: 'B2B AI automation and machine learning solutions.', income: 6800, expense: 2800, status: 'Active', growth: 1.15, notes: 'Proprietary LLM in beta.', employees: 12, branches: 1, valuation: 95000 },
+  { id: 'web-dev', name: 'Elite Web Dev Agency', icon: 'Globe2', desc: 'High-end development for digital applications.', income: 4500, expense: 1800, status: 'Active', growth: 1.09, notes: 'Backlog full for 3 months.', employees: 10, branches: 1, valuation: 65000 },
+  { id: 'social-agency', name: 'Social Media Agency', icon: 'Share2', desc: 'Full-stack social branding and viral growth.', income: 3400, expense: 1300, status: 'Active', growth: 1.12, notes: 'New influencer campaign.', employees: 8, branches: 1, valuation: 54000 },
+  { id: 'gaming', name: 'Gaming Services', icon: 'Gamepad2', desc: 'E-sports infrastructure and dedicated game servers.', income: 2900, expense: 1100, status: 'Active', growth: 1.14, notes: 'Community tournament launch.', employees: 6, branches: 1, valuation: 44000 }
 ];
 
 export const SECTORS = [
@@ -26,60 +26,60 @@ export const SECTORS = [
 ].map(name => ({
   id: name.toLowerCase().replace(/ /g, '-'),
   name,
-  revenue: Math.floor(Math.random() * 50000) + 10000,
-  expense: Math.floor(Math.random() * 20000) + 5000,
+  revenue: Math.floor(Math.random() * 500) + 150,
+  expense: Math.floor(Math.random() * 200) + 50,
   status: 'Active',
   growth: parseFloat((Math.random() * 2).toFixed(1)),
   history: []
 }));
 
 export const INITIAL_TRANSACTIONS = [
-  { id: 'tx-101', timestamp: Date.now() - 3600000 * 2, module: 'Wallet', type: 'Credit', amount: 15000, description: 'SMM Panel Automated Revenue Dividend', user: 'raghav94' },
-  { id: 'tx-102', timestamp: Date.now() - 3600000 * 6, module: 'Bank', type: 'Credit', amount: 45000, description: 'Stationary & Textile Export Contract Settlement', user: 'raghav94' },
-  { id: 'tx-103', timestamp: Date.now() - 3600000 * 12, module: 'Business', type: 'Debit', amount: 12000, description: 'AI Services Server Hosting Infrastructure', user: 'raghav94' },
-  { id: 'tx-104', timestamp: Date.now() - 3600000 * 24, module: 'Sectors', type: 'Credit', amount: 28500, description: 'Cybersecurity Node Optimization Yield', user: 'raghav94' },
-  { id: 'tx-105', timestamp: Date.now() - 3600000 * 36, module: 'Wallet', type: 'Debit', amount: 5000, description: 'Family Council Allowance Distribution', user: 'raghav94' },
-  { id: 'tx-106', timestamp: Date.now() - 3600000 * 48, module: 'Bank', type: 'Credit', amount: 65000, description: 'Tata Automobile Fleet Sales Distribution', user: 'raghav94' },
-  { id: 'tx-107', timestamp: Date.now() - 3600000 * 72, module: 'Business', type: 'Credit', amount: 12500, description: 'E-commerce Hub Q1 Dividend Payout', user: 'raghav94' },
+  { id: 'tx-101', timestamp: Date.now() - 3600000 * 2, module: 'Wallet', type: 'Credit', amount: 1500, description: 'SMM Panel Automated Revenue Dividend', user: 'raghav94' },
+  { id: 'tx-102', timestamp: Date.now() - 3600000 * 6, module: 'Bank', type: 'Credit', amount: 4500, description: 'Stationary & Textile Export Settlement', user: 'raghav94' },
+  { id: 'tx-103', timestamp: Date.now() - 3600000 * 12, module: 'Business', type: 'Debit', amount: 1200, description: 'AI Services Server Hosting Infrastructure', user: 'raghav94' },
+  { id: 'tx-104', timestamp: Date.now() - 3600000 * 24, module: 'Sectors', type: 'Credit', amount: 2850, description: 'Cybersecurity Node Optimization Yield', user: 'raghav94' },
+  { id: 'tx-105', timestamp: Date.now() - 3600000 * 36, module: 'Wallet', type: 'Debit', amount: 500, description: 'Family Council Allowance Distribution', user: 'raghav94' },
+  { id: 'tx-106', timestamp: Date.now() - 3600000 * 48, module: 'Bank', type: 'Credit', amount: 5500, description: 'Automobile Fleet Sales Distribution', user: 'raghav94' },
+  { id: 'tx-107', timestamp: Date.now() - 3600000 * 72, module: 'Business', type: 'Credit', amount: 1250, description: 'E-commerce Hub Monthly Dividend Payout', user: 'raghav94' },
 ];
 
 export const INITIAL_INVESTMENTS = [
-  { id: 'inv-1', symbol: 'AAPL', name: 'Apple Inc.', type: 'Stock', quantity: 150, purchasePrice: 175.50, currentPrice: 228.40, dividendYield: 0.005, date: '2026-01-15' },
-  { id: 'inv-2', symbol: 'NVDA', name: 'NVIDIA Corporation', type: 'Stock', quantity: 220, purchasePrice: 94.20, currentPrice: 142.60, dividendYield: 0.0003, date: '2026-02-10' },
-  { id: 'inv-3', symbol: 'VOO', name: 'Vanguard S&P 500 ETF', type: 'ETF', quantity: 380, purchasePrice: 420.00, currentPrice: 516.80, dividendYield: 0.014, date: '2025-11-04' },
-  { id: 'inv-4', symbol: 'XAU', name: 'Physical Gold Bullion', type: 'Commodity', quantity: 50, purchasePrice: 2150.00, currentPrice: 2740.00, dividendYield: 0, date: '2025-08-20' },
-  { id: 'inv-5', symbol: 'UST10', name: 'US Treasury 10Y Sovereign Bond', type: 'Bond', quantity: 600, purchasePrice: 980.00, currentPrice: 1018.00, dividendYield: 0.043, date: '2026-03-01' }
+  { id: 'inv-1', symbol: 'AAPL', name: 'Apple Inc.', type: 'Stock', quantity: 25, purchasePrice: 175.50, currentPrice: 228.40, dividendYield: 0.005, date: '2026-01-15' },
+  { id: 'inv-2', symbol: 'NVDA', name: 'NVIDIA Corporation', type: 'Stock', quantity: 40, purchasePrice: 94.20, currentPrice: 142.60, dividendYield: 0.0003, date: '2026-02-10' },
+  { id: 'inv-3', symbol: 'VOO', name: 'Vanguard S&P 500 ETF', type: 'ETF', quantity: 35, purchasePrice: 420.00, currentPrice: 516.80, dividendYield: 0.014, date: '2025-11-04' },
+  { id: 'inv-4', symbol: 'XAU', name: 'Physical Gold Bullion', type: 'Commodity', quantity: 6, purchasePrice: 2150.00, currentPrice: 2740.00, dividendYield: 0, date: '2025-08-20' },
+  { id: 'inv-5', symbol: 'UST10', name: 'US Treasury Sovereign Bond', type: 'Bond', quantity: 30, purchasePrice: 980.00, currentPrice: 1018.00, dividendYield: 0.043, date: '2026-03-01' }
 ];
 
 export const INITIAL_PROPERTIES = [
-  { id: 'prop-1', name: 'Manhattan Sky Penthouse', type: 'Residential', address: '432 Park Ave, New York', purchasePrice: 1800000, currentValuation: 2450000, monthlyRent: 14500, maintenanceMonthly: 1800, taxMonthly: 1200, loanBalance: 650000, mortgagePaymentMonthly: 4200, status: 'Occupied' },
-  { id: 'prop-2', name: 'Cyber City Commercial Plaza', type: 'Commercial', address: 'Bandra-Kurla Complex, Mumbai', purchasePrice: 3200000, currentValuation: 4100000, monthlyRent: 29000, maintenanceMonthly: 3400, taxMonthly: 2600, loanBalance: 1200000, mortgagePaymentMonthly: 7800, status: 'Occupied' },
-  { id: 'prop-3', name: 'Sovereign Logistics Terminal', type: 'Industrial', address: 'Jebel Ali Free Zone, Dubai', purchasePrice: 1500000, currentValuation: 1950000, monthlyRent: 17500, maintenanceMonthly: 1200, taxMonthly: 0, loanBalance: 400000, mortgagePaymentMonthly: 2900, status: 'Occupied' }
+  { id: 'prop-1', name: 'Manhattan Studio Suite', type: 'Residential', address: '432 Park Ave, New York', purchasePrice: 95000, currentValuation: 128000, monthlyRent: 1250, maintenanceMonthly: 150, taxMonthly: 90, loanBalance: 35000, mortgagePaymentMonthly: 320, status: 'Occupied' },
+  { id: 'prop-2', name: 'Cyber City Workspace', type: 'Commercial', address: 'Bandra-Kurla Complex, Mumbai', purchasePrice: 125000, currentValuation: 165000, monthlyRent: 1650, maintenanceMonthly: 210, taxMonthly: 140, loanBalance: 48000, mortgagePaymentMonthly: 410, status: 'Occupied' },
+  { id: 'prop-3', name: 'Free Zone Hub', type: 'Industrial', address: 'Jebel Ali Free Zone, Dubai', purchasePrice: 85000, currentValuation: 115000, monthlyRent: 1050, maintenanceMonthly: 110, taxMonthly: 0, loanBalance: 24000, mortgagePaymentMonthly: 230, status: 'Occupied' }
 ];
 
 export const INITIAL_EXPENSES = [
-  { id: 'exp-1', name: 'Cloud Cluster & Dedicated AI Compute', category: 'Technology', amount: 4800, frequency: 'Monthly', type: 'Business', date: '2026-11-01' },
-  { id: 'exp-2', name: 'Executive Aviation & Fleet Logistics', category: 'Operations', amount: 6200, frequency: 'Monthly', type: 'Business', date: '2026-11-02' },
-  { id: 'exp-3', name: 'Private Estate Security & Maintenance', category: 'Housing', amount: 3200, frequency: 'Monthly', type: 'Personal', date: '2026-11-01' },
-  { id: 'exp-4', name: 'Corporate Legal & Governance Retainer', category: 'Legal', amount: 5000, frequency: 'Monthly', type: 'Business', date: '2026-10-28' },
-  { id: 'exp-5', name: 'Executive Health & Wellness Concierge', category: 'Lifestyle', amount: 1400, frequency: 'Monthly', type: 'Personal', date: '2026-11-03' }
+  { id: 'exp-1', name: 'Cloud Cluster & AI Compute', category: 'Technology', amount: 480, frequency: 'Monthly', type: 'Business', date: '2026-11-01' },
+  { id: 'exp-2', name: 'Regional Shipping Logistics', category: 'Operations', amount: 620, frequency: 'Monthly', type: 'Business', date: '2026-11-02' },
+  { id: 'exp-3', name: 'Residential Security & Maintenance', category: 'Housing', amount: 350, frequency: 'Monthly', type: 'Personal', date: '2026-11-01' },
+  { id: 'exp-4', name: 'Corporate Legal Retainer', category: 'Legal', amount: 500, frequency: 'Monthly', type: 'Business', date: '2026-10-28' },
+  { id: 'exp-5', name: 'Health & Wellness Memberships', category: 'Lifestyle', amount: 220, frequency: 'Monthly', type: 'Personal', date: '2026-11-03' }
 ];
 
 export const INITIAL_BUDGETS = {
-  Technology: 8000,
-  Operations: 15000,
-  Housing: 6000,
-  Legal: 8000,
-  Lifestyle: 4000
+  Technology: 800,
+  Operations: 1200,
+  Housing: 600,
+  Legal: 800,
+  Lifestyle: 400
 };
 
 export const INITIAL_GOALS = {
   xp: 4850,
   level: 6,
-  title: 'Industrial Sovereign',
+  title: 'Empire Executive',
   milestones: [
-    { id: 'm-1', title: '$10,000,000 Total Sovereign Net Worth', target: 10000000, metric: 'netWorth', completed: false, xp: 5000 },
-    { id: 'm-2', title: '$100,000 Monthly Passive Income', target: 100000, metric: 'passiveIncome', completed: false, xp: 3000 },
+    { id: 'm-1', title: '$450,000 Total Net Worth Target', target: 450000, metric: 'netWorth', completed: false, xp: 5000 },
+    { id: 'm-2', title: '$12,000 Monthly Passive Income', target: 12000, metric: 'passiveIncome', completed: false, xp: 3000 },
     { id: 'm-3', title: 'Expand to 15 Active Corporate Ventures', target: 15, metric: 'activeVentures', completed: false, xp: 2000 },
     { id: 'm-4', title: 'Enshrine 5 Family Council Members', target: 5, metric: 'familyMembers', completed: false, xp: 1500 }
   ],
@@ -96,7 +96,17 @@ export const EmpireProvider = ({ children }) => {
     try {
       const stored = localStorage.getItem(key);
       if (!stored || stored === 'undefined' || stored === 'null') return fallback;
-      return JSON.parse(stored);
+      const parsed = JSON.parse(stored);
+      // Auto-recalibrate if user has old multi-million balances in localStorage
+      if (key === 'empire_wallet' && parsed?.balance > 250000) return fallback;
+      if (key === 'empire_bank' && parsed?.balance > 350000) return fallback;
+      if ((key === 'empire_realestate' || key === 'empire_properties') && Array.isArray(parsed) && parsed.some(p => (Number(p.currentValuation || p.purchasePrice) > 500000))) return fallback;
+      if (key === 'empire_investments' && Array.isArray(parsed) && parsed.some(i => (Number(i.quantity || 0) * Number(i.currentPrice || i.purchasePrice || 0)) > 250000)) return fallback;
+      if (key === 'empire_businesses' && Array.isArray(parsed) && parsed.some(b => Number(b.valuation) > 500000)) return fallback;
+      if (key === 'empire_sectors' && Array.isArray(parsed) && parsed.some(s => Number(s.revenue) > 5000)) return fallback;
+      if (key === 'empire_balance_history' && Array.isArray(parsed) && parsed.some(e => Number(e.value) > 1000000)) return fallback;
+      if (key === 'empire_goals' && parsed?.milestones?.[0]?.target > 1000000) return fallback;
+      return parsed;
     } catch (e) {
       console.error(`Failed to recover ${key}`, e);
       return fallback;
@@ -113,14 +123,14 @@ export const EmpireProvider = ({ children }) => {
   });
 
   // 2. Liquid Wallet
-  const [wallet, setWallet] = useState(() => getStored('empire_wallet', { balance: 25000, history: [], growthRate: 'Slow', lastDividend: 0 }));
+  const [wallet, setWallet] = useState(() => getStored('empire_wallet', { balance: 24500, history: [], growthRate: 'Slow', lastDividend: 0 }));
 
   // 3. Global Bank
   const [bank, setBank] = useState(() => getStored('empire_bank', {
-    balance: 100000,
+    balance: 55000,
     history: [],
     interestTier: 'Moderate',
-    assets: 450000,
+    assets: 45000,
     loans: 0,
     forex: { usd: 1, inr: 83.5, aed: 3.67 }
   }));
@@ -235,6 +245,30 @@ export const EmpireProvider = ({ children }) => {
     });
   }, []);
 
+  // 18. Currency Symbol (One-click toggle between ₹ Rupees and $ USD, no conversion)
+  const [currencySymbol, setCurrencySymbolState] = useState(() => {
+    return localStorage.getItem('empire_currency_symbol') || '₹';
+  });
+
+  const setCurrencySymbol = useCallback((sym) => {
+    setCurrencySymbolState(sym);
+    localStorage.setItem('empire_currency_symbol', sym);
+  }, []);
+
+  const toggleCurrency = useCallback(() => {
+    setCurrencySymbolState(prev => {
+      const next = prev === '₹' ? '$' : '₹';
+      localStorage.setItem('empire_currency_symbol', next);
+      return next;
+    });
+  }, []);
+
+  const formatMoney = useCallback((val, options = {}) => {
+    if (privacyMode) return '••••••';
+    const num = Math.round(Number(val) || 0);
+    return `${currencySymbol}${num.toLocaleString(undefined, { maximumFractionDigits: 0, ...options })}`;
+  }, [currencySymbol, privacyMode]);
+
   // Global window console helper for developer testing
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -340,7 +374,7 @@ export const EmpireProvider = ({ children }) => {
       const bankPulseRate = BANK_PULSE_RATES[bankRef.current?.interestTier] || 0.0001;
       setBank(prev => ({
         ...prev,
-        balance: (prev?.balance || 0) + ((prev?.balance || 0) * bankPulseRate)
+        balance: Math.round((prev?.balance || 0) + ((prev?.balance || 0) * bankPulseRate))
       }));
 
       // 4. Wallet Dividends from active businesses & sectors
@@ -385,7 +419,7 @@ export const EmpireProvider = ({ children }) => {
         });
         const newEntry = {
           time: Date.now(),
-          value: netWorthData.netWorth
+          value: Math.round(netWorthData.netWorth)
         };
         const updated = [...prev, newEntry];
         return updated.slice(-30);
@@ -647,7 +681,12 @@ export const EmpireProvider = ({ children }) => {
     config, setConfig,
     // Computed Real-Time Intelligence
     portfolioNetWorth,
-    cashFlowMetrics
+    cashFlowMetrics,
+    // Currency Controls
+    currencySymbol,
+    setCurrencySymbol,
+    toggleCurrency,
+    formatMoney
   }), [
     user, wallet, bank, businesses, sectors, transactions, members,
     theme, balanceHistory, addTransaction, addBusiness, removeBusiness,
@@ -658,7 +697,8 @@ export const EmpireProvider = ({ children }) => {
     expenses, addExpense, removeExpense, budgets, updateBudget,
     taxSettings, updateTaxSettings, logTaxPayment,
     goals, addXP, completeMission, privacyMode, togglePrivacyMode,
-    widgetConfig, portfolioNetWorth, cashFlowMetrics
+    widgetConfig, portfolioNetWorth, cashFlowMetrics,
+    currencySymbol, setCurrencySymbol, toggleCurrency, formatMoney
   ]);
 
   return <EmpireContext.Provider value={value}>{children}</EmpireContext.Provider>;

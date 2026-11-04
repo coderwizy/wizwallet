@@ -34,7 +34,7 @@ const FINTECH_PALETTE = [
 ];
 
 const BusinessHub = () => {
-  const { businesses, setBusinesses, addBusiness, removeBusiness, wallet, setWallet, addTransaction, privacyMode } = useEmpire();
+  const {businesses, setBusinesses, addBusiness, removeBusiness, wallet, setWallet, addTransaction, privacyMode, currencySymbol } = useEmpire();
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [editingBiz, setEditingBiz] = useState(null);
   const [detailBiz, setDetailBiz] = useState(null);
@@ -216,14 +216,14 @@ const BusinessHub = () => {
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Combined Revenue</p>
           <h3 className="text-2xl font-bold text-[#526B56] tabular-nums mt-1">
-            ${totalIncome.toLocaleString()}
+            {currencySymbol}{totalIncome.toLocaleString()}
           </h3>
           <p className="text-[10px] text-[#77786F] mt-1">Monthly enterprise income</p>
         </Card>
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Operating Costs</p>
           <h3 className="text-2xl font-bold text-[#C66D65] tabular-nums mt-1">
-            ${totalExpense.toLocaleString()}
+            {currencySymbol}{totalExpense.toLocaleString()}
           </h3>
           <p className="text-[10px] text-[#77786F] mt-1">Monthly operational burn</p>
         </Card>

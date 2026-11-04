@@ -43,7 +43,7 @@ const RATES = {
 };
 
 const BankHub = ({ setActiveTab }) => {
-  const { bank, setBank, addTransaction } = useEmpire();
+  const {bank, setBank, addTransaction, currencySymbol } = useEmpire();
   const [modal, setModal] = useState({ show: false, type: '' });
   const [amount, setAmount] = useState('');
   const [txError, setTxError] = useState('');
@@ -199,12 +199,12 @@ const BankHub = ({ setActiveTab }) => {
                 Available Reserve Balance
               </p>
               <h1 className="text-4xl md:text-5xl font-extrabold text-[#22251F] tabular-nums tracking-tight">
-                ${animatedBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {currencySymbol}{animatedBalance.toLocaleString(undefined, { maximumFractionDigits: 0 })}
               </h1>
               <p className="text-xs text-[#77786F] mt-1.5 flex items-center gap-1.5 font-medium">
                 <TrendingUp className="w-3.5 h-3.5 text-[#66866A]" />
                 <span>Est. monthly compounding yield:</span>
-                <span className="font-bold text-[#66866A] tabular-nums">+${monthlyAccrual.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
+                <span className="font-bold text-[#66866A] tabular-nums">+{currencySymbol}{monthlyAccrual.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
               </p>
             </div>
 
@@ -219,13 +219,13 @@ const BankHub = ({ setActiveTab }) => {
               <div className="p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
                 <p className="text-[10px] font-semibold text-[#A3A297] uppercase tracking-wider">Active Credit Line</p>
                 <p className="text-sm font-bold text-[#C18A48] tabular-nums mt-0.5">
-                  ${(bank.loans || 0).toLocaleString()}
+                  {currencySymbol}{(bank.loans || 0).toLocaleString()}
                 </p>
               </div>
               <div className="p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
                 <p className="text-[10px] font-semibold text-[#A3A297] uppercase tracking-wider">Reserve Assets</p>
                 <p className="text-sm font-bold text-[#22251F] tabular-nums mt-0.5">
-                  ${(bank.assets || 0).toLocaleString()}
+                  {currencySymbol}{(bank.assets || 0).toLocaleString()}
                 </p>
               </div>
             </div>
@@ -262,7 +262,7 @@ const BankHub = ({ setActiveTab }) => {
                 >
                   <div>
                     <p className="text-xs font-bold text-[#C66D65]">Repay Credit Line</p>
-                    <p className="text-[10px] text-[#C66D65]/80">Outstanding: ${(bank.loans || 0).toLocaleString()}</p>
+                    <p className="text-[10px] text-[#C66D65]/80">Outstanding: {currencySymbol}{(bank.loans || 0).toLocaleString()}</p>
                   </div>
                   <ChevronRight className="w-4 h-4 text-[#C66D65]" />
                 </button>
@@ -362,7 +362,7 @@ const BankHub = ({ setActiveTab }) => {
           />
           <div className="flex justify-between text-xs text-[#77786F] pt-1">
             <span>Available Bank Balance:</span>
-            <span className="font-bold text-[#22251F]">${(bank.balance || 0).toLocaleString()}</span>
+            <span className="font-bold text-[#22251F]">{currencySymbol}{(bank.balance || 0).toLocaleString()}</span>
           </div>
           <Button type="submit" variant="primary" className="w-full py-2.5 mt-2">
             Confirm {modal.type}
@@ -400,7 +400,7 @@ const BankHub = ({ setActiveTab }) => {
             </div>
             <div className="flex justify-between">
               <span>Current Outstanding:</span>
-              <span className="font-semibold text-[#C18A48]">${(bank.loans || 0).toLocaleString()}</span>
+              <span className="font-semibold text-[#C18A48]">{currencySymbol}{(bank.loans || 0).toLocaleString()}</span>
             </div>
           </div>
           <Button type="submit" variant="primary" className="w-full py-2.5 mt-2">
@@ -420,11 +420,11 @@ const BankHub = ({ setActiveTab }) => {
           <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl text-xs space-y-1.5">
             <div className="flex justify-between">
               <span className="text-[#77786F]">Total Outstanding Debt:</span>
-              <span className="font-bold text-[#C66D65]">${(bank.loans || 0).toLocaleString()}</span>
+              <span className="font-bold text-[#C66D65]">{currencySymbol}{(bank.loans || 0).toLocaleString()}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-[#77786F]">Available Balance:</span>
-              <span className="font-bold text-[#22251F]">${(bank.balance || 0).toLocaleString()}</span>
+              <span className="font-bold text-[#22251F]">{currencySymbol}{(bank.balance || 0).toLocaleString()}</span>
             </div>
           </div>
           <Input
@@ -498,7 +498,7 @@ const BankHub = ({ setActiveTab }) => {
         <form onSubmit={handleUpdateAssets} className="space-y-4">
           <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl text-xs text-[#77786F] flex justify-between">
             <span>Current Asset Reserve:</span>
-            <span className="font-bold text-[#22251F]">${(bank.assets || 0).toLocaleString()}</span>
+            <span className="font-bold text-[#22251F]">{currencySymbol}{(bank.assets || 0).toLocaleString()}</span>
           </div>
           <Input
             label="New Total Asset Valuation (USD)"

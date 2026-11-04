@@ -9,12 +9,12 @@ const MobileSimulatorView = () => {
   const [years, setYears] = useState(5);
 
   const actualNetWorth = portfolioNetWorth?.netWorth ?? ((wallet?.balance || 0) + (bank?.balance || 0));
-  const startingCapital = actualNetWorth > 0 ? actualNetWorth : 100000;
+  const startingCapital = actualNetWorth > 0 ? actualNetWorth : 85000;
 
   const forecast = useMemo(() => {
     return generateWealthForecasts({
       currentNetWorth: startingCapital,
-      monthlyContribution: 5000,
+      monthlyContribution: 1200,
       annualBusinessCashflow: (cashFlowMetrics?.netMonthlyCashflow || 0) * 12,
       inflationRate: 0.03,
       years

@@ -24,10 +24,8 @@ const ASSET_COLORS = {
 const PALETTE = ['#526B56', '#82977B', '#C18A48', '#4A7C8A', '#7C5ABF', '#C66D65'];
 
 const InvestmentsHub = () => {
-  const {
-    investments, addInvestment, removeInvestment, updateInvestment,
-    wallet, privacyMode
-  } = useEmpire();
+  const {investments, addInvestment, removeInvestment, updateInvestment,
+    wallet, privacyMode, currencySymbol } = useEmpire();
 
   const [search, setSearch] = useState('');
   const [filterType, setFilterType] = useState('All');

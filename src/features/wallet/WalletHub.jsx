@@ -46,10 +46,8 @@ const GROWTH_TIERS = [
 const GROWTH_MULTIPLIERS = { Slow: 1, Founder: 5, CEO: 10, Tycoon: 50, Billionaire: 100 };
 
 const WalletHub = ({ setActiveTab }) => {
-  const {
-    wallet, setWallet, addTransaction, transferFunds,
-    transactions, businesses, sectors, config,
-  } = useEmpire();
+  const {wallet, setWallet, addTransaction, transferFunds,
+    transactions, businesses, sectors, config, currencySymbol } = useEmpire();
 
   const [showPayModal,      setShowPayModal]      = useState(false);
   const [showTransferModal, setShowTransferModal] = useState(false);
@@ -201,7 +199,7 @@ const WalletHub = ({ setActiveTab }) => {
             <div className="mt-6">
               {isEditing ? (
                 <div className="flex items-center gap-2">
-                  <span className="text-3xl font-bold text-[#A3A297]">$</span>
+                  <span className="text-3xl font-bold text-[#A3A297]">{currencySymbol}</span>
                   <input
                     autoFocus
                     type="number"
@@ -223,7 +221,7 @@ const WalletHub = ({ setActiveTab }) => {
                 >
                   {balanceHidden
                     ? <span className="tracking-widest text-[#D5D2C8]">••••••••</span>
-                    : <><span className="text-[#A3A297] text-3xl mr-1">$</span>{animatedBalance.toLocaleString(undefined, { minimumFractionDigits: 2 })}</>
+                    : <><span className="text-[#A3A297] text-3xl mr-1">{currencySymbol}</span>{animatedBalance.toLocaleString(undefined, { minimumFractionDigits: 2 })}</>
                   }
                 </h1>
               )}
@@ -427,7 +425,7 @@ const WalletHub = ({ setActiveTab }) => {
                       </div>
                       <div className="text-right shrink-0">
                         <p className={`text-sm font-semibold tabular-nums ${tx.type === 'Credit' ? 'text-[#66866A]' : 'text-[#C66D65]'}`}>
-                          {tx.type === 'Credit' ? '+' : '−'}${tx.amount.toLocaleString()}
+                          {tx.type === 'Credit' ? '+' : '−'}{currencySymbol}{tx.amount.toLocaleString()}
                         </p>
                         <p className="text-[9px] text-[#A3A297] font-medium uppercase mt-0.5">{tx.type}</p>
                       </div>
@@ -499,7 +497,7 @@ const WalletHub = ({ setActiveTab }) => {
           <div>
             <label className="text-[10px] font-semibold text-[#A3A297] uppercase tracking-widest mb-2 block">Amount (USD)</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl font-bold text-[#A3A297]">$</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl font-bold text-[#A3A297]">{currencySymbol}</span>
               <input
                 type="number"
                 required
@@ -510,7 +508,7 @@ const WalletHub = ({ setActiveTab }) => {
               />
             </div>
             <p className="text-[10px] text-[#A3A297] mt-1.5">
-              Available: <span className="text-[#526B56] font-semibold">${wallet.balance.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
+              Available: <span className="text-[#526B56] font-semibold">{currencySymbol}{wallet.balance.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
             </p>
           </div>
           <div>
@@ -566,7 +564,7 @@ const WalletHub = ({ setActiveTab }) => {
           <div className="grid grid-cols-2 gap-3 p-4 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
             <div className="text-center">
               <p className="text-[9px] font-semibold text-[#A3A297] uppercase tracking-widest mb-1">Wallet Balance</p>
-              <p className="text-lg font-bold text-[#526B56] tabular-nums">${wallet.balance.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+              <p className="text-lg font-bold text-[#526B56] tabular-nums">{currencySymbol}{wallet.balance.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
             </div>
             <div className="text-center">
               <p className="text-[9px] font-semibold text-[#A3A297] uppercase tracking-widest mb-1">Bank Account</p>
@@ -576,7 +574,7 @@ const WalletHub = ({ setActiveTab }) => {
           <div>
             <label className="text-[10px] font-semibold text-[#A3A297] uppercase tracking-widest mb-2 block">Transfer Amount (USD)</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl font-bold text-[#A3A297]">$</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl font-bold text-[#A3A297]">{currencySymbol}</span>
               <input
                 type="number"
                 required

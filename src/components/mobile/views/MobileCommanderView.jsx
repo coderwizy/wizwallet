@@ -32,7 +32,7 @@ const MobileCommanderView = () => {
     if (lower.includes('net worth') || lower.includes('worth')) {
       reply = `Audited Net Worth: $${currentNw.toLocaleString()} ($${(breakdown.liquidWallet || 0).toLocaleString()} in liquid wallet, $${(breakdown.bankBalance || 0).toLocaleString()} bank, $${(breakdown.investmentsValue || 0).toLocaleString()} investments, $${(breakdown.realEstateValue || 0).toLocaleString()} real estate).`;
     } else if (lower.includes('profit') || lower.includes('best')) {
-      reply = `Highest yielding node: AI Services Firm generates $92,000/mo gross with $52,000/mo net profit margin.`;
+      reply = `Highest yielding node: AI Services Firm generates $6,800/mo gross with $4,000/mo net profit margin.`;
     } else if (lower.includes('passive')) {
       reply = `Passive Income: +$${(cashFlowMetrics?.passiveIncome || 0).toLocaleString()}/mo derived from real estate leases and investment dividends.`;
     }

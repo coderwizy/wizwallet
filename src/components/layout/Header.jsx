@@ -45,7 +45,7 @@ const BREADCRUMBS = {
 };
 
 const Header = ({ activeTab, setActiveTab, onOpenCommandPalette }) => {
-  const { wallet, bank, user, transactions, isPulseActive, togglePulse } = useEmpire();
+  const { wallet, bank, user, transactions, isPulseActive, togglePulse, currencySymbol, toggleCurrency } = useEmpire();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showQuickMenu, setShowQuickMenu] = useState(false);
 
@@ -83,6 +83,19 @@ const Header = ({ activeTab, setActiveTab, onOpenCommandPalette }) => {
                 {isPulseActive ? 'Live Engine' : 'Engine Paused'}
               </span>
             </button>
+            <button
+              type="button"
+              onClick={toggleCurrency}
+              title={`Click to switch currency to ${currencySymbol === '₹' ? 'USD ($)' : 'Rupees (₹)'} (No conversion)`}
+              className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-ww-border bg-ww-bg hover:bg-ww-bg-alt transition-colors cursor-pointer text-ww-text shadow-2xs group"
+            >
+              <span className="w-4 h-4 rounded-full bg-[#EDF2E9] text-ww-accent flex items-center justify-center font-extrabold text-[10px]">
+                {currencySymbol}
+              </span>
+              <span className="text-[10px] font-bold text-ww-text-secondary group-hover:text-ww-accent transition-colors">
+                {currencySymbol === '₹' ? 'INR (₹)' : 'USD ($)'}
+              </span>
+            </button>
           </div>
         </div>
       </div>
@@ -110,13 +123,13 @@ const Header = ({ activeTab, setActiveTab, onOpenCommandPalette }) => {
           <div className="text-right">
             <p className="text-[10px] text-ww-text-muted font-semibold uppercase tracking-wider">Liquid Vault</p>
             <p className="text-xs font-bold text-ww-text tabular-nums">
-              ${(wallet?.balance || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+              {currencySymbol}{(wallet?.balance || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </p>
           </div>
           <div className="text-right">
             <p className="text-[10px] text-ww-text-muted font-semibold uppercase tracking-wider">Total Net Worth</p>
             <p className="text-xs font-bold text-ww-accent tabular-nums">
-              ${totalWealth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+              {currencySymbol}{totalWealth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </p>
           </div>
         </div>

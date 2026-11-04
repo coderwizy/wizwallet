@@ -250,9 +250,9 @@ const MainDashboard = ({ setActiveTab }) => {
                   <YAxis
                     stroke="#A3A297"
                     fontSize={11}
-                    tickFormatter={v => `$${(v / 1000).toFixed(0)}k`}
+                    tickFormatter={v => `${currencySymbol}${(v / 1000).toFixed(0)}k`}
                   />
-                  <Tooltip content={<CustomTooltip />} />
+                  <Tooltip content={<CustomTooltip currencySymbol={currencySymbol} />} />
                   <Area
                     type="monotone"
                     dataKey="income"
@@ -296,7 +296,7 @@ const MainDashboard = ({ setActiveTab }) => {
                   <div key={item.label} className="space-y-1">
                     <div className="flex justify-between items-center text-xs">
                       <span className="font-semibold text-[#22251F]">{item.label}</span>
-                      <span className="font-bold tabular-nums text-[#22251F]">${mask(item.val.toLocaleString())} ({pct}%)</span>
+                      <span className="font-bold tabular-nums text-[#22251F]">{formatMoney(item.val)} ({pct}%)</span>
                     </div>
                     <div className="w-full h-1.5 bg-[#F1EFE7] rounded-full overflow-hidden">
                       <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: item.color }} />
@@ -308,7 +308,7 @@ const MainDashboard = ({ setActiveTab }) => {
 
             <div className="pt-2 border-t border-[#EAE8DF] flex justify-between items-center text-xs">
               <span className="text-[#77786F]">Total Debt Liabilities:</span>
-              <span className="font-bold text-[#C66D65] tabular-nums">-${mask((portfolioNetWorth?.totalLiabilities || 0).toLocaleString())}</span>
+              <span className="font-bold text-[#C66D65] tabular-nums">-{formatMoney(portfolioNetWorth?.totalLiabilities || 0)}</span>
             </div>
           </Card>
         </div>

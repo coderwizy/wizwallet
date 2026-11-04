@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 384" width="192" height="384">
+  <defs>
+    <linearGradient id="strapGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#141815"/>
+      <stop offset="10%" stop-color="#242B25"/>
+      <stop offset="50%" stop-color="#1E231F"/>
+      <stop offset="90%" stop-color="#242B25"/>
+      <stop offset="100%" stop-color="#141815"/>
+    </linearGradient>
+  </defs>
+  <rect width="192" height="384" fill="url(#strapGrad)"/>
+  
+  <!-- Edge stitch lines -->
+  <line x1="8" y1="0" x2="8" y2="384" stroke="#526B56" stroke-width="2" stroke-dasharray="8 6"/>
+  <line x1="184" y1="0" x2="184" y2="384" stroke="#526B56" stroke-width="2" stroke-dasharray="8 6"/>
+
+  <!-- Repeating Brand Text -->
+  <g transform="translate(96, 60)" text-anchor="middle">
+    <text font-family="system-ui, sans-serif" font-size="14" font-weight="900" fill="#EAE8DF" letter-spacing="4">WIZWALLET</text>
+    <text y="20" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#C59B27" letter-spacing="2">SOVEREIGN</text>
+  </g>
+  <g transform="translate(96, 180)" text-anchor="middle">
+    <text font-family="system-ui, sans-serif" font-size="14" font-weight="900" fill="#EAE8DF" letter-spacing="4">EXECUTIVE</text>
+    <text y="20" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#829E87" letter-spacing="2">LEVEL 5 PASS</text>
+  </g>
+  <g transform="translate(96, 300)" text-anchor="middle">
+    <text font-family="system-ui, sans-serif" font-size="14" font-weight="900" fill="#EAE8DF" letter-spacing="4">WIZWALLET</text>
+    <text y="20" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#C59B27" letter-spacing="2">SOVEREIGN</text>
+  </g>
+</svg>
+

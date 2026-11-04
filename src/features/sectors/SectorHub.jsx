@@ -12,7 +12,7 @@ import Badge from '../../components/ui/Badge';
 import Input from '../../components/ui/Input';
 
 const SectorHub = () => {
-  const { sectors, setSectors } = useEmpire();
+  const {sectors, setSectors, currencySymbol } = useEmpire();
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('revenue');
   const [selectedSector, setSelectedSector] = useState(null);

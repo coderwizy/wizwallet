@@ -19,7 +19,7 @@ const SettingsHub = () => {
     theme, setTheme, logout, wipeAllData, changePassword,
     config, setConfig, user,
     isPulseActive, stopPulse, startPulse, togglePulse,
-    privacyMode, togglePrivacyMode, transactions
+    privacyMode, togglePrivacyMode, transactions, currencySymbol, setCurrencySymbol, toggleCurrency
   } = useEmpire();
 
   // Password change state
@@ -234,6 +234,45 @@ const SettingsHub = () => {
                   config?.autoSave ? 'translate-x-5' : 'translate-x-0'
                 }`} />
               </button>
+            </div>
+
+            {/* ── Active Currency Symbol ── */}
+            <div className="p-3.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF] space-y-2.5">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-bold text-[#22251F]">Active Currency Symbol</p>
+                  <p className="text-[11px] text-[#77786F]">Instant 1-click toggle without math conversion</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={toggleCurrency}
+                  className="px-2.5 py-1 text-xs font-bold rounded-lg bg-[#526B56] text-white hover:bg-[#435746] transition-colors cursor-pointer"
+                >
+                  Quick Toggle ({currencySymbol === '₹' ? '₹ to $' : '$ to ₹'})
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {[
+                  { sym: '₹', label: 'Rupees (₹ INR)' },
+                  { sym: '$', label: 'Dollar ($ USD)' },
+                  { sym: '€', label: 'Euro (€ EUR)' },
+                  { sym: '£', label: 'Pound (£ GBP)' },
+                  { sym: 'AED ', label: 'Dirham (AED)' }
+                ].map(c => (
+                  <button
+                    key={c.sym}
+                    type="button"
+                    onClick={() => setCurrencySymbol(c.sym)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
+                      currencySymbol === c.sym
+                        ? 'bg-[#526B56] text-white border-[#526B56] shadow-2xs'
+                        : 'bg-white text-[#22251F] border-[#EAE8DF] hover:border-[#526B56]'
+                    }`}
+                  >
+                    {c.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="flex items-center justify-between p-3.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">

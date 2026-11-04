@@ -13,7 +13,7 @@ const MobileSettingsView = () => {
     logout, wipeAllData, changePassword,
     config, setConfig, user,
     isPulseActive, togglePulse,
-    privacyMode, togglePrivacyMode
+    privacyMode, togglePrivacyMode, currencySymbol, setCurrencySymbol, toggleCurrency
   } = useEmpire();
 
   // Password sheet
@@ -151,6 +151,42 @@ const MobileSettingsView = () => {
           <div>
             <h3 className="text-xs font-bold text-[#22251F]">Data & Synchronization</h3>
             <p className="text-[10px] text-[#77786F]">LocalStorage Auto-Save</p>
+          </div>
+        </div>
+
+        {/* ── Currency Symbol Switch ── */}
+        <div className="py-2 border-b border-[#EAE8DF]">
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <p className="text-xs font-bold text-[#22251F]">Currency Symbol</p>
+              <p className="text-[10px] text-[#77786F]">Instant 1-click switch (no math)</p>
+            </div>
+            <button
+              type="button"
+              onClick={toggleCurrency}
+              className="px-2 py-0.5 text-[10px] font-bold rounded bg-[#526B56] text-white cursor-pointer"
+            >
+              Toggle ({currencySymbol === '₹' ? '₹ to $' : '$ to ₹'})
+            </button>
+          </div>
+          <div className="grid grid-cols-2 gap-1.5">
+            {[
+              { sym: '₹', label: 'Rupees (₹ INR)' },
+              { sym: '$', label: 'Dollar ($ USD)' }
+            ].map(c => (
+              <button
+                key={c.sym}
+                type="button"
+                onClick={() => setCurrencySymbol(c.sym)}
+                className={`py-1.5 px-2 rounded-lg text-xs font-bold border text-center transition-all cursor-pointer ${
+                  currencySymbol === c.sym
+                    ? 'bg-[#526B56] text-white border-[#526B56]'
+                    : 'bg-[#FCFBF8] text-[#22251F] border-[#EAE8DF]'
+                }`}
+              >
+                {c.label}
+              </button>
+            ))}
           </div>
         </div>
 

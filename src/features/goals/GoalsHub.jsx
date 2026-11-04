@@ -22,19 +22,17 @@ const RANKS = [
 ];
 
 const BADGES = [
-  { id: 'b1', name: 'First Million', desc: 'Achieved $1,000,000+ Net Worth', icon: '💰', unlocked: true },
+  { id: 'b1', name: 'Quarter Millionaire', desc: 'Achieved $250,000+ Net Worth', icon: '💰', unlocked: true },
   { id: 'b2', name: 'Fleet Commander', desc: 'Expanded to 10+ Corporate Ventures', icon: '🚀', unlocked: true },
   { id: 'b3', name: 'Council Patriarch', desc: 'Enshrined 4+ Family Members', icon: '🏛️', unlocked: true },
   { id: 'b4', name: 'Sovereign Landlord', desc: 'Acquired 3+ Prime Real Estate Assets', icon: '🏰', unlocked: true },
-  { id: 'b5', name: 'Decamillionaire', desc: 'Reach $10,000,000 Total Net Worth', icon: '👑', unlocked: false },
+  { id: 'b5', name: 'Half Million Sovereign', desc: 'Reach $500,000 Total Net Worth', icon: '👑', unlocked: false },
   { id: 'b6', name: 'Zero-Burn Master', desc: 'Maintain 65%+ Net Profit Margin', icon: '⚡', unlocked: false }
 ];
 
 const GoalsHub = () => {
-  const {
-    goals, completeMission, portfolioNetWorth,
-    cashFlowMetrics, businesses, members
-  } = useEmpire();
+  const {goals, completeMission, portfolioNetWorth,
+    cashFlowMetrics, businesses, members, currencySymbol } = useEmpire();
 
   const [isAddMilestoneOpen, setIsAddMilestoneOpen] = useState(false);
   const [milestoneForm, setMilestoneForm] = useState({

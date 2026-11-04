@@ -14,10 +14,8 @@ import Input from '../../components/ui/Input';
 import Modal from '../../components/ui/Modal';
 
 const TaxHub = () => {
-  const {
-    taxSettings, updateTaxSettings, logTaxPayment,
-    cashFlowMetrics, privacyMode
-  } = useEmpire();
+  const {taxSettings, updateTaxSettings, logTaxPayment,
+    cashFlowMetrics, privacyMode, currencySymbol } = useEmpire();
 
   const [isAddPaymentOpen, setIsAddPaymentOpen] = useState(false);
   const [paymentForm, setPaymentForm] = useState({

@@ -13,10 +13,8 @@ import Modal from '../../components/ui/Modal';
 import ConfirmationDialog from '../../components/ui/ConfirmationDialog';
 
 const RealEstateHub = () => {
-  const {
-    properties, addProperty, updateProperty, removeProperty,
-    bank, privacyMode
-  } = useEmpire();
+  const {properties, addProperty, updateProperty, removeProperty,
+    bank, privacyMode, currencySymbol } = useEmpire();
 
   const [search, setSearch] = useState('');
   const [filterType, setFilterType] = useState('All');

@@ -15,7 +15,7 @@ const TITLES = {
 };
 
 const MobileHeader = ({ activeTab }) => {
-  const { wallet, user, transactions, isPulseActive, togglePulse } = useEmpire();
+  const { wallet, user, transactions, isPulseActive, togglePulse, currencySymbol, toggleCurrency } = useEmpire();
   const [showNotifications, setShowNotifications] = useState(false);
 
   const title = TITLES[activeTab] || 'Overview';
@@ -31,7 +31,7 @@ const MobileHeader = ({ activeTab }) => {
           <h1 className="text-sm font-semibold text-[#22251F] truncate">{title}</h1>
           <div className="flex items-center gap-1.5">
             <span className="text-[10px] font-semibold text-[#526B56] tabular-nums">
-              ${(wallet?.balance || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+              {currencySymbol}{(wallet?.balance || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </span>
             <button
               type="button"
@@ -46,6 +46,16 @@ const MobileHeader = ({ activeTab }) => {
       </div>
 
       <div className="flex items-center gap-2">
+        {/* 1-Click Currency Toggle */}
+        <button
+          type="button"
+          onClick={toggleCurrency}
+          title={`Switch Currency to ${currencySymbol === '₹' ? 'USD ($)' : 'INR (₹)'} (No conversion)`}
+          className="px-2 py-1 rounded-lg border border-[#EAE8DF] bg-[#FCFBF8] text-xs font-bold text-[#526B56] hover:bg-[#EDF2E9] transition-all cursor-pointer flex items-center gap-1 shadow-2xs"
+        >
+          <span className="font-extrabold">{currencySymbol}</span>
+          <span className="text-[10px] text-[#77786F]">{currencySymbol === '₹' ? 'INR' : 'USD'}</span>
+        </button>
         {/* Notifications */}
         <div className="relative">
           <button

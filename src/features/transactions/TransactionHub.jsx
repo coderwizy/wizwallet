@@ -14,7 +14,7 @@ import MobileTransactionCard from '../../components/mobile/MobileTransactionCard
 import TransactionDetailModal from '../../components/ui/TransactionDetailModal';
 
 const TransactionHub = () => {
-  const { transactions } = useEmpire();
+  const {transactions, currencySymbol } = useEmpire();
   const [search, setSearch] = useState('');
   const [filterModule, setFilterModule] = useState('All');
   const [filterType, setFilterType] = useState('All');

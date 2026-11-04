@@ -11,7 +11,7 @@ import Card from '../../ui/Card';
 import Badge from '../../ui/Badge';
 
 const MobileDashboardView = ({ setActiveTab }) => {
-  const { wallet, bank, businesses, sectors, transactions, balanceHistory, user } = useEmpire();
+  const { wallet, bank, businesses, sectors, transactions, balanceHistory, user, currencySymbol } = useEmpire();
   const [chartRange, setChartRange] = useState('7d');
 
   const totalBusinessIncome = useMemo(() => businesses.reduce((acc, biz) => acc + (biz.income || 0), 0), [businesses]);
@@ -46,7 +46,7 @@ const MobileDashboardView = ({ setActiveTab }) => {
               Total Portfolio Capital
             </p>
             <h2 className="text-3xl font-extrabold text-[#22251F] tracking-tight tabular-nums mt-0.5">
-              ${totalNetWorth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+              {currencySymbol}{totalNetWorth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </h2>
           </div>
           <Badge variant={isNetWorthUp ? 'success' : 'danger'}>
@@ -65,7 +65,7 @@ const MobileDashboardView = ({ setActiveTab }) => {
               <span className="text-[10px] font-semibold text-[#77786F] uppercase">Liquid Vault</span>
             </div>
             <p className="text-sm font-bold text-[#22251F] tabular-nums">
-              ${(wallet?.balance || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+              {currencySymbol}{(wallet?.balance || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </p>
           </div>
 
@@ -78,7 +78,7 @@ const MobileDashboardView = ({ setActiveTab }) => {
               <span className="text-[10px] font-semibold text-[#77786F] uppercase">Bank Reserve</span>
             </div>
             <p className="text-sm font-bold text-[#22251F] tabular-nums">
-              ${(bank?.balance || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+              {currencySymbol}{(bank?.balance || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </p>
           </div>
         </div>
@@ -97,7 +97,7 @@ const MobileDashboardView = ({ setActiveTab }) => {
             <span className="text-[10px] font-semibold text-[#77786F] uppercase">Ventures</span>
           </div>
           <p className="text-base font-bold text-[#22251F] tabular-nums">
-            ${totalBusinessIncome.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            {currencySymbol}{totalBusinessIncome.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </p>
           <p className="text-[10px] text-[#66866A] font-semibold mt-0.5">Monthly Yield</p>
         </Card>
@@ -113,7 +113,7 @@ const MobileDashboardView = ({ setActiveTab }) => {
             <span className="text-[10px] font-semibold text-[#77786F] uppercase">Sectors</span>
           </div>
           <p className="text-base font-bold text-[#22251F] tabular-nums">
-            ${totalSectorRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            {currencySymbol}{totalSectorRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </p>
           <p className="text-[10px] text-[#C18A48] font-semibold mt-0.5">30 Active Domains</p>
         </Card>
