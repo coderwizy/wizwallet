@@ -2,20 +2,15 @@ import React, { useState, useMemo } from 'react';
 import { useEmpire } from '../../context/EmpireContext';
 import { generateWealthForecasts } from '../../utils/financialCalculations';
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
+  XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, AreaChart, Area
 } from 'recharts';
-import {
-  TrendingUp, Calendar, Sliders, DollarSign, ShieldAlert,
-  Percent, ArrowRight, BarChart3, Info
-} from 'lucide-react';
+import { Calendar, Info } from 'lucide-react';
 import Card from '../../components/ui/Card';
-import Button from '../../components/ui/Button';
 import Badge from '../../components/ui/Badge';
-import Input from '../../components/ui/Input';
 
 const FutureSimulatorHub = () => {
-  const { portfolioNetWorth, cashFlowMetrics, privacyMode } = useEmpire();
+  const { wallet, bank, portfolioNetWorth, cashFlowMetrics, privacyMode } = useEmpire();
 
   const [years, setYears] = useState(10);
   const [monthlyContribution, setMonthlyContribution] = useState(10000);
@@ -23,27 +18,28 @@ const FutureSimulatorHub = () => {
   const [activeScenario, setActiveScenario] = useState('Balanced');
 
   // Starting net worth defaulted to actual state
-  const startingCapital = Math.max(100000, portfolioNetWorth?.netWorth || 0);
+  const actualNetWorth = portfolioNetWorth?.netWorth ?? ((wallet?.balance || 0) + (bank?.balance || 0));
+  const startingCapital = actualNetWorth > 0 ? actualNetWorth : 10000;
 
   // Forecast engine
   const forecast = useMemo(() => {
     return generateWealthForecasts({
       currentNetWorth: startingCapital,
       monthlyContribution: Number(monthlyContribution) || 0,
-      annualBusinessCashflow: (cashFlowMetrics.netMonthlyCashflow || 0) * 12,
+      annualBusinessCashflow: (cashFlowMetrics?.netMonthlyCashflow || 0) * 12,
       inflationRate: (Number(inflationRate) || 3) / 100,
       years: Number(years) || 10
     });
-  }, [startingCapital, monthlyContribution, cashFlowMetrics.netMonthlyCashflow, inflationRate, years]);
+  }, [startingCapital, monthlyContribution, cashFlowMetrics?.netMonthlyCashflow, inflationRate, years]);
 
-  const finalYear = forecast.finalYearData || {};
-  const conservativeFinal = finalYear.Conservative || 0;
-  const balancedFinal = finalYear.Balanced || 0;
-  const aggressiveFinal = finalYear.Aggressive || 0;
-  const realBalancedFinal = finalYear.Balanced_Real || 0;
+  const finalYear = forecast?.finalYearData || {};
+  const conservativeFinal = finalYear?.Conservative || 0;
+  const balancedFinal = finalYear?.Balanced || 0;
+  const aggressiveFinal = finalYear?.Aggressive || 0;
+  const realBalancedFinal = finalYear?.Balanced_Real || 0;
 
   const totalAddedCapital = (Number(monthlyContribution) || 0) * 12 * years;
-  const compoundGains = Math.max(0, (finalYear[activeScenario] || 0) - startingCapital - totalAddedCapital);
+  const compoundGains = Math.max(0, (finalYear?.[activeScenario] || 0) - startingCapital - totalAddedCapital);
 
   const mask = (val) => privacyMode ? '••••••' : val;
 
