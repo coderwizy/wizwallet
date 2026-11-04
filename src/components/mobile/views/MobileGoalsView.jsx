@@ -56,3 +56,4 @@ const MobileGoalsView = () => {
 };
 
 export default React.memo(MobileGoalsView);
+

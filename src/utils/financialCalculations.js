@@ -55,6 +55,7 @@ export function calculateNetWorth({
 
   return {
     netWorth: Math.max(0, netWorth),
+    totalNetWorth: Math.max(0, netWorth),
     totalAssets,
     totalLiabilities,
     breakdown: {
@@ -309,3 +310,4 @@ export function estimateTaxLiability({
     netAfterTaxIncome: Math.round(annualGrossIncome - totalTax)
   };
 }
+

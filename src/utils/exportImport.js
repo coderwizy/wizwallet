@@ -139,3 +139,4 @@ export function exportToCSV(filename, rows, headers) {
   URL.revokeObjectURL(url);
   return true;
 }
+

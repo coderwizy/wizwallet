@@ -146,3 +146,4 @@ export async function clearVaultDatabase() {
     return false;
   }
 }
+

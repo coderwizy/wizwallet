@@ -540,3 +540,4 @@ const InvestmentsHub = () => {
 };
 
 export default React.memo(InvestmentsHub);
+

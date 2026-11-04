@@ -63,10 +63,10 @@ const GoalsHub = () => {
   const evaluatedMilestones = useMemo(() => {
     return (goals.milestones || []).map(m => {
       let currentVal = 0;
-      if (m.metric === 'netWorth') currentVal = portfolioNetWorth.netWorth;
-      else if (m.metric === 'passiveIncome') currentVal = cashFlowMetrics.passiveIncome;
-      else if (m.metric === 'activeVentures') currentVal = businesses.filter(b => b.status === 'Active').length;
-      else if (m.metric === 'familyMembers') currentVal = members.length;
+      if (m.metric === 'netWorth') currentVal = portfolioNetWorth?.netWorth || 0;
+      else if (m.metric === 'passiveIncome') currentVal = cashFlowMetrics?.passiveIncome || 0;
+      else if (m.metric === 'activeVentures') currentVal = (businesses || []).filter(b => b.status === 'Active').length;
+      else if (m.metric === 'familyMembers') currentVal = (members || []).length;
       else currentVal = m.current || 0;
 
       const progress = m.target > 0 ? Math.min(100, Math.round((currentVal / m.target) * 100)) : 0;
@@ -250,3 +250,4 @@ const GoalsHub = () => {
 };
 
 export default React.memo(GoalsHub);
+

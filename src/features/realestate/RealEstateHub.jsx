@@ -446,3 +446,4 @@ const RealEstateHub = () => {
 };
 
 export default React.memo(RealEstateHub);
+

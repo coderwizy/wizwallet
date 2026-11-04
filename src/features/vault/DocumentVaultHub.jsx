@@ -388,3 +388,4 @@ const DocumentVaultHub = () => {
 };
 
 export default React.memo(DocumentVaultHub);
+

@@ -43,8 +43,9 @@ const AICommanderHub = () => {
 
     // 3. Liquidity ratio (Liquid cash vs Total Net Worth)
     const liquidTotal = (wallet?.balance || 0) + (bank?.balance || 0);
-    const liquidRatio = portfolioNetWorth.netWorth > 0
-      ? ((liquidTotal / portfolioNetWorth.netWorth) * 100).toFixed(1)
+    const nwTotal = portfolioNetWorth?.netWorth || 0;
+    const liquidRatio = nwTotal > 0
+      ? ((liquidTotal / nwTotal) * 100).toFixed(1)
       : '0';
 
     // 4. Recommendations list
@@ -91,39 +92,44 @@ const AICommanderHub = () => {
   // Answer generation engine using actual local state data
   const answerQuery = (query) => {
     const q = query.toLowerCase();
+    const currentNw = portfolioNetWorth?.netWorth || 0;
+    const bd = portfolioNetWorth?.breakdown || {};
+    const liabilities = portfolioNetWorth?.totalLiabilities || 0;
+    const netCf = cashFlowMetrics?.netMonthlyCashflow || 0;
+    const cfBd = cashFlowMetrics?.breakdown || {};
 
     if (q.includes('net worth') || q.includes('worth') || q.includes('wealth')) {
-      return `Your total audited Empire Net Worth is $${portfolioNetWorth.netWorth.toLocaleString()}. This includes $${portfolioNetWorth.breakdown.liquidWallet.toLocaleString()} in liquid wallet, $${portfolioNetWorth.breakdown.bankBalance.toLocaleString()} in bank deposits, $${portfolioNetWorth.breakdown.investmentsValue.toLocaleString()} in securities, $${portfolioNetWorth.breakdown.realEstateValue.toLocaleString()} in real estate, and $${portfolioNetWorth.breakdown.businessValuation.toLocaleString()} in corporate equity, minus $${portfolioNetWorth.totalLiabilities.toLocaleString()} in debt.`;
+      return `Your total audited Empire Net Worth is $${currentNw.toLocaleString()}. This includes $${(bd.liquidWallet || 0).toLocaleString()} in liquid wallet, $${(bd.bankBalance || 0).toLocaleString()} in bank deposits, $${(bd.investmentsValue || 0).toLocaleString()} in securities, $${(bd.realEstateValue || 0).toLocaleString()} in real estate, and $${(bd.businessValuation || 0).toLocaleString()} in corporate equity, minus $${liabilities.toLocaleString()} in debt.`;
     }
 
     if (q.includes('most profit') || q.includes('top business') || q.includes('best business') || q.includes('highest')) {
       if (diagnostics.topPerformer) {
         const net = (diagnostics.topPerformer.income || 0) - (diagnostics.topPerformer.expense || 0);
-        return `Your most profitable commercial node is ${diagnostics.topPerformer.name}, generating $${diagnostics.topPerformer.income.toLocaleString()}/mo in gross yield and $${net.toLocaleString()}/mo in net profit (${((net / diagnostics.topPerformer.income) * 100).toFixed(1)}% margin).`;
+        return `Your most profitable commercial node is ${diagnostics.topPerformer.name}, generating $${(diagnostics.topPerformer.income || 0).toLocaleString()}/mo in gross yield and $${net.toLocaleString()}/mo in net profit (${((net / diagnostics.topPerformer.income) * 100).toFixed(1)}% margin).`;
       }
       return 'No active corporate ventures found in your empire registry.';
     }
 
     if (q.includes('losing') || q.includes('burn') || q.includes('expense') || q.includes('cost')) {
       const topBurn = diagnostics.highBurnList[0];
-      return `Your highest operating burn occurs in ${topBurn ? topBurn.name : 'Corporate Logistics'}, expending $${topBurn ? topBurn.expense.toLocaleString() : 'N/A'}/mo. Your total personal and business monthly outflows equal $${cashFlowMetrics.totalMonthlyExpense.toLocaleString()}/mo.`;
+      return `Your highest operating burn occurs in ${topBurn ? topBurn.name : 'Corporate Logistics'}, expending $${topBurn ? (topBurn.expense || 0).toLocaleString() : 'N/A'}/mo. Your total personal and business monthly outflows equal $${(cashFlowMetrics?.totalMonthlyExpense || 0).toLocaleString()}/mo.`;
     }
 
     if (q.includes('passive income') || q.includes('passive') || q.includes('dividends')) {
-      return `Your current passive income is generating approximately $${cashFlowMetrics.passiveIncome.toLocaleString()}/mo across real estate rentals ($${cashFlowMetrics.breakdown.rentalIncome.toLocaleString()}/mo), investment dividend distributions ($${cashFlowMetrics.breakdown.investmentDividends.toLocaleString()}/mo), and optimized industrial sector rights.`;
+      return `Your current passive income is generating approximately $${(cashFlowMetrics?.passiveIncome || 0).toLocaleString()}/mo across real estate rentals ($${(cfBd.rentalIncome || 0).toLocaleString()}/mo), investment dividend distributions ($${(cfBd.investmentDividends || 0).toLocaleString()}/mo), and optimized industrial sector rights.`;
     }
 
     if (q.includes('reserve') || q.includes('liquid') || q.includes('cash')) {
-      return `You hold $${diagnostics.liquidTotal.toLocaleString()} in combined liquid capital, constituting ${diagnostics.liquidRatio}% of total empire assets. Recommended benchmark is 15-20% for continuous sovereign agility.`;
+      return `You hold $${(diagnostics.liquidTotal || 0).toLocaleString()} in combined liquid capital, constituting ${diagnostics.liquidRatio}% of total empire assets. Recommended benchmark is 15-20% for continuous sovereign agility.`;
     }
 
     if (q.includes('5 years') || q.includes('forecast') || q.includes('future')) {
-      const projected = Math.round(portfolioNetWorth.netWorth * Math.pow(1.12, 5));
-      return `Based on your balanced scenario (11-12% annual compounding + $${cashFlowMetrics.netMonthlyCashflow.toLocaleString()} monthly cashflow reinvestment), your projected net worth in 5 years is estimated at $${projected.toLocaleString()}. You can run multi-year stress tests in the Future Wealth Simulator.`;
+      const projected = Math.round(currentNw * Math.pow(1.12, 5));
+      return `Based on your balanced scenario (11-12% annual compounding + $${netCf.toLocaleString()} monthly cashflow reinvestment), your projected net worth in 5 years is estimated at $${projected.toLocaleString()}. You can run multi-year stress tests in the Future Wealth Simulator.`;
     }
 
     // Default synthesis
-    return `Analysis complete based on your active state: Net Worth is $${portfolioNetWorth.netWorth.toLocaleString()}, generating $${cashFlowMetrics.netMonthlyCashflow.toLocaleString()}/mo net surplus across ${businesses.length} corporate ventures and ${properties.length} real estate holdings. To maximize growth, prioritize reinvesting surplus cash into your highest-margin nodes.`;
+    return `Analysis complete based on your active state: Net Worth is $${currentNw.toLocaleString()}, generating $${netCf.toLocaleString()}/mo net surplus across ${businesses.length} corporate ventures and ${properties.length} real estate holdings. To maximize growth, prioritize reinvesting surplus cash into your highest-margin nodes.`;
   };
 
   const handleSend = (text) => {
@@ -314,3 +320,4 @@ const AICommanderHub = () => {
 };
 
 export default React.memo(AICommanderHub);
+

@@ -234,3 +234,4 @@ const MobileInvestmentsView = () => {
 };
 
 export default React.memo(MobileInvestmentsView);
+

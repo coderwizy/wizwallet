@@ -79,3 +79,4 @@ const MobileTaxView = () => {
 };
 
 export default React.memo(MobileTaxView);
+

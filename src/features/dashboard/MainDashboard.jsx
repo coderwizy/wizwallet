@@ -39,10 +39,11 @@ const MainDashboard = ({ setActiveTab }) => {
   const [chartRange, setChartRange] = useState('7d');
   const [isCustomizeOpen, setIsCustomizeOpen] = useState(false);
 
-  const totalNetWorth = portfolioNetWorth.netWorth;
+  const totalNetWorth = portfolioNetWorth?.netWorth || 0;
+  const breakdown = portfolioNetWorth?.breakdown || {};
   const previousNetWorth = balanceHistory.length > 1
-    ? balanceHistory[balanceHistory.length - 2].value
-    : balanceHistory[0]?.value || totalNetWorth;
+    ? (balanceHistory[balanceHistory.length - 2]?.value ?? totalNetWorth)
+    : (balanceHistory[0]?.value ?? totalNetWorth);
   const netWorthChange = previousNetWorth > 0
     ? (((totalNetWorth - previousNetWorth) / previousNetWorth) * 100).toFixed(2)
     : '0.00';
@@ -175,7 +176,7 @@ const MainDashboard = ({ setActiveTab }) => {
             </div>
             <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Investment Portfolio</p>
             <h3 className="text-2xl font-extrabold text-[#22251F] tabular-nums mt-1">
-              ${mask(portfolioNetWorth.breakdown.investmentsValue.toLocaleString())}
+              ${mask((breakdown.investmentsValue || 0).toLocaleString())}
             </h3>
             <p className="text-[11px] text-[#77786F] mt-1">{investments.length} active market positions</p>
           </Card>
@@ -189,9 +190,9 @@ const MainDashboard = ({ setActiveTab }) => {
             </div>
             <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Real Estate Equity</p>
             <h3 className="text-2xl font-extrabold text-[#22251F] tabular-nums mt-1">
-              ${mask((portfolioNetWorth.breakdown.realEstateValue - portfolioNetWorth.breakdown.realEstateDebt).toLocaleString())}
+              ${mask(((breakdown.realEstateValue || 0) - (breakdown.realEstateDebt || 0)).toLocaleString())}
             </h3>
-            <p className="text-[11px] text-[#77786F] mt-1">Gross assets: ${mask(portfolioNetWorth.breakdown.realEstateValue.toLocaleString())}</p>
+            <p className="text-[11px] text-[#77786F] mt-1">Gross assets: ${mask((breakdown.realEstateValue || 0).toLocaleString())}</p>
           </Card>
 
           <Card className="p-5 border border-[#EAE8DF] bg-white">
@@ -282,14 +283,14 @@ const MainDashboard = ({ setActiveTab }) => {
 
             <div className="space-y-2.5 pt-2">
               {[
-                { label: 'Liquid Wallet & Vault', val: portfolioNetWorth.breakdown.liquidWallet, color: '#526B56' },
-                { label: 'Global Bank Deposits', val: portfolioNetWorth.breakdown.bankBalance, color: '#82977B' },
-                { label: 'Securities & Equities', val: portfolioNetWorth.breakdown.investmentsValue, color: '#7C5ABF' },
-                { label: 'Real Estate Holdings', val: portfolioNetWorth.breakdown.realEstateValue, color: '#C18A48' },
-                { label: 'Corporate Ventures', val: portfolioNetWorth.breakdown.businessValuation, color: '#4A7C8A' },
-                { label: 'Industrial Sectors', val: portfolioNetWorth.breakdown.sectorsValuation, color: '#C66D65' }
+                { label: 'Liquid Wallet & Vault', val: breakdown.liquidWallet || 0, color: '#526B56' },
+                { label: 'Global Bank Deposits', val: breakdown.bankBalance || 0, color: '#82977B' },
+                { label: 'Securities & Equities', val: breakdown.investmentsValue || 0, color: '#7C5ABF' },
+                { label: 'Real Estate Holdings', val: breakdown.realEstateValue || 0, color: '#C18A48' },
+                { label: 'Corporate Ventures', val: breakdown.businessValuation || 0, color: '#4A7C8A' },
+                { label: 'Industrial Sectors', val: breakdown.sectorsValuation || 0, color: '#C66D65' }
               ].map(item => {
-                const total = portfolioNetWorth.totalAssets || 1;
+                const total = portfolioNetWorth?.totalAssets || 1;
                 const pct = Math.round((item.val / total) * 100);
                 return (
                   <div key={item.label} className="space-y-1">
@@ -307,7 +308,7 @@ const MainDashboard = ({ setActiveTab }) => {
 
             <div className="pt-2 border-t border-[#EAE8DF] flex justify-between items-center text-xs">
               <span className="text-[#77786F]">Total Debt Liabilities:</span>
-              <span className="font-bold text-[#C66D65] tabular-nums">-${mask(portfolioNetWorth.totalLiabilities.toLocaleString())}</span>
+              <span className="font-bold text-[#C66D65] tabular-nums">-${mask((portfolioNetWorth?.totalLiabilities || 0).toLocaleString())}</span>
             </div>
           </Card>
         </div>

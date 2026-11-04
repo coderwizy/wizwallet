@@ -11,7 +11,7 @@ const MobileSimulatorView = () => {
   const { portfolioNetWorth, cashFlowMetrics, privacyMode } = useEmpire();
   const [years, setYears] = useState(5);
 
-  const startingCapital = Math.max(100000, portfolioNetWorth.netWorth);
+  const startingCapital = Math.max(100000, portfolioNetWorth?.netWorth || 0);
 
   const forecast = useMemo(() => {
     return generateWealthForecasts({
@@ -81,3 +81,4 @@ const MobileSimulatorView = () => {
 };
 
 export default React.memo(MobileSimulatorView);
+

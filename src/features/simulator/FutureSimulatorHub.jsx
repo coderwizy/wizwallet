@@ -1,4 +1,4 @@
- import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useEmpire } from '../../context/EmpireContext';
 import { generateWealthForecasts } from '../../utils/financialCalculations';
 import {
@@ -23,7 +23,7 @@ const FutureSimulatorHub = () => {
   const [activeScenario, setActiveScenario] = useState('Balanced');
 
   // Starting net worth defaulted to actual state
-  const startingCapital = Math.max(100000, portfolioNetWorth.netWorth);
+  const startingCapital = Math.max(100000, portfolioNetWorth?.netWorth || 0);
 
   // Forecast engine
   const forecast = useMemo(() => {

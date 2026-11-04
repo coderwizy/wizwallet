@@ -8,12 +8,17 @@ import Button from '../../ui/Button';
 import Badge from '../../ui/Badge';
 
 const MobileCommanderView = () => {
-  const { portfolioNetWorth, cashFlowMetrics, businesses, wallet, privacyMode } = useEmpire();
+  const { portfolioNetWorth, cashFlowMetrics, businesses = [], wallet, privacyMode } = useEmpire();
   const [query, setQuery] = useState('');
+
+  const currentNw = portfolioNetWorth?.netWorth || 0;
+  const currentCf = cashFlowMetrics?.netMonthlyCashflow || 0;
+  const breakdown = portfolioNetWorth?.breakdown || {};
+
   const [messages, setMessages] = useState([
     {
       sender: 'ai',
-      text: `AI Commander online. Current Net Worth is $${portfolioNetWorth.netWorth.toLocaleString()}, generating $${cashFlowMetrics.netMonthlyCashflow.toLocaleString()}/mo net surplus. How can I assist?`
+      text: `AI Commander online. Current Net Worth is $${currentNw.toLocaleString()}, generating $${currentCf.toLocaleString()}/mo net surplus. How can I assist?`
     }
   ]);
 
@@ -21,15 +26,15 @@ const MobileCommanderView = () => {
     const q = (text || query).trim();
     if (!q) return;
 
-    let reply = `Portfolio status: Total net worth is $${portfolioNetWorth.netWorth.toLocaleString()} across ${businesses.length} commercial nodes. Monthly cash flow is healthy at +$${cashFlowMetrics.netMonthlyCashflow.toLocaleString()}/mo.`;
+    let reply = `Portfolio status: Total net worth is $${currentNw.toLocaleString()} across ${businesses.length} commercial nodes. Monthly cash flow is healthy at +$${currentCf.toLocaleString()}/mo.`;
 
     const lower = q.toLowerCase();
     if (lower.includes('net worth') || lower.includes('worth')) {
-      reply = `Audited Net Worth: $${portfolioNetWorth.netWorth.toLocaleString()} ($${portfolioNetWorth.breakdown.liquidWallet.toLocaleString()} in liquid wallet, $${portfolioNetWorth.breakdown.bankBalance.toLocaleString()} bank, $${portfolioNetWorth.breakdown.investmentsValue.toLocaleString()} investments, $${portfolioNetWorth.breakdown.realEstateValue.toLocaleString()} real estate).`;
+      reply = `Audited Net Worth: $${currentNw.toLocaleString()} ($${(breakdown.liquidWallet || 0).toLocaleString()} in liquid wallet, $${(breakdown.bankBalance || 0).toLocaleString()} bank, $${(breakdown.investmentsValue || 0).toLocaleString()} investments, $${(breakdown.realEstateValue || 0).toLocaleString()} real estate).`;
     } else if (lower.includes('profit') || lower.includes('best')) {
       reply = `Highest yielding node: AI Services Firm generates $92,000/mo gross with $52,000/mo net profit margin.`;
     } else if (lower.includes('passive')) {
-      reply = `Passive Income: +$${cashFlowMetrics.passiveIncome.toLocaleString()}/mo derived from real estate leases and investment dividends.`;
+      reply = `Passive Income: +$${(cashFlowMetrics?.passiveIncome || 0).toLocaleString()}/mo derived from real estate leases and investment dividends.`;
     }
 
     setMessages(prev => [
@@ -98,3 +103,4 @@ const MobileCommanderView = () => {
 };
 
 export default React.memo(MobileCommanderView);
+

@@ -51,3 +51,4 @@ const MobileVaultView = () => {
 };
 
 export default React.memo(MobileVaultView);
+

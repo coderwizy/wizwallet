@@ -178,3 +178,4 @@ const MobileRealEstateView = () => {
 };
 
 export default React.memo(MobileRealEstateView);
+
