@@ -13,7 +13,7 @@ import Modal from '../../components/ui/Modal';
 import ConfirmationDialog from '../../components/ui/ConfirmationDialog';
 
 const RealEstateHub = () => {
-  const {properties, addProperty, updateProperty, removeProperty,
+  const { properties, addProperty, updateProperty, removeProperty,
     bank, privacyMode, currencySymbol } = useEmpire();
 
   const [search, setSearch] = useState('');
@@ -67,7 +67,7 @@ const RealEstateHub = () => {
   const filteredProperties = useMemo(() => {
     return properties.filter(p => {
       const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
-                            (p.address || '').toLowerCase().includes(search.toLowerCase());
+        (p.address || '').toLowerCase().includes(search.toLowerCase());
       const matchesType = filterType === 'All' || p.type === filterType;
       return matchesSearch && matchesType;
     });
@@ -421,7 +421,7 @@ const RealEstateHub = () => {
 
           <div className="grid grid-cols-2 gap-3">
             <Input
-              label="Mortgage Loan Balance ($)"
+              label="Mortgage Loan ($)"
               type="number"
               value={form.loanBalance}
               onChange={e => setForm({ ...form, loanBalance: e.target.value })}
