@@ -10,7 +10,7 @@ import Input from '../../ui/Input';
 import MobileActionSheet from '../MobileActionSheet';
 
 const MobileExpenseView = () => {
-  const { expenses, addExpense, removeExpense, budgets, privacyMode } = useEmpire();
+  const { expenses, addExpense, removeExpense, budgets, privacyMode, currencySymbol } = useEmpire();
   const [showAddSheet, setShowAddSheet] = useState(false);
   const [scope, setScope] = useState('All');
 

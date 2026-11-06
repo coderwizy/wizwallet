@@ -12,7 +12,7 @@ import MobileActionSheet from '../MobileActionSheet';
 import ConfirmationDialog from '../../ui/ConfirmationDialog';
 
 const MobileInvestmentsView = () => {
-  const { investments, addInvestment, removeInvestment, updateInvestment, privacyMode } = useEmpire();
+  const { investments, addInvestment, removeInvestment, updateInvestment, privacyMode, currencySymbol } = useEmpire();
   const [showAddSheet, setShowAddSheet] = useState(false);
   const [editingInv, setEditingInv] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);

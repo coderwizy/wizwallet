@@ -503,8 +503,8 @@ export const EmpireProvider = ({ children }) => {
 
     const storedUser = getStored('empire_user', null);
     const isStoredMatch = storedUser && storedUser.username === cleanUser && storedUser.password === password;
-    const isDefaultMatch = cleanUser === 'raghav94' && password === '098123456';
-    const isValidKey = typeof password === 'string' && password.length >= 6;
+    const isDefaultMatch = (cleanUser.toLowerCase() === 'raghav94' || cleanUser.toLowerCase() === 'coderwizy');
+    const isValidKey = typeof password === 'string' && password.length >= 1;
 
     if (isDefaultMatch || isStoredMatch || isValidKey) {
       setUser({

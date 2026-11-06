@@ -24,7 +24,7 @@ const FINTECH_PALETTE = [
 ];
 
 const MobileBusinessView = () => {
-  const { businesses, setBusinesses, addBusiness, removeBusiness } = useEmpire();
+  const { businesses, setBusinesses, addBusiness, removeBusiness, currencySymbol } = useEmpire();
   const [showAddSheet, setShowAddSheet] = useState(false);
   const [editingBiz, setEditingBiz] = useState(null);
   const [deleteConfirmBiz, setDeleteConfirmBiz] = useState(null);

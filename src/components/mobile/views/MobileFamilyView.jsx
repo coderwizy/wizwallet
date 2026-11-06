@@ -12,7 +12,7 @@ import Input from '../../ui/Input';
 const COLORS = ['#526B56', '#82977B', '#C18A48', '#7C5ABF', '#4A90A4'];
 
 const MobileFamilyView = () => {
-  const { wallet, bank, members, addFamilyMember, updateFamilyMember } = useEmpire();
+  const { wallet, bank, members, addFamilyMember, updateFamilyMember, currencySymbol } = useEmpire();
   const [showAddSheet, setShowAddSheet] = useState(false);
   const [editingMember, setEditingMember] = useState(null);
   const [hoveredMember, setHoveredMember] = useState(null);

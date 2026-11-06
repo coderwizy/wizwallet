@@ -20,7 +20,7 @@ const GROWTH_TIERS = [
 ];
 
 const MobileWalletView = ({ setActiveTab }) => {
-  const { wallet, setWallet, addTransaction, transferFunds, businesses, sectors } = useEmpire();
+  const { wallet, setWallet, addTransaction, transferFunds, businesses, sectors, currencySymbol } = useEmpire();
   const [balanceHidden, setBalanceHidden] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(wallet.balance);

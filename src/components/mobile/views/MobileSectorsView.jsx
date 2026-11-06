@@ -8,7 +8,7 @@ import Button from '../../ui/Button';
 import Badge from '../../ui/Badge';
 
 const MobileSectorsView = () => {
-  const { sectors, setSectors } = useEmpire();
+  const { sectors, setSectors, currencySymbol } = useEmpire();
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('revenue');
   const [selectedSector, setSelectedSector] = useState(null);

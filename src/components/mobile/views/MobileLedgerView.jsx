@@ -6,7 +6,7 @@ import Card from '../../ui/Card';
 import Button from '../../ui/Button';
 
 const MobileLedgerView = () => {
-  const { transactions } = useEmpire();
+  const { transactions, currencySymbol } = useEmpire();
   const [search, setSearch] = useState('');
   const [filterModule, setFilterModule] = useState('All');
   const [filterType, setFilterType] = useState('All');

@@ -5,7 +5,7 @@ import Card from '../../ui/Card';
 import Badge from '../../ui/Badge';
 
 const MobileSimulatorView = () => {
-  const { wallet, bank, portfolioNetWorth, cashFlowMetrics, privacyMode } = useEmpire();
+  const { wallet, bank, portfolioNetWorth, cashFlowMetrics, privacyMode, currencySymbol } = useEmpire();
   const [years, setYears] = useState(5);
 
   const actualNetWorth = portfolioNetWorth?.netWorth ?? ((wallet?.balance || 0) + (bank?.balance || 0));

@@ -12,7 +12,7 @@ import MobileActionSheet from '../MobileActionSheet';
 import ConfirmationDialog from '../../ui/ConfirmationDialog';
 
 const MobileRealEstateView = () => {
-  const { properties, addProperty, removeProperty, privacyMode } = useEmpire();
+  const { properties, addProperty, removeProperty, privacyMode, currencySymbol } = useEmpire();
   const [showAddSheet, setShowAddSheet] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
 

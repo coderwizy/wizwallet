@@ -6,7 +6,7 @@ import Card from '../../ui/Card';
 import Badge from '../../ui/Badge';
 
 const MobileTaxView = () => {
-  const { taxSettings, updateTaxSettings, cashFlowMetrics, privacyMode } = useEmpire();
+  const { taxSettings, updateTaxSettings, cashFlowMetrics, privacyMode, currencySymbol } = useEmpire();
 
   const jurisdictionKey = taxSettings?.jurisdiction || 'US';
   const customDeductions = taxSettings?.customDeductions || 25000;

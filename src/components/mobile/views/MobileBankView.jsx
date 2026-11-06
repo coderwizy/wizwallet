@@ -20,7 +20,7 @@ const APY_RATES = [
 ];
 
 const MobileBankView = () => {
-  const { bank, setBank, wallet, setWallet, addTransaction } = useEmpire();
+  const { bank, setBank, wallet, setWallet, addTransaction, currencySymbol } = useEmpire();
   const [selectedApy, setSelectedApy] = useState(bank.interestTier === 'Safe' ? 1.0 : bank.interestTier === 'High Yield' ? 5.0 : bank.interestTier === 'Imperial' ? 12.0 : 2.0);
 
   // Forex state

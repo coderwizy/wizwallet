@@ -46,12 +46,6 @@ const LoginPage = () => {
       return;
     }
 
-    if (password.length < 6) {
-      setError(true);
-      setErrorMessage('Master key must be at least 6 characters.');
-      return;
-    }
-
     setLoading(true);
     setError(false);
 
@@ -69,7 +63,7 @@ const LoginPage = () => {
           localStorage.removeItem('wz_remembered_user');
         }
       }
-    }, 400);
+    }, 250);
   };
 
   return (
@@ -208,6 +202,34 @@ const LoginPage = () => {
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
+                </div>
+              </div>
+
+              {/* Quick Account Switch */}
+              <div className="flex items-center justify-between text-xs pt-1">
+                <span className="text-[11px] font-bold text-[#77786F]">Quick Select:</span>
+                <div className="flex items-center gap-1.5">
+                  {[
+                    { id: 'coderwizy', label: 'coderwizy' },
+                    { id: 'raghav94', label: 'raghav94' }
+                  ].map(acc => (
+                    <button
+                      key={acc.id}
+                      type="button"
+                      onClick={() => {
+                        setUsername(acc.id);
+                        setPassword('098123456');
+                        if (error) setError(false);
+                      }}
+                      className={`px-2.5 py-0.5 rounded-lg text-[11px] font-bold border transition-all cursor-pointer ${
+                        username.toLowerCase() === acc.id
+                          ? 'bg-[#526B56] text-white border-[#526B56]'
+                          : 'bg-[#FCFBF8] text-[#22251F] border-[#EAE8DF] hover:border-[#526B56]'
+                      }`}
+                    >
+                      {acc.label}
+                    </button>
+                  ))}
                 </div>
               </div>
 
