@@ -68,10 +68,10 @@ const FamilyHub = () => {
       {/* ── Page Header ── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A3A297] mb-1">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ww-text-muted mb-1">
             Private Family Office & Estate Governance
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold text-[#22251F] tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-bold text-ww-text tracking-tight">
             Family Empire
           </h2>
         </div>
@@ -84,18 +84,18 @@ const FamilyHub = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         {/* Total Trust Capital Card */}
         <div className="lg:col-span-8">
-          <Card className="p-7 md:p-8 flex flex-col justify-between h-full border border-[#EAE8DF] bg-white">
+          <Card className="p-7 md:p-8 flex flex-col justify-between h-full border border-ww-border bg-white">
             <div>
               <div className="flex justify-between items-start mb-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-xl bg-[#F3EEF8] border border-[#DECDEE] flex items-center justify-center text-[#7C5ABF]">
+                  <div className="w-11 h-11 rounded-xl bg-ww-violet-bg border border-ww-violet/30 flex items-center justify-center text-ww-violet">
                     <Users className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">
                       Sovereign Family Trust
                     </p>
-                    <p className="text-xs font-bold text-[#22251F]">
+                    <p className="text-xs font-bold text-ww-text">
                       Council Estate Governance
                     </p>
                   </div>
@@ -103,29 +103,29 @@ const FamilyHub = () => {
                 <Badge variant="violet">Trust Active</Badge>
               </div>
 
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297] mb-1">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted mb-1">
                 Total Protected Trust Capital
               </p>
-              <h1 className="text-4xl md:text-5xl font-extrabold text-[#22251F] tabular-nums tracking-tight">
+              <h1 className="text-4xl md:text-5xl font-extrabold text-ww-text tabular-nums tracking-tight">
                 {currencySymbol}{totalWealth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
               </h1>
-              <p className="text-xs text-[#77786F] mt-1.5 font-medium">
+              <p className="text-xs text-ww-text-secondary mt-1.5 font-medium">
                 Combined liquid vault and institutional bank reserve allocated across family council.
               </p>
             </div>
 
-            <div className="mt-8 pt-5 border-t border-[#EAE8DF] grid grid-cols-3 gap-4 text-center">
-              <div className="p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
-                <p className="text-[10px] font-semibold text-[#A3A297] uppercase tracking-wider">Council Members</p>
-                <p className="text-base font-bold text-[#7C5ABF] tabular-nums mt-0.5">{members.length} Enshrined</p>
+            <div className="mt-8 pt-5 border-t border-ww-border grid grid-cols-3 gap-4 text-center">
+              <div className="p-2.5 bg-ww-elevated rounded-xl border border-ww-border">
+                <p className="text-[10px] font-semibold text-ww-text-muted uppercase tracking-wider">Council Members</p>
+                <p className="text-base font-bold text-ww-violet tabular-nums mt-0.5">{members.length} Enshrined</p>
               </div>
-              <div className="p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
-                <p className="text-[10px] font-semibold text-[#A3A297] uppercase tracking-wider">Allocated Share</p>
-                <p className="text-base font-bold text-[#526B56] tabular-nums mt-0.5">{totalAllocated}% of Trust</p>
+              <div className="p-2.5 bg-ww-elevated rounded-xl border border-ww-border">
+                <p className="text-[10px] font-semibold text-ww-text-muted uppercase tracking-wider">Allocated Share</p>
+                <p className="text-base font-bold text-ww-accent tabular-nums mt-0.5">{totalAllocated}% of Trust</p>
               </div>
-              <div className="p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
-                <p className="text-[10px] font-semibold text-[#A3A297] uppercase tracking-wider">Legacy Status</p>
-                <p className="text-base font-bold text-[#C18A48] mt-0.5">Generational</p>
+              <div className="p-2.5 bg-ww-elevated rounded-xl border border-ww-border">
+                <p className="text-[10px] font-semibold text-ww-text-muted uppercase tracking-wider">Legacy Status</p>
+                <p className="text-base font-bold text-ww-warning mt-0.5">Generational</p>
               </div>
             </div>
           </Card>
@@ -133,16 +133,16 @@ const FamilyHub = () => {
 
         {/* Wealth Allocation Donut Chart */}
         <div className="lg:col-span-4">
-          <Card className="p-6 h-full flex flex-col justify-between border border-[#EAE8DF] bg-white space-y-4">
+          <Card className="p-6 h-full flex flex-col justify-between border border-ww-border bg-white space-y-4">
             <div>
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-1.5">
-                  <PieIcon className="w-3.5 h-3.5 text-[#7C5ABF]" />
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#A3A297]">Distribution</h3>
+                  <PieIcon className="w-3.5 h-3.5 text-ww-violet" />
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-ww-text-muted">Distribution</h3>
                 </div>
                 <Badge variant="violet">{totalAllocated}% Allocated</Badge>
               </div>
-              <p className="text-sm font-bold text-[#22251F]">Council Wealth Allocation</p>
+              <p className="text-sm font-bold text-ww-text">Council Wealth Allocation</p>
 
               <div className="relative flex items-center justify-center my-3">
                 <div className="h-52 w-full max-w-[240px]">
@@ -175,20 +175,20 @@ const FamilyHub = () => {
 
                 {/* Center Badge */}
                 <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297] truncate max-w-[120px]">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted truncate max-w-[120px]">
                     {hoveredMember ? hoveredMember.name : 'Trust Share'}
                   </span>
-                  <span className="text-base font-extrabold text-[#22251F] tabular-nums mt-0.5">
+                  <span className="text-base font-extrabold text-ww-text tabular-nums mt-0.5">
                     {hoveredMember ? `${hoveredMember.wealth}%` : `${totalAllocated}%`}
                   </span>
-                  <span className="text-[10px] font-bold text-[#7C5ABF]">
+                  <span className="text-[10px] font-bold text-ww-violet">
                     {hoveredMember ? 'Council Share' : `${members.length} Members`}
                   </span>
                 </div>
               </div>
 
               {/* Segment Breakdown */}
-              <div className="space-y-2 mt-2 pt-3 border-t border-[#EAE8DF] max-h-40 overflow-y-auto scroll-hide">
+              <div className="space-y-2 mt-2 pt-3 border-t border-ww-border max-h-40 overflow-y-auto scroll-hide">
                 {members.map((member, i) => {
                   const isHovered = hoveredMember?.id === member.id;
                   const color = COLORS[i % COLORS.length];
@@ -198,19 +198,19 @@ const FamilyHub = () => {
                       onMouseEnter={() => setHoveredMember(member)}
                       onMouseLeave={() => setHoveredMember(null)}
                       className={`p-2 rounded-xl transition-all cursor-pointer ${
-                        isHovered ? 'bg-[#F3EEF8]' : 'hover:bg-[#FCFBF8]'
+                        isHovered ? 'bg-ww-violet-bg' : 'hover:bg-ww-elevated'
                       }`}
                     >
                       <div className="flex items-center justify-between text-xs mb-1">
                         <div className="flex items-center gap-2 truncate mr-2">
                           <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: color }} />
-                          <span className={`font-semibold truncate ${isHovered ? 'text-[#7C5ABF]' : 'text-[#22251F]'}`}>
+                          <span className={`font-semibold truncate ${isHovered ? 'text-ww-violet' : 'text-ww-text'}`}>
                             {member.name}
                           </span>
                         </div>
-                        <span className="font-bold tabular-nums text-[#22251F]">{member.wealth}%</span>
+                        <span className="font-bold tabular-nums text-ww-text">{member.wealth}%</span>
                       </div>
-                      <div className="w-full h-1.5 bg-[#F1EFE7] rounded-full overflow-hidden">
+                      <div className="w-full h-1.5 bg-ww-bg-alt rounded-full overflow-hidden">
                         <div
                           className="h-full rounded-full transition-all duration-300"
                           style={{ width: `${member.wealth}%`, backgroundColor: color }}
@@ -230,37 +230,37 @@ const FamilyHub = () => {
         {/* Members Cards */}
         <div className="lg:col-span-8 space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[#A3A297]">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-ww-text-muted">
               Family Council Members ({members.length})
             </h3>
-            <span className="text-[11px] text-[#77786F]">Click any member to adjust share</span>
+            <span className="text-[11px] text-ww-text-secondary">Click any member to adjust share</span>
           </div>
 
           {members.map(member => (
             <Card
               key={member.id}
-              className="p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border border-[#EAE8DF] bg-white hover:border-[#D5D2C8] transition-colors"
+              className="p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border border-ww-border bg-white hover:border-ww-border-strong transition-colors"
             >
               <div className="flex items-center gap-3.5 min-w-0">
-                <div className="w-10 h-10 rounded-xl bg-[#F3EEF8] border border-[#DECDEE] flex items-center justify-center text-[#7C5ABF] shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-ww-violet-bg border border-ww-violet/30 flex items-center justify-center text-ww-violet shrink-0">
                   <Heart className="w-5 h-5" />
                 </div>
                 <div className="min-w-0">
-                  <h4 className="font-bold text-[#22251F] text-sm truncate">{member.name}</h4>
-                  <p className="text-[10px] text-[#77786F] font-semibold mt-0.5">
-                    {member.role} · Wealth Share: <span className="text-[#526B56] font-bold">{member.wealth}%</span> (~{currencySymbol}{Math.round((totalWealth * member.wealth) / 100).toLocaleString()})
+                  <h4 className="font-bold text-ww-text text-sm truncate">{member.name}</h4>
+                  <p className="text-[10px] text-ww-text-secondary font-semibold mt-0.5">
+                    {member.role} · Wealth Share: <span className="text-ww-accent font-bold">{member.wealth}%</span> (~{currencySymbol}{Math.round((totalWealth * member.wealth) / 100).toLocaleString()})
                   </p>
                 </div>
               </div>
 
               <div className="flex-1 w-full sm:max-w-xs space-y-1.5">
-                <div className="flex justify-between text-[10px] font-semibold text-[#77786F]">
+                <div className="flex justify-between text-[10px] font-semibold text-ww-text-secondary">
                   <span className="truncate mr-2">Goal: {member.goal}</span>
-                  <span className="tabular-nums text-[#22251F] font-bold">{member.wealth}%</span>
+                  <span className="tabular-nums text-ww-text font-bold">{member.wealth}%</span>
                 </div>
-                <div className="w-full h-2 bg-[#F1EFE7] rounded-full overflow-hidden border border-[#EAE8DF]">
+                <div className="w-full h-2 bg-ww-bg-alt rounded-full overflow-hidden border border-ww-border">
                   <div
-                    className="h-full bg-[#526B56] rounded-full transition-all duration-500"
+                    className="h-full bg-ww-accent rounded-full transition-all duration-500"
                     style={{ width: `${Math.min(member.wealth, 100)}%` }}
                   />
                 </div>
@@ -286,14 +286,14 @@ const FamilyHub = () => {
             { label: 'Legacy Goals', icon: Target, value: '12 ACTIVE', sub: 'Projected Target: 2028' },
             { label: 'Tax Governance', icon: ShieldCheck, value: 'OPTIMIZED', sub: 'Zero-Liability Trust Mode' }
           ].map((item) => (
-            <Card key={item.label} className="p-4 border border-[#EAE8DF] bg-white flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56] flex items-center justify-center shrink-0">
+            <Card key={item.label} className="p-4 border border-ww-border bg-white flex items-center gap-3.5">
+              <div className="w-10 h-10 rounded-xl bg-ww-green-bg border border-ww-accent/20 text-ww-accent flex items-center justify-center shrink-0">
                 <item.icon className="w-5 h-5" />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-[10px] font-semibold text-[#A3A297] uppercase tracking-wider">{item.label}</p>
-                <p className="text-xs font-bold text-[#22251F]">{item.value}</p>
-                <p className="text-[10px] text-[#77786F] truncate mt-0.5">{item.sub}</p>
+                <p className="text-[10px] font-semibold text-ww-text-muted uppercase tracking-wider">{item.label}</p>
+                <p className="text-xs font-bold text-ww-text">{item.value}</p>
+                <p className="text-[10px] text-ww-text-secondary truncate mt-0.5">{item.sub}</p>
               </div>
             </Card>
           ))}
@@ -317,11 +317,11 @@ const FamilyHub = () => {
           />
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-bold text-[#77786F] block mb-1.5">Council Role</label>
+              <label className="text-xs font-bold text-ww-text-secondary block mb-1.5">Council Role</label>
               <select
                 value={addForm.role}
                 onChange={(e) => setAddForm({ ...addForm, role: e.target.value })}
-                className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2.5 text-xs text-[#22251F] font-semibold outline-none focus:border-[#526B56]"
+                className="w-full bg-ww-elevated border border-ww-border rounded-xl p-2.5 text-xs text-ww-text font-semibold outline-none focus:border-ww-accent"
               >
                 <option value="Strategist">Strategist</option>
                 <option value="Analyst">Analyst</option>

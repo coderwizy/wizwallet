@@ -62,23 +62,23 @@ const getInitialTab = () => {
 
 const ShortcutModal = ({ onClose }) => (
   <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-    <div className="absolute inset-0 bg-[#22251F]/40 backdrop-blur-xs" onClick={onClose} />
-    <div className="relative z-10 w-full max-w-sm bg-white border border-[#EAE8DF] rounded-2xl shadow-[0_20px_60px_rgba(34,37,31,0.15)] p-6">
+    <div className="absolute inset-0 bg-ww-text/40 backdrop-blur-xs" onClick={onClose} />
+    <div className="relative z-10 w-full max-w-sm bg-white border border-ww-border rounded-2xl shadow-[0_20px_60px_rgba(34,37,31,0.15)] p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-bold text-[#22251F]">Keyboard Shortcuts</h3>
-        <span className="text-[10px] text-[#A3A297] font-medium">Quick Access</span>
+        <h3 className="text-sm font-bold text-ww-text">Keyboard Shortcuts</h3>
+        <span className="text-[10px] text-ww-text-muted font-medium">Quick Access</span>
       </div>
       <div className="space-y-2">
         {SHORTCUTS.map(({ key, action }) => (
-          <div key={key} className="flex justify-between items-center p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
-            <span className="text-xs font-medium text-[#22251F]">{action}</span>
-            <kbd className="px-2 py-0.5 bg-white border border-[#EAE8DF] rounded text-[#77786F] font-mono text-xs shadow-2xs">
+          <div key={key} className="flex justify-between items-center p-2.5 bg-ww-elevated rounded-xl border border-ww-border">
+            <span className="text-xs font-medium text-ww-text">{action}</span>
+            <kbd className="px-2 py-0.5 bg-white border border-ww-border rounded text-ww-text-secondary font-mono text-xs shadow-2xs">
               {key}
             </kbd>
           </div>
         ))}
       </div>
-      <p className="text-[10px] text-[#A3A297] mt-4 text-center">Press Escape or ? to close</p>
+      <p className="text-[10px] text-ww-text-muted mt-4 text-center">Press Escape or ? to close</p>
     </div>
   </div>
 );
@@ -221,7 +221,7 @@ const App = () => {
       </div>
 
       {/* Desktop Command Center Shell (>= 1024px / hidden lg:flex) */}
-      <div className="hidden lg:flex h-screen bg-[#F8F7F2] text-[#22251F] overflow-hidden relative">
+      <div className="hidden lg:flex h-screen bg-ww-bg text-ww-text overflow-hidden relative">
         <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
@@ -235,16 +235,16 @@ const App = () => {
               {renderContent()}
             </div>
           </main>
-          <footer className="py-2.5 px-6 text-center text-xs text-[#A3A297] border-t border-[#EAE8DF] bg-white flex items-center justify-between">
+          <footer className="py-2.5 px-6 text-center text-xs text-ww-text-muted border-t border-ww-border bg-white flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#66866A]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-ww-success" />
               <span>WizWallet 3.0 · Personal Financial & Empire Command Center</span>
             </div>
             <div>
               Press{' '}
-              <kbd className="px-1.5 py-0.5 bg-[#F1EFE7] border border-[#EAE8DF] rounded text-[#77786F] font-mono text-[10px]">?</kbd>{' '}
+              <kbd className="px-1.5 py-0.5 bg-ww-bg-alt border border-ww-border rounded text-ww-text-secondary font-mono text-[10px]">?</kbd>{' '}
               for shortcuts ·{' '}
-              <kbd className="px-1.5 py-0.5 bg-[#F1EFE7] border border-[#EAE8DF] rounded text-[#77786F] font-mono text-[10px]">Ctrl+K</kbd>{' '}
+              <kbd className="px-1.5 py-0.5 bg-ww-bg-alt border border-ww-border rounded text-ww-text-secondary font-mono text-[10px]">Ctrl+K</kbd>{' '}
               command palette
             </div>
           </footer>

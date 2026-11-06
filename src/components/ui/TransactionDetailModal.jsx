@@ -15,20 +15,20 @@ const TransactionDetailModal = ({ tx, isOpen, onClose }) => {
       <div className="space-y-5">
         {/* Top Receipt Amount Banner */}
         <div className={`p-5 rounded-2xl border text-center ${
-          isCredit ? 'bg-[#EDF2E9] border-[#C8D9CA]' : 'bg-[#FCEEED] border-[#E8C5C3]'
+          isCredit ? 'bg-ww-green-bg border-ww-success/30' : 'bg-ww-danger-bg border-ww-danger/30'
         }`}>
           <div className="inline-flex items-center justify-center w-10 h-10 rounded-full mb-2 bg-white shadow-xs">
             {isCredit ? (
-              <ArrowUpRight className="w-5 h-5 text-[#66866A]" />
+              <ArrowUpRight className="w-5 h-5 text-ww-success" />
             ) : (
-              <ArrowDownLeft className="w-5 h-5 text-[#C66D65]" />
+              <ArrowDownLeft className="w-5 h-5 text-ww-danger" />
             )}
           </div>
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#77786F]">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-secondary">
             {isCredit ? 'Settlement Inflow' : 'Capital Outflow'}
           </p>
           <h2 className={`text-3xl font-extrabold tabular-nums tracking-tight mt-0.5 ${
-            isCredit ? 'text-[#66866A]' : 'text-[#C66D65]'
+            isCredit ? 'text-ww-success' : 'text-ww-danger'
           }`}>
             {isCredit ? '+' : '−'}{currencySymbol}{Number(tx.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </h2>
@@ -39,30 +39,30 @@ const TransactionDetailModal = ({ tx, isOpen, onClose }) => {
         </div>
 
         {/* Detailed Breakdown Rows */}
-        <div className="bg-[#FCFBF8] border border-[#EAE8DF] rounded-2xl p-4 divide-y divide-[#EAE8DF] space-y-3">
+        <div className="bg-ww-elevated border border-ww-border rounded-2xl p-4 divide-y divide-[#EAE8DF] space-y-3">
           <div className="flex items-center justify-between text-xs pb-3">
-            <span className="text-[#77786F] flex items-center gap-1.5 font-medium">
-              <Hash className="w-3.5 h-3.5 text-[#A3A297]" /> Description
+            <span className="text-ww-text-secondary flex items-center gap-1.5 font-medium">
+              <Hash className="w-3.5 h-3.5 text-ww-text-muted" /> Description
             </span>
-            <span className="font-semibold text-[#22251F] text-right max-w-[240px] truncate">
+            <span className="font-semibold text-ww-text text-right max-w-[240px] truncate">
               {tx.description}
             </span>
           </div>
 
           <div className="flex items-center justify-between text-xs py-3">
-            <span className="text-[#77786F] flex items-center gap-1.5 font-medium">
-              <Layers className="w-3.5 h-3.5 text-[#A3A297]" /> Hub Module
+            <span className="text-ww-text-secondary flex items-center gap-1.5 font-medium">
+              <Layers className="w-3.5 h-3.5 text-ww-text-muted" /> Hub Module
             </span>
-            <span className="font-semibold text-[#526B56] bg-white px-2.5 py-0.5 rounded-full border border-[#EAE8DF]">
+            <span className="font-semibold text-ww-accent bg-white px-2.5 py-0.5 rounded-full border border-ww-border">
               {tx.module || 'System'}
             </span>
           </div>
 
           <div className="flex items-center justify-between text-xs py-3">
-            <span className="text-[#77786F] flex items-center gap-1.5 font-medium">
-              <Calendar className="w-3.5 h-3.5 text-[#A3A297]" /> Timestamp
+            <span className="text-ww-text-secondary flex items-center gap-1.5 font-medium">
+              <Calendar className="w-3.5 h-3.5 text-ww-text-muted" /> Timestamp
             </span>
-            <span className="font-medium text-[#22251F] tabular-nums">
+            <span className="font-medium text-ww-text tabular-nums">
               {new Date(tx.timestamp).toLocaleString([], {
                 year: 'numeric',
                 month: 'short',
@@ -75,10 +75,10 @@ const TransactionDetailModal = ({ tx, isOpen, onClose }) => {
           </div>
 
           <div className="flex items-center justify-between text-xs pt-3">
-            <span className="text-[#77786F] flex items-center gap-1.5 font-medium">
-              <User className="w-3.5 h-3.5 text-[#A3A297]" /> Authorized By
+            <span className="text-ww-text-secondary flex items-center gap-1.5 font-medium">
+              <User className="w-3.5 h-3.5 text-ww-text-muted" /> Authorized By
             </span>
-            <span className="font-semibold text-[#22251F]">
+            <span className="font-semibold text-ww-text">
               {tx.user || 'raghav94'}
             </span>
           </div>

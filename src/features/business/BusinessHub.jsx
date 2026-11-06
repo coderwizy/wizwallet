@@ -199,10 +199,10 @@ const BusinessHub = () => {
       {/* ── Page Header ── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A3A297] mb-1">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ww-text-muted mb-1">
             Corporate Ventures & Yield Holdings
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold text-[#22251F] tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-bold text-ww-text tracking-tight">
             Business Hub
           </h2>
         </div>
@@ -213,33 +213,33 @@ const BusinessHub = () => {
 
       {/* ── Summary Stats ── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Combined Revenue</p>
-          <h3 className="text-2xl font-bold text-[#526B56] tabular-nums mt-1">
+        <Card className="p-5 border border-ww-border bg-white">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Combined Revenue</p>
+          <h3 className="text-2xl font-bold text-ww-accent tabular-nums mt-1">
             {currencySymbol}{totalIncome.toLocaleString()}
           </h3>
-          <p className="text-[10px] text-[#77786F] mt-1">Monthly enterprise income</p>
+          <p className="text-[10px] text-ww-text-secondary mt-1">Monthly enterprise income</p>
         </Card>
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Operating Costs</p>
-          <h3 className="text-2xl font-bold text-[#C66D65] tabular-nums mt-1">
+        <Card className="p-5 border border-ww-border bg-white">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Operating Costs</p>
+          <h3 className="text-2xl font-bold text-ww-danger tabular-nums mt-1">
             {currencySymbol}{totalExpense.toLocaleString()}
           </h3>
-          <p className="text-[10px] text-[#77786F] mt-1">Monthly operational burn</p>
+          <p className="text-[10px] text-ww-text-secondary mt-1">Monthly operational burn</p>
         </Card>
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Net Profit</p>
-          <h3 className={`text-2xl font-bold tabular-nums mt-1 ${netMargin >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
+        <Card className="p-5 border border-ww-border bg-white">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Net Profit</p>
+          <h3 className={`text-2xl font-bold tabular-nums mt-1 ${netMargin >= 0 ? 'text-ww-accent' : 'text-ww-danger'}`}>
             ${netMargin.toLocaleString()}
           </h3>
-          <p className="text-[10px] text-[#77786F] mt-1">{netMarginPct}% net margin</p>
+          <p className="text-[10px] text-ww-text-secondary mt-1">{netMarginPct}% net margin</p>
         </Card>
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Active Ventures</p>
-          <h3 className="text-2xl font-bold text-[#22251F] tabular-nums mt-1">
+        <Card className="p-5 border border-ww-border bg-white">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Active Ventures</p>
+          <h3 className="text-2xl font-bold text-ww-text tabular-nums mt-1">
             {activeCount} / {businesses.length}
           </h3>
-          <p className="text-[10px] text-[#77786F] mt-1">Commercial entities</p>
+          <p className="text-[10px] text-ww-text-secondary mt-1">Commercial entities</p>
         </Card>
       </div>
 
@@ -248,21 +248,21 @@ const BusinessHub = () => {
         {/* Venture Cards */}
         <div className="lg:col-span-8 space-y-4">
           {/* Controls Bar */}
-          <div className="flex flex-col sm:flex-row gap-3 justify-between items-stretch sm:items-center bg-white p-3.5 rounded-2xl border border-[#EAE8DF]">
+          <div className="flex flex-col sm:flex-row gap-3 justify-between items-stretch sm:items-center bg-white p-3.5 rounded-2xl border border-ww-border">
             <div className="relative flex-1 max-w-sm">
-              <Search className="w-4 h-4 text-[#A3A297] absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-ww-text-muted absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 placeholder="Search ventures by name or description..."
-                className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl pl-9 pr-3 py-1.5 text-xs text-[#22251F] placeholder-[#A3A297] outline-none focus:border-[#526B56]"
+                className="w-full bg-ww-elevated border border-ww-border rounded-xl pl-9 pr-3 py-1.5 text-xs text-ww-text placeholder-ww-text-muted outline-none focus:border-ww-accent"
               />
             </div>
             <div className="flex items-center gap-2">
               <select
                 value={filterStatus}
                 onChange={e => setFilterStatus(e.target.value)}
-                className="bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl px-3 py-1.5 text-xs font-semibold text-[#22251F] outline-none"
+                className="bg-ww-elevated border border-ww-border rounded-xl px-3 py-1.5 text-xs font-semibold text-ww-text outline-none"
               >
                 <option value="All">All Statuses</option>
                 <option value="Active">Active Only</option>
@@ -271,7 +271,7 @@ const BusinessHub = () => {
               <select
                 value={sortBy}
                 onChange={e => setSortBy(e.target.value)}
-                className="bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl px-3 py-1.5 text-xs font-semibold text-[#22251F] outline-none"
+                className="bg-ww-elevated border border-ww-border rounded-xl px-3 py-1.5 text-xs font-semibold text-ww-text outline-none"
               >
                 <option value="revenue">Sort by Revenue</option>
                 <option value="profit">Sort by Profit</option>
@@ -290,13 +290,13 @@ const BusinessHub = () => {
               return (
                 <Card
                   key={biz.id}
-                  className={`p-5 flex flex-col justify-between transition-all border border-[#EAE8DF] bg-white ${
+                  className={`p-5 flex flex-col justify-between transition-all border border-ww-border bg-white ${
                     !isActive ? 'opacity-65' : ''
                   }`}
                 >
                   <div>
                     <div className="flex justify-between items-start mb-3">
-                      <div className="p-2.5 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56]">
+                      <div className="p-2.5 rounded-xl bg-ww-green-bg border border-ww-accent/20 text-ww-accent">
                         <IconComponent className="w-4 h-4" />
                       </div>
                       <div className="flex items-center gap-1.5">
@@ -305,42 +305,42 @@ const BusinessHub = () => {
                         </Badge>
                         <button
                           onClick={() => handleEditClick(biz)}
-                          className="p-1.5 rounded-lg text-[#A3A297] hover:text-[#22251F] hover:bg-[#F1EFE7] transition-all cursor-pointer"
+                          className="p-1.5 rounded-lg text-ww-text-muted hover:text-ww-text hover:bg-ww-bg-alt transition-all cursor-pointer"
                           title="Edit venture details"
                         >
                           <Edit3 className="w-3.5 h-3.5" />
                         </button>
                         <button
                           onClick={() => setDeleteConfirmBiz(biz)}
-                          className="p-1.5 rounded-lg text-[#A3A297] hover:text-[#C66D65] hover:bg-[#FCEEED] transition-all cursor-pointer"
+                          className="p-1.5 rounded-lg text-ww-text-muted hover:text-ww-danger hover:bg-ww-danger-bg transition-all cursor-pointer"
                           title="Delete venture"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </div>
-                    <h4 className="text-sm font-bold text-[#22251F] tracking-tight">{biz.name}</h4>
-                    <p className="text-xs text-[#77786F] line-clamp-2 mt-1 leading-relaxed">{biz.desc}</p>
+                    <h4 className="text-sm font-bold text-ww-text tracking-tight">{biz.name}</h4>
+                    <p className="text-xs text-ww-text-secondary line-clamp-2 mt-1 leading-relaxed">{biz.desc}</p>
                     {biz.notes && (
-                      <p className="text-[10px] text-[#A3A297] bg-[#FCFBF8] p-2 rounded-lg border border-[#EAE8DF] mt-2 italic">
+                      <p className="text-[10px] text-ww-text-muted bg-ww-elevated p-2 rounded-lg border border-ww-border mt-2 italic">
                         "{biz.notes}"
                       </p>
                     )}
                   </div>
 
-                  <div className="mt-4 pt-4 border-t border-[#EAE8DF] flex justify-between items-center">
+                  <div className="mt-4 pt-4 border-t border-ww-border flex justify-between items-center">
                     <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Monthly Net Profit</p>
-                      <p className={`text-base font-bold tabular-nums ${net >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
+                      <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Monthly Net Profit</p>
+                      <p className={`text-base font-bold tabular-nums ${net >= 0 ? 'text-ww-accent' : 'text-ww-danger'}`}>
                         {net >= 0 ? '+' : '−'}{currencySymbol}{Math.abs(net).toLocaleString()}
                       </p>
-                      <p className="text-[10px] text-[#A3A297] font-medium">{marginPct}% margin</p>
+                      <p className="text-[10px] text-ww-text-muted font-medium">{marginPct}% margin</p>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <button
                         type="button"
                         onClick={() => setDetailBiz(biz)}
-                        className="text-xs font-semibold px-2.5 py-1.5 rounded-xl border border-[#D5DFD1] text-[#526B56] bg-[#EDF2E9] hover:bg-[#D5DFD1] transition-all cursor-pointer"
+                        className="text-xs font-semibold px-2.5 py-1.5 rounded-xl border border-ww-accent/20 text-ww-accent bg-ww-green-bg hover:bg-ww-accent-subtle transition-all cursor-pointer"
                         title="Manage Enterprise Dashboard"
                       >
                         Manage
@@ -350,8 +350,8 @@ const BusinessHub = () => {
                         onClick={() => toggleStatus(biz.id)}
                         className={`text-xs font-semibold px-2.5 py-1.5 rounded-xl border transition-all cursor-pointer flex items-center gap-1 ${
                           isActive
-                            ? 'border-[#EAE8DF] text-[#77786F] hover:bg-[#F1EFE7]'
-                            : 'border-[#526B56] text-[#526B56] bg-[#EDF2E9]'
+                            ? 'border-ww-border text-ww-text-secondary hover:bg-ww-bg-alt'
+                            : 'border-ww-accent text-ww-accent bg-ww-green-bg'
                         }`}
                       >
                         {isActive ? <PauseCircle className="w-3.5 h-3.5" /> : <PlayCircle className="w-3.5 h-3.5" />}
@@ -364,10 +364,10 @@ const BusinessHub = () => {
             })}
 
             {filteredBusinesses.length === 0 && (
-              <div className="col-span-2 py-16 text-center text-[#A3A297] bg-white rounded-2xl border border-[#EAE8DF]">
+              <div className="col-span-2 py-16 text-center text-ww-text-muted bg-white rounded-2xl border border-ww-border">
                 <Briefcase className="w-10 h-10 mx-auto mb-2.5 opacity-40" />
-                <p className="text-xs font-bold uppercase tracking-wider text-[#22251F]">No ventures match criteria</p>
-                <p className="text-[11px] text-[#77786F] mt-1">Try resetting search or status filters</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-ww-text">No ventures match criteria</p>
+                <p className="text-[11px] text-ww-text-secondary mt-1">Try resetting search or status filters</p>
               </div>
             )}
           </div>
@@ -375,15 +375,15 @@ const BusinessHub = () => {
 
         {/* ── ELEVATED YIELD BREAKDOWN CARD (DESKTOP) ── */}
         <div className="lg:col-span-4">
-          <Card className="p-6 h-full flex flex-col justify-between border border-[#EAE8DF] bg-white shadow-sm space-y-4">
+          <Card className="p-6 h-full flex flex-col justify-between border border-ww-border bg-white shadow-sm space-y-4">
             <div>
               <div className="flex justify-between items-start mb-1">
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <PieIcon className="w-3.5 h-3.5 text-[#526B56]" />
-                    <h3 className="text-sm font-bold text-[#22251F]">Yield Breakdown</h3>
+                    <PieIcon className="w-3.5 h-3.5 text-ww-accent" />
+                    <h3 className="text-sm font-bold text-ww-text">Yield Breakdown</h3>
                   </div>
-                  <p className="text-[11px] text-[#77786F] mt-0.5">Top revenue contributors</p>
+                  <p className="text-[11px] text-ww-text-secondary mt-0.5">Top revenue contributors</p>
                 </div>
                 <Badge variant="accent">
                   ${activeTotalIncome.toLocaleString()} / mo
@@ -423,20 +423,20 @@ const BusinessHub = () => {
 
                 {/* Center Badge */}
                 <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297] line-clamp-1">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted line-clamp-1">
                     {hoveredVenture ? hoveredVenture.name : 'Total Yield'}
                   </span>
-                  <span className="text-lg font-extrabold text-[#22251F] tabular-nums leading-tight mt-0.5">
+                  <span className="text-lg font-extrabold text-ww-text tabular-nums leading-tight mt-0.5">
                     ${(hoveredVenture ? hoveredVenture.value : activeTotalIncome).toLocaleString()}
                   </span>
-                  <span className="text-[11px] font-bold text-[#526B56] tabular-nums">
+                  <span className="text-[11px] font-bold text-ww-accent tabular-nums">
                     {hoveredVenture ? `${hoveredVenture.percentage}% share` : `${activeCount} Active`}
                   </span>
                 </div>
               </div>
 
               {/* Segment Breakdown with proportional bars */}
-              <div className="space-y-2 mt-2 pt-3 border-t border-[#EAE8DF] max-h-56 overflow-y-auto scroll-hide">
+              <div className="space-y-2 mt-2 pt-3 border-t border-ww-border max-h-56 overflow-y-auto scroll-hide">
                 {pieData.map((item) => {
                   const isHovered = hoveredVenture?.name === item.name;
                   return (
@@ -445,7 +445,7 @@ const BusinessHub = () => {
                       onMouseEnter={() => setHoveredVenture(item)}
                       onMouseLeave={() => setHoveredVenture(null)}
                       className={`p-2 rounded-xl transition-all cursor-pointer ${
-                        isHovered ? 'bg-[#EDF2E9]' : 'hover:bg-[#FCFBF8]'
+                        isHovered ? 'bg-ww-green-bg' : 'hover:bg-ww-elevated'
                       }`}
                     >
                       <div className="flex items-center justify-between text-xs mb-1">
@@ -454,21 +454,21 @@ const BusinessHub = () => {
                             className="w-2.5 h-2.5 rounded-full shrink-0 shadow-2xs"
                             style={{ backgroundColor: item.color }}
                           />
-                          <span className={`font-semibold truncate ${isHovered ? 'text-[#526B56]' : 'text-[#22251F]'}`}>
+                          <span className={`font-semibold truncate ${isHovered ? 'text-ww-accent' : 'text-ww-text'}`}>
                             {item.name}
                           </span>
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
-                          <span className="text-[10px] font-semibold text-[#77786F] tabular-nums">
+                          <span className="text-[10px] font-semibold text-ww-text-secondary tabular-nums">
                             {item.percentage}%
                           </span>
-                          <span className="font-bold text-[#22251F] tabular-nums">
+                          <span className="font-bold text-ww-text tabular-nums">
                             {currencySymbol}{item.value.toLocaleString()}
                           </span>
                         </div>
                       </div>
 
-                      <div className="w-full h-1.5 bg-[#F1EFE7] rounded-full overflow-hidden">
+                      <div className="w-full h-1.5 bg-ww-bg-alt rounded-full overflow-hidden">
                         <div
                           className="h-full rounded-full transition-all duration-300"
                           style={{
@@ -485,14 +485,14 @@ const BusinessHub = () => {
 
             {/* Top Contributor Summary Callout */}
             {topVenture && (
-              <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl flex items-center justify-between text-xs mt-2">
+              <div className="p-3 bg-ww-elevated border border-ww-border rounded-xl flex items-center justify-between text-xs mt-2">
                 <div className="flex items-center gap-2 min-w-0">
-                  <Sparkles className="w-3.5 h-3.5 text-[#C18A48] shrink-0" />
-                  <p className="text-[11px] text-[#77786F] truncate">
-                    Top Contributor: <strong className="text-[#22251F] font-bold">{topVenture.name}</strong> ({topVenture.percentage}%)
+                  <Sparkles className="w-3.5 h-3.5 text-ww-warning shrink-0" />
+                  <p className="text-[11px] text-ww-text-secondary truncate">
+                    Top Contributor: <strong className="text-ww-text font-bold">{topVenture.name}</strong> ({topVenture.percentage}%)
                   </p>
                 </div>
-                <span className="text-[11px] font-bold text-[#526B56] shrink-0">
+                <span className="text-[11px] font-bold text-ww-accent shrink-0">
                   ${topVenture.value.toLocaleString()}
                 </span>
               </div>
@@ -533,13 +533,13 @@ const BusinessHub = () => {
             />
           </div>
           <div>
-            <label className="text-xs font-bold text-[#77786F] block mb-1.5">Description</label>
+            <label className="text-xs font-bold text-ww-text-secondary block mb-1.5">Description</label>
             <textarea
               value={addForm.desc}
               onChange={(e) => setAddForm({ ...addForm, desc: e.target.value })}
               placeholder="Operational capabilities, customer profile, and revenue model..."
               rows={3}
-              className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-3 text-sm text-[#22251F] outline-none resize-none focus:border-[#526B56]"
+              className="w-full bg-ww-elevated border border-ww-border rounded-xl p-3 text-sm text-ww-text outline-none resize-none focus:border-ww-accent"
             />
           </div>
           <Button type="submit" variant="primary" className="w-full py-2.5 mt-2">
@@ -578,13 +578,13 @@ const BusinessHub = () => {
               />
             </div>
             <div>
-              <label className="text-xs font-bold text-[#77786F] block mb-1.5">Executive Notes</label>
+              <label className="text-xs font-bold text-ww-text-secondary block mb-1.5">Executive Notes</label>
               <textarea
                 value={editForm.notes}
                 onChange={(e) => setEditForm({ ...editForm, notes: e.target.value })}
                 rows={3}
                 placeholder="Strategic priorities, expansion plans, contract milestones..."
-                className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-3 text-sm text-[#22251F] outline-none resize-none focus:border-[#526B56]"
+                className="w-full bg-ww-elevated border border-ww-border rounded-xl p-3 text-sm text-ww-text outline-none resize-none focus:border-ww-accent"
               />
             </div>
             <div className="flex gap-3 pt-2">
@@ -619,50 +619,50 @@ const BusinessHub = () => {
         >
           <div className="space-y-4">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl">
-                <span className="text-[10px] font-bold uppercase text-[#A3A297]">Enterprise Valuation</span>
-                <p className="text-base font-extrabold text-[#22251F] tabular-nums mt-0.5">
+              <div className="p-3 bg-ww-elevated border border-ww-border rounded-xl">
+                <span className="text-[10px] font-bold uppercase text-ww-text-muted">Enterprise Valuation</span>
+                <p className="text-base font-extrabold text-ww-text tabular-nums mt-0.5">
                   ${(detailBiz.valuation || (Math.max(0, (detailBiz.income || 0) - (detailBiz.expense || 0)) * 60)).toLocaleString()}
                 </p>
               </div>
 
-              <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl">
-                <span className="text-[10px] font-bold uppercase text-[#A3A297]">Workforce Headcount</span>
-                <p className="text-base font-extrabold text-[#526B56] tabular-nums mt-0.5">
+              <div className="p-3 bg-ww-elevated border border-ww-border rounded-xl">
+                <span className="text-[10px] font-bold uppercase text-ww-text-muted">Workforce Headcount</span>
+                <p className="text-base font-extrabold text-ww-accent tabular-nums mt-0.5">
                   {detailBiz.employees || 14} Employees
                 </p>
               </div>
 
-              <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl col-span-2 sm:col-span-1">
-                <span className="text-[10px] font-bold uppercase text-[#A3A297]">Operational Branches</span>
-                <p className="text-base font-extrabold text-[#4A7C8A] tabular-nums mt-0.5">
+              <div className="p-3 bg-ww-elevated border border-ww-border rounded-xl col-span-2 sm:col-span-1">
+                <span className="text-[10px] font-bold uppercase text-ww-text-muted">Operational Branches</span>
+                <p className="text-base font-extrabold text-ww-teal tabular-nums mt-0.5">
                   {detailBiz.branches || 2} Commercial Nodes
                 </p>
               </div>
             </div>
 
-            <div className="p-3.5 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl space-y-2 text-xs">
+            <div className="p-3.5 bg-ww-elevated border border-ww-border rounded-xl space-y-2 text-xs">
               <div className="flex justify-between items-center">
-                <span className="text-[#77786F]">Monthly Gross Income:</span>
-                <span className="font-bold text-[#526B56] tabular-nums">+{currencySymbol}{(detailBiz.income || 0).toLocaleString()}</span>
+                <span className="text-ww-text-secondary">Monthly Gross Income:</span>
+                <span className="font-bold text-ww-accent tabular-nums">+{currencySymbol}{(detailBiz.income || 0).toLocaleString()}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-[#77786F]">Operating Burn & Payroll:</span>
-                <span className="font-bold text-[#C66D65] tabular-nums">-{currencySymbol}{(detailBiz.expense || 0).toLocaleString()}</span>
+                <span className="text-ww-text-secondary">Operating Burn & Payroll:</span>
+                <span className="font-bold text-ww-danger tabular-nums">-{currencySymbol}{(detailBiz.expense || 0).toLocaleString()}</span>
               </div>
-              <div className="flex justify-between items-center pt-2 border-t border-[#EAE8DF]">
-                <span className="font-bold text-[#22251F]">Monthly Operating Net:</span>
-                <span className="font-extrabold text-sm text-[#526B56] tabular-nums">
+              <div className="flex justify-between items-center pt-2 border-t border-ww-border">
+                <span className="font-bold text-ww-text">Monthly Operating Net:</span>
+                <span className="font-extrabold text-sm text-ww-accent tabular-nums">
                   +${((detailBiz.income || 0) - (detailBiz.expense || 0)).toLocaleString()}
                 </span>
               </div>
             </div>
 
             {/* Strategic Expansion Controls */}
-            <div className="p-3.5 bg-[#EDF2E9] border border-[#D5DFD1] rounded-xl space-y-3">
+            <div className="p-3.5 bg-ww-green-bg border border-ww-accent/20 rounded-xl space-y-3">
               <div>
-                <h4 className="text-xs font-bold text-[#526B56]">Strategic Expansion & Reinvestment</h4>
-                <p className="text-[11px] text-[#77786F] mt-0.5">
+                <h4 className="text-xs font-bold text-ww-accent">Strategic Expansion & Reinvestment</h4>
+                <p className="text-[11px] text-ww-text-secondary mt-0.5">
                   Inject $25,000 from Smart Wallet to scale workforce and boost monthly yields by 15%.
                 </p>
               </div>
@@ -677,8 +677,8 @@ const BusinessHub = () => {
             </div>
 
             {/* Divestment Simulation */}
-            <div className="pt-2 flex justify-between items-center border-t border-[#EAE8DF]">
-              <span className="text-xs text-[#77786F]">Divest and liquidate enterprise:</span>
+            <div className="pt-2 flex justify-between items-center border-t border-ww-border">
+              <span className="text-xs text-ww-text-secondary">Divest and liquidate enterprise:</span>
               <Button
                 type="button"
                 variant="danger"

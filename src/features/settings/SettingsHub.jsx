@@ -127,29 +127,29 @@ const SettingsHub = () => {
 
       {/* ── Page Header ── */}
       <div>
-        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A3A297] mb-1">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ww-text-muted mb-1">
           System Control & Engine Calibration
         </p>
-        <h2 className="text-2xl md:text-3xl font-bold text-[#22251F] tracking-tight">
+        <h2 className="text-2xl md:text-3xl font-bold text-ww-text tracking-tight">
           Control Engine
         </h2>
       </div>
 
       <div className="space-y-5">
         {/* ── SECTION 1: SIMULATION HEARTBEAT ENGINE ── */}
-        <Card className="overflow-hidden p-0 border border-[#EAE8DF] bg-white">
-          <div className="p-5 border-b border-[#EAE8DF] bg-[#FCFBF8] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <Card className="overflow-hidden p-0 border border-ww-border bg-white">
+          <div className="p-5 border-b border-ww-border bg-ww-elevated flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <div className={`w-9 h-9 rounded-xl border flex items-center justify-center transition-colors ${
                 isPulseActive
-                  ? 'bg-[#EDF2E9] border-[#D5DFD1] text-[#526B56]'
-                  : 'bg-[#F1EFE7] border-[#D5D2C8] text-[#77786F]'
+                  ? 'bg-ww-green-bg border-ww-accent/20 text-ww-accent'
+                  : 'bg-ww-bg-alt border-ww-border-strong text-ww-text-secondary'
               }`}>
                 <Zap className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-[#22251F]">Growth Simulation Engine</h3>
-                <p className="text-[11px] text-[#77786F]">Unified heartbeat for compounding, dividends, and sector growth</p>
+                <h3 className="text-sm font-bold text-ww-text">Growth Simulation Engine</h3>
+                <p className="text-[11px] text-ww-text-secondary">Unified heartbeat for compounding, dividends, and sector growth</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -168,12 +168,12 @@ const SettingsHub = () => {
           </div>
 
           <div className="p-5 space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-ww-elevated rounded-xl border border-ww-border">
               <div>
-                <p className="text-xs font-bold text-[#22251F]">Simulation Pulse Frequency</p>
-                <p className="text-[11px] text-[#77786F] mt-0.5">Controls how often bank interest and wallet dividends compound</p>
+                <p className="text-xs font-bold text-ww-text">Simulation Pulse Frequency</p>
+                <p className="text-[11px] text-ww-text-secondary mt-0.5">Controls how often bank interest and wallet dividends compound</p>
               </div>
-              <div className="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-[#EAE8DF]">
+              <div className="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-ww-border">
                 {[5, 10, 30, 60].map(s => {
                   const ms = s * 1000;
                   const isSelected = config?.simulationSpeed === ms;
@@ -183,8 +183,8 @@ const SettingsHub = () => {
                       onClick={() => updateConfig('simulationSpeed', ms)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-[#526B56] text-white shadow-2xs'
-                          : 'text-[#77786F] hover:text-[#22251F] hover:bg-[#F8F7F2]'
+                          ? 'bg-ww-accent text-white shadow-2xs'
+                          : 'text-ww-text-secondary hover:text-ww-text hover:bg-ww-bg'
                       }`}
                     >
                       {s}s
@@ -195,40 +195,40 @@ const SettingsHub = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div className="p-3 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF] flex justify-between items-center">
-                <span className="text-[#77786F]">Compounding Method:</span>
-                <span className="font-bold text-[#526B56]">Real-time Proportional</span>
+              <div className="p-3 bg-ww-elevated rounded-xl border border-ww-border flex justify-between items-center">
+                <span className="text-ww-text-secondary">Compounding Method:</span>
+                <span className="font-bold text-ww-accent">Real-time Proportional</span>
               </div>
-              <div className="p-3 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF] flex justify-between items-center">
-                <span className="text-[#77786F]">Balance Snapshots:</span>
-                <span className="font-bold text-[#22251F]">Rolling 30 Entries</span>
+              <div className="p-3 bg-ww-elevated rounded-xl border border-ww-border flex justify-between items-center">
+                <span className="text-ww-text-secondary">Balance Snapshots:</span>
+                <span className="font-bold text-ww-text">Rolling 30 Entries</span>
               </div>
             </div>
           </div>
         </Card>
 
         {/* ── SECTION 2: DATA & PERSISTENCE ── */}
-        <Card className="overflow-hidden p-0 border border-[#EAE8DF] bg-white">
-          <div className="p-5 border-b border-[#EAE8DF] bg-[#FCFBF8] flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56] flex items-center justify-center">
+        <Card className="overflow-hidden p-0 border border-ww-border bg-white">
+          <div className="p-5 border-b border-ww-border bg-ww-elevated flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-ww-green-bg border border-ww-accent/20 text-ww-accent flex items-center justify-center">
               <Database className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-[#22251F]">Data Storage & Synchronization</h3>
-              <p className="text-[11px] text-[#77786F]">Client-side persistence and device preferences</p>
+              <h3 className="text-sm font-bold text-ww-text">Data Storage & Synchronization</h3>
+              <p className="text-[11px] text-ww-text-secondary">Client-side persistence and device preferences</p>
             </div>
           </div>
 
           <div className="p-5 space-y-3">
-            <div className="flex items-center justify-between p-3.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
+            <div className="flex items-center justify-between p-3.5 bg-ww-elevated rounded-xl border border-ww-border">
               <div>
-                <p className="text-xs font-bold text-[#22251F]">LocalStorage Auto-Save</p>
-                <p className="text-[11px] text-[#77786F]">Persists balances, ventures, and settings automatically</p>
+                <p className="text-xs font-bold text-ww-text">LocalStorage Auto-Save</p>
+                <p className="text-[11px] text-ww-text-secondary">Persists balances, ventures, and settings automatically</p>
               </div>
               <button
                 onClick={() => updateConfig('autoSave', !config?.autoSave)}
                 className={`w-11 h-6 rounded-full p-0.5 transition-colors cursor-pointer ${
-                  config?.autoSave ? 'bg-[#526B56]' : 'bg-[#D5D2C8]'
+                  config?.autoSave ? 'bg-ww-accent' : 'bg-ww-border-strong'
                 }`}
               >
                 <div className={`w-5 h-5 rounded-full bg-white shadow-2xs transition-transform ${
@@ -238,16 +238,16 @@ const SettingsHub = () => {
             </div>
 
             {/* ── Active Currency Symbol ── */}
-            <div className="p-3.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF] space-y-2.5">
+            <div className="p-3.5 bg-ww-elevated rounded-xl border border-ww-border space-y-2.5">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-bold text-[#22251F]">Active Currency Symbol</p>
-                  <p className="text-[11px] text-[#77786F]">Instant 1-click toggle without math conversion</p>
+                  <p className="text-xs font-bold text-ww-text">Active Currency Symbol</p>
+                  <p className="text-[11px] text-ww-text-secondary">Instant 1-click toggle without math conversion</p>
                 </div>
                 <button
                   type="button"
                   onClick={toggleCurrency}
-                  className="px-2.5 py-1 text-xs font-bold rounded-lg bg-[#526B56] text-white hover:bg-[#435746] transition-colors cursor-pointer"
+                  className="px-2.5 py-1 text-xs font-bold rounded-lg bg-ww-accent text-white hover:bg-ww-accent-hover transition-colors cursor-pointer"
                 >
                   Quick Toggle ({currencySymbol === '₹' ? '₹ to $' : '$ to ₹'})
                 </button>
@@ -266,8 +266,8 @@ const SettingsHub = () => {
                     onClick={() => setCurrencySymbol(c.sym)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
                       currencySymbol === c.sym
-                        ? 'bg-[#526B56] text-white border-[#526B56] shadow-2xs'
-                        : 'bg-white text-[#22251F] border-[#EAE8DF] hover:border-[#526B56]'
+                        ? 'bg-ww-accent text-white border-ww-accent shadow-2xs'
+                        : 'bg-white text-ww-text border-ww-border hover:border-ww-accent'
                     }`}
                   >
                     {c.label}
@@ -278,17 +278,17 @@ const SettingsHub = () => {
 
             
             {/* Periodic Auto-Reload Engine */}
-            <div className="p-3.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF] space-y-2.5">
+            <div className="p-3.5 bg-ww-elevated rounded-xl border border-ww-border space-y-2.5">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-bold text-[#22251F]">Periodic Auto-Reload</p>
-                  <p className="text-[11px] text-[#77786F]">Auto-refreshes data while strictly keeping your active hub/page (never throws to homepage)</p>
+                  <p className="text-xs font-bold text-ww-text">Periodic Auto-Reload</p>
+                  <p className="text-[11px] text-ww-text-secondary">Auto-refreshes data while strictly keeping your active hub/page (never throws to homepage)</p>
                 </div>
                 <button
                   type="button"
                   onClick={togglePeriodicReload}
                   className={`w-11 h-6 rounded-full p-0.5 transition-colors cursor-pointer ${
-                    periodicReloadEnabled ? 'bg-[#526B56]' : 'bg-[#D5D2C8]'
+                    periodicReloadEnabled ? 'bg-ww-accent' : 'bg-ww-border-strong'
                   }`}
                 >
                   <div className={`w-5 h-5 rounded-full bg-white shadow-2xs transition-transform ${
@@ -297,8 +297,8 @@ const SettingsHub = () => {
                 </button>
               </div>
               {periodicReloadEnabled && (
-                <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-[#EAE8DF]">
-                  <span className="text-[11px] font-semibold text-[#77786F]">Reload Interval:</span>
+                <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-ww-border">
+                  <span className="text-[11px] font-semibold text-ww-text-secondary">Reload Interval:</span>
                   {[
                     { sec: 30, label: '30s' },
                     { sec: 60, label: '60s (Recommended)' },
@@ -311,8 +311,8 @@ const SettingsHub = () => {
                       onClick={() => setPeriodicReloadSeconds(opt.sec)}
                       className={`px-2.5 py-1 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
                         periodicReloadSeconds === opt.sec
-                          ? 'bg-[#526B56] text-white border-[#526B56] shadow-2xs'
-                          : 'bg-white text-[#22251F] border-[#EAE8DF] hover:border-[#526B56]'
+                          ? 'bg-ww-accent text-white border-ww-accent shadow-2xs'
+                          : 'bg-white text-ww-text border-ww-border hover:border-ww-accent'
                       }`}
                     >
                       {opt.label}
@@ -322,15 +322,15 @@ const SettingsHub = () => {
               )}
             </div>
 
-            <div className="flex items-center justify-between p-3.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
+            <div className="flex items-center justify-between p-3.5 bg-ww-elevated rounded-xl border border-ww-border">
               <div>
-                <p className="text-xs font-bold text-[#22251F]">Privacy Mode (Mask Balances)</p>
-                <p className="text-[11px] text-[#77786F]">Hide financial metrics with dots (••••••) for shoulder surfing protection</p>
+                <p className="text-xs font-bold text-ww-text">Privacy Mode (Mask Balances)</p>
+                <p className="text-[11px] text-ww-text-secondary">Hide financial metrics with dots (••••••) for shoulder surfing protection</p>
               </div>
               <button
                 onClick={togglePrivacyMode}
                 className={`w-11 h-6 rounded-full p-0.5 transition-colors cursor-pointer ${
-                  privacyMode ? 'bg-[#526B56]' : 'bg-[#D5D2C8]'
+                  privacyMode ? 'bg-ww-accent' : 'bg-ww-border-strong'
                 }`}
               >
                 <div className={`w-5 h-5 rounded-full bg-white shadow-2xs transition-transform ${
@@ -339,15 +339,15 @@ const SettingsHub = () => {
               </button>
             </div>
 
-            <div className="flex items-center justify-between p-3.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
+            <div className="flex items-center justify-between p-3.5 bg-ww-elevated rounded-xl border border-ww-border">
               <div>
-                <p className="text-xs font-bold text-[#22251F]">Haptic & Motion Feedback</p>
-                <p className="text-[11px] text-[#77786F]">Subtle feedback on financial transactions</p>
+                <p className="text-xs font-bold text-ww-text">Haptic & Motion Feedback</p>
+                <p className="text-[11px] text-ww-text-secondary">Subtle feedback on financial transactions</p>
               </div>
               <button
                 onClick={() => updateConfig('vibration', !config?.vibration)}
                 className={`w-11 h-6 rounded-full p-0.5 transition-colors cursor-pointer ${
-                  config?.vibration ? 'bg-[#526B56]' : 'bg-[#D5D2C8]'
+                  config?.vibration ? 'bg-ww-accent' : 'bg-ww-border-strong'
                 }`}
               >
                 <div className={`w-5 h-5 rounded-full bg-white shadow-2xs transition-transform ${
@@ -359,15 +359,15 @@ const SettingsHub = () => {
         </Card>
 
         {/* ── SECTION 2.5: BACKUP, EXPORT & RESTORE ── */}
-        <Card className="overflow-hidden p-0 border border-[#EAE8DF] bg-white">
-          <div className="p-5 border-b border-[#EAE8DF] bg-[#FCFBF8] flex items-center justify-between">
+        <Card className="overflow-hidden p-0 border border-ww-border bg-white">
+          <div className="p-5 border-b border-ww-border bg-ww-elevated flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56] flex items-center justify-center">
+              <div className="w-9 h-9 rounded-xl bg-ww-green-bg border border-ww-accent/20 text-ww-accent flex items-center justify-center">
                 <Download className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-[#22251F]">Backup & Data Portability</h3>
-                <p className="text-[11px] text-[#77786F]">Full local JSON snapshots and ledger CSV downloads</p>
+                <h3 className="text-sm font-bold text-ww-text">Backup & Data Portability</h3>
+                <p className="text-[11px] text-ww-text-secondary">Full local JSON snapshots and ledger CSV downloads</p>
               </div>
             </div>
             <Badge variant="success">Local-First Engine</Badge>
@@ -377,8 +377,8 @@ const SettingsHub = () => {
             {backupStatus.message && (
               <div className={`p-3 rounded-xl border text-xs font-semibold flex items-center gap-2 ${
                 backupStatus.error
-                  ? 'bg-[#FCEEED] border-[#E8C5C3] text-[#C66D65]'
-                  : 'bg-[#EDF2E9] border-[#C8D9CA] text-[#66866A]'
+                  ? 'bg-ww-danger-bg border-ww-danger/30 text-ww-danger'
+                  : 'bg-ww-green-bg border-ww-success/30 text-ww-success'
               }`}>
                 {backupStatus.error ? <AlertCircle className="w-4 h-4 shrink-0" /> : <CheckCircle2 className="w-4 h-4 shrink-0" />}
                 <span>{backupStatus.message}</span>
@@ -387,10 +387,10 @@ const SettingsHub = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {/* Full JSON Export */}
-              <div className="p-4 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF] flex flex-col justify-between space-y-3">
+              <div className="p-4 bg-ww-elevated rounded-xl border border-ww-border flex flex-col justify-between space-y-3">
                 <div>
-                  <h4 className="text-xs font-bold text-[#22251F]">Full Empire Backup</h4>
-                  <p className="text-[11px] text-[#77786F] mt-0.5">Exports all 16 domains + IndexedDB Vault files into single JSON</p>
+                  <h4 className="text-xs font-bold text-ww-text">Full Empire Backup</h4>
+                  <p className="text-[11px] text-ww-text-secondary mt-0.5">Exports all 16 domains + IndexedDB Vault files into single JSON</p>
                 </div>
                 <Button
                   variant="primary"
@@ -404,10 +404,10 @@ const SettingsHub = () => {
               </div>
 
               {/* Restore JSON Backup */}
-              <div className="p-4 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF] flex flex-col justify-between space-y-3">
+              <div className="p-4 bg-ww-elevated rounded-xl border border-ww-border flex flex-col justify-between space-y-3">
                 <div>
-                  <h4 className="text-xs font-bold text-[#22251F]">Restore from Backup</h4>
-                  <p className="text-[11px] text-[#77786F] mt-0.5">Restore all local state and encrypted vault documents</p>
+                  <h4 className="text-xs font-bold text-ww-text">Restore from Backup</h4>
+                  <p className="text-[11px] text-ww-text-secondary mt-0.5">Restore all local state and encrypted vault documents</p>
                 </div>
                 <div>
                   <input
@@ -430,10 +430,10 @@ const SettingsHub = () => {
               </div>
 
               {/* Export CSV */}
-              <div className="p-4 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF] flex flex-col justify-between space-y-3">
+              <div className="p-4 bg-ww-elevated rounded-xl border border-ww-border flex flex-col justify-between space-y-3">
                 <div>
-                  <h4 className="text-xs font-bold text-[#22251F]">Export Ledger (CSV)</h4>
-                  <p className="text-[11px] text-[#77786F] mt-0.5">Download full audit history with dates and balances for Excel</p>
+                  <h4 className="text-xs font-bold text-ww-text">Export Ledger (CSV)</h4>
+                  <p className="text-[11px] text-ww-text-secondary mt-0.5">Download full audit history with dates and balances for Excel</p>
                 </div>
                 <Button
                   variant="secondary"
@@ -450,25 +450,25 @@ const SettingsHub = () => {
         </Card>
 
         {/* ── SECTION 3: SECURITY & ACCESS ── */}
-        <Card className="overflow-hidden p-0 border border-[#EAE8DF] bg-white">
-          <div className="p-5 border-b border-[#EAE8DF] bg-[#FCFBF8] flex items-center justify-between">
+        <Card className="overflow-hidden p-0 border border-ww-border bg-white">
+          <div className="p-5 border-b border-ww-border bg-ww-elevated flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56] flex items-center justify-center">
+              <div className="w-9 h-9 rounded-xl bg-ww-green-bg border border-ww-accent/20 text-ww-accent flex items-center justify-center">
                 <Shield className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-[#22251F]">Security & Credentials</h3>
-                <p className="text-[11px] text-[#77786F]">Workstation security and access key governance</p>
+                <h3 className="text-sm font-bold text-ww-text">Security & Credentials</h3>
+                <p className="text-[11px] text-ww-text-secondary">Workstation security and access key governance</p>
               </div>
             </div>
             <Badge variant="accent">Protected Session</Badge>
           </div>
 
           <div className="p-5 space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-ww-elevated rounded-xl border border-ww-border">
               <div>
-                <p className="text-xs font-bold text-[#22251F]">Master Key / Password</p>
-                <p className="text-[11px] text-[#77786F]">Update the terminal unlock password</p>
+                <p className="text-xs font-bold text-ww-text">Master Key / Password</p>
+                <p className="text-[11px] text-ww-text-secondary">Update the terminal unlock password</p>
               </div>
               <Button
                 variant="outline"
@@ -480,10 +480,10 @@ const SettingsHub = () => {
               </Button>
             </div>
 
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-ww-elevated rounded-xl border border-ww-border">
               <div>
-                <p className="text-xs font-bold text-[#22251F]">Current User Identifier</p>
-                <p className="text-[11px] text-[#77786F]">Role: {user?.role || 'CEO'} · Account: {user?.username || 'raghav94'}</p>
+                <p className="text-xs font-bold text-ww-text">Current User Identifier</p>
+                <p className="text-[11px] text-ww-text-secondary">Role: {user?.role || 'CEO'} · Account: {user?.username || 'raghav94'}</p>
               </div>
               <Button
                 variant="secondary"
@@ -497,11 +497,11 @@ const SettingsHub = () => {
         </Card>
 
         {/* ── SECTION 4: DESTRUCTIVE FACTORY RESET ── */}
-        <Card className="p-5 border border-[#E8C5C3] bg-[#FCFBF8]">
+        <Card className="p-5 border border-ww-danger/30 bg-ww-elevated">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 className="text-sm font-bold text-[#C66D65]">Danger Zone · Factory Reset</h3>
-              <p className="text-xs text-[#77786F] mt-0.5">
+              <h3 className="text-sm font-bold text-ww-danger">Danger Zone · Factory Reset</h3>
+              <p className="text-xs text-ww-text-secondary mt-0.5">
                 Permanently purge all custom entities, transaction history, and wallet calibrations.
               </p>
             </div>
@@ -524,13 +524,13 @@ const SettingsHub = () => {
         subtitle="Calibrate access key for terminal login"
       >
         {pinSuccess && (
-          <div className="flex items-center gap-2 mb-4 p-3 bg-[#EDF2E9] border border-[#C8D9CA] rounded-xl text-[#66866A] text-xs font-semibold">
+          <div className="flex items-center gap-2 mb-4 p-3 bg-ww-green-bg border border-ww-success/30 rounded-xl text-ww-success text-xs font-semibold">
             <CheckCircle2 className="w-4 h-4 shrink-0" />
             <span>Master security key updated successfully.</span>
           </div>
         )}
         {pinError && (
-          <div className="flex items-center gap-2 mb-4 p-3 bg-[#FCEEED] border border-[#E8C5C3] rounded-xl text-[#C66D65] text-xs font-semibold">
+          <div className="flex items-center gap-2 mb-4 p-3 bg-ww-danger-bg border border-ww-danger/30 rounded-xl text-ww-danger text-xs font-semibold">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{pinError}</span>
           </div>

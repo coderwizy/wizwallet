@@ -48,15 +48,15 @@ const MobileFamilyView = () => {
   return (
     <div className="space-y-4 pb-8">
       {/* ── Hero Sovereign Trust Card ── */}
-      <Card className="p-5 border border-[#EAE8DF] bg-white space-y-4">
+      <Card className="p-5 border border-ww-border bg-white space-y-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-[#F3EEF8] border border-[#DECDEE] text-[#7C5ABF] flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-ww-violet-bg border border-ww-violet/30 text-ww-violet flex items-center justify-center">
               <Users className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Family Office</p>
-              <p className="text-xs font-bold text-[#22251F]">Council Governance</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Family Office</p>
+              <p className="text-xs font-bold text-ww-text">Council Governance</p>
             </div>
           </div>
           <Button
@@ -70,20 +70,20 @@ const MobileFamilyView = () => {
         </div>
 
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Protected Trust Capital</p>
-          <h2 className="text-3xl font-extrabold text-[#22251F] tracking-tight tabular-nums mt-0.5">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Protected Trust Capital</p>
+          <h2 className="text-3xl font-extrabold text-ww-text tracking-tight tabular-nums mt-0.5">
             {currencySymbol}{totalTrustWealth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 gap-2.5 pt-3 border-t border-[#EAE8DF] text-center">
-          <div className="p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
-            <p className="text-[9px] font-semibold text-[#A3A297] uppercase">Members</p>
-            <p className="text-sm font-bold text-[#7C5ABF] tabular-nums mt-0.5">{members.length}</p>
+        <div className="grid grid-cols-2 gap-2.5 pt-3 border-t border-ww-border text-center">
+          <div className="p-2.5 bg-ww-elevated rounded-xl border border-ww-border">
+            <p className="text-[9px] font-semibold text-ww-text-muted uppercase">Members</p>
+            <p className="text-sm font-bold text-ww-violet tabular-nums mt-0.5">{members.length}</p>
           </div>
-          <div className="p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
-            <p className="text-[9px] font-semibold text-[#A3A297] uppercase">Allocated Share</p>
-            <p className="text-sm font-bold text-[#526B56] tabular-nums mt-0.5">
+          <div className="p-2.5 bg-ww-elevated rounded-xl border border-ww-border">
+            <p className="text-[9px] font-semibold text-ww-text-muted uppercase">Allocated Share</p>
+            <p className="text-sm font-bold text-ww-accent tabular-nums mt-0.5">
               {totalAllocated}%
             </p>
           </div>
@@ -91,9 +91,9 @@ const MobileFamilyView = () => {
       </Card>
 
       {/* ── Wealth Share Donut Chart ── */}
-      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
+      <Card className="p-4 border border-ww-border bg-white space-y-3">
         <div className="flex justify-between items-center">
-          <h3 className="text-xs font-bold text-[#22251F]">Share Allocation</h3>
+          <h3 className="text-xs font-bold text-ww-text">Share Allocation</h3>
           <Badge variant="violet">{totalAllocated}% Allocated</Badge>
         </div>
 
@@ -123,19 +123,19 @@ const MobileFamilyView = () => {
           </div>
 
           <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-            <span className="text-[9px] font-semibold uppercase tracking-wider text-[#A3A297] truncate max-w-[120px]">
+            <span className="text-[9px] font-semibold uppercase tracking-wider text-ww-text-muted truncate max-w-[120px]">
               {hoveredMember ? hoveredMember.name : 'Trust Share'}
             </span>
-            <span className="text-base font-extrabold text-[#22251F] tabular-nums mt-0.5">
+            <span className="text-base font-extrabold text-ww-text tabular-nums mt-0.5">
               {hoveredMember ? `${hoveredMember.wealth}%` : `${totalAllocated}%`}
             </span>
-            <span className="text-[10px] font-bold text-[#7C5ABF]">
+            <span className="text-[10px] font-bold text-ww-violet">
               {hoveredMember ? 'Allocated' : `${members.length} Members`}
             </span>
           </div>
         </div>
 
-        <div className="space-y-2 pt-2 border-t border-[#EAE8DF]">
+        <div className="space-y-2 pt-2 border-t border-ww-border">
           {members.map((member, i) => {
             const isHovered = hoveredMember?.id === member.id;
             const color = COLORS[i % COLORS.length];
@@ -145,19 +145,19 @@ const MobileFamilyView = () => {
                 onMouseEnter={() => setHoveredMember(member)}
                 onMouseLeave={() => setHoveredMember(null)}
                 className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                  isHovered ? 'bg-[#F3EEF8]' : ''
+                  isHovered ? 'bg-ww-violet-bg' : ''
                 }`}
               >
                 <div className="flex items-center justify-between text-xs mb-1">
                   <div className="flex items-center gap-2 truncate mr-2">
                     <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: color }} />
-                    <span className={`font-semibold text-xs truncate ${isHovered ? 'text-[#7C5ABF]' : 'text-[#22251F]'}`}>
+                    <span className={`font-semibold text-xs truncate ${isHovered ? 'text-ww-violet' : 'text-ww-text'}`}>
                       {member.name}
                     </span>
                   </div>
-                  <span className="font-bold tabular-nums text-xs text-[#22251F]">{member.wealth}%</span>
+                  <span className="font-bold tabular-nums text-xs text-ww-text">{member.wealth}%</span>
                 </div>
-                <div className="w-full h-1 bg-[#F1EFE7] rounded-full overflow-hidden">
+                <div className="w-full h-1 bg-ww-bg-alt rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full"
                     style={{ width: `${member.wealth}%`, backgroundColor: color }}
@@ -171,13 +171,13 @@ const MobileFamilyView = () => {
 
       {/* ── Members List ── */}
       <div className="space-y-2.5">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-[#A3A297] px-1">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-ww-text-muted px-1">
           Council Members ({members.length})
         </h3>
         {members.map(member => (
           <Card
             key={member.id}
-            className="p-4 border border-[#EAE8DF] bg-white space-y-2.5 cursor-pointer hover:border-[#D5D2C8] transition-all"
+            className="p-4 border border-ww-border bg-white space-y-2.5 cursor-pointer hover:border-ww-border-strong transition-all"
             onClick={() => {
               setEditingMember(member);
               setEditForm({ name: member.name, role: member.role, goal: member.goal, wealth: member.wealth });
@@ -185,20 +185,20 @@ const MobileFamilyView = () => {
           >
             <div className="flex justify-between items-start">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-[#F3EEF8] border border-[#DECDEE] text-[#7C5ABF] flex items-center justify-center shrink-0">
+                <div className="w-8 h-8 rounded-lg bg-ww-violet-bg border border-ww-violet/30 text-ww-violet flex items-center justify-center shrink-0">
                   <Heart className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-[#22251F]">{member.name}</h4>
-                  <p className="text-[10px] text-[#77786F]">{member.role} · Goal: {member.goal}</p>
+                  <h4 className="text-xs font-bold text-ww-text">{member.name}</h4>
+                  <p className="text-[10px] text-ww-text-secondary">{member.role} · Goal: {member.goal}</p>
                 </div>
               </div>
               <Badge variant="violet">{member.wealth}%</Badge>
             </div>
 
-            <div className="w-full h-1.5 bg-[#F1EFE7] rounded-full overflow-hidden">
+            <div className="w-full h-1.5 bg-ww-bg-alt rounded-full overflow-hidden">
               <div
-                className="h-full bg-[#7C5ABF] rounded-full transition-all duration-500"
+                className="h-full bg-ww-violet rounded-full transition-all duration-500"
                 style={{ width: `${Math.min(member.wealth, 100)}%` }}
               />
             </div>
@@ -223,11 +223,11 @@ const MobileFamilyView = () => {
           />
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-[10px] font-bold text-[#77786F] block mb-1">Role</label>
+              <label className="text-[10px] font-bold text-ww-text-secondary block mb-1">Role</label>
               <select
                 value={addForm.role}
                 onChange={e => setAddForm({ ...addForm, role: e.target.value })}
-                className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2.5 text-xs font-semibold text-[#22251F] outline-none"
+                className="w-full bg-ww-elevated border border-ww-border rounded-xl p-2.5 text-xs font-semibold text-ww-text outline-none"
               >
                 <option value="Strategist">Strategist</option>
                 <option value="Analyst">Analyst</option>

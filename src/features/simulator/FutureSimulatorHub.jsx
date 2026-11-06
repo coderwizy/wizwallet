@@ -211,7 +211,7 @@ const FutureSimulatorHub = () => {
           <p className="text-[11px] text-ww-text-secondary">Based on 6% annual preservation CAGR</p>
         </Card>
 
-        <Card className="p-5 border border-ww-accent/30 bg-[#EDF2E9]/40 space-y-2">
+        <Card className="p-5 border border-ww-accent/30 bg-ww-green-bg/40 space-y-2">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-accent">Balanced Scenario ({years}y)</span>
           <h3 className="text-2xl font-extrabold text-ww-accent tabular-nums">
             {currencySymbol}{mask(balancedFinal.toLocaleString())}

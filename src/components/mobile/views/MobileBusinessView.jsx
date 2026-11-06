@@ -119,11 +119,11 @@ const MobileBusinessView = () => {
       />
 
       {/* ── Overview Card ── */}
-      <Card className="p-5 border border-[#EAE8DF] bg-white space-y-4">
+      <Card className="p-5 border border-ww-border bg-white space-y-4">
         <div className="flex justify-between items-center">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Monthly Corporate Net</p>
-            <h2 className="text-3xl font-extrabold text-[#22251F] tracking-tight tabular-nums mt-0.5">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Monthly Corporate Net</p>
+            <h2 className="text-3xl font-extrabold text-ww-text tracking-tight tabular-nums mt-0.5">
               ${netMargin.toLocaleString()}
             </h2>
           </div>
@@ -137,28 +137,28 @@ const MobileBusinessView = () => {
           </Button>
         </div>
 
-        <div className="grid grid-cols-2 gap-2.5 pt-3.5 border-t border-[#EAE8DF]">
-          <div className="p-3 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
-            <p className="text-[10px] font-semibold text-[#66866A] uppercase">Gross Yield</p>
-            <p className="text-sm font-bold text-[#22251F] tabular-nums mt-0.5">{currencySymbol}{totalIncome.toLocaleString()}</p>
+        <div className="grid grid-cols-2 gap-2.5 pt-3.5 border-t border-ww-border">
+          <div className="p-3 bg-ww-elevated rounded-xl border border-ww-border">
+            <p className="text-[10px] font-semibold text-ww-success uppercase">Gross Yield</p>
+            <p className="text-sm font-bold text-ww-text tabular-nums mt-0.5">{currencySymbol}{totalIncome.toLocaleString()}</p>
           </div>
-          <div className="p-3 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
-            <p className="text-[10px] font-semibold text-[#C66D65] uppercase">Operating Burn</p>
-            <p className="text-sm font-bold text-[#22251F] tabular-nums mt-0.5">{currencySymbol}{totalExpense.toLocaleString()}</p>
+          <div className="p-3 bg-ww-elevated rounded-xl border border-ww-border">
+            <p className="text-[10px] font-semibold text-ww-danger uppercase">Operating Burn</p>
+            <p className="text-sm font-bold text-ww-text tabular-nums mt-0.5">{currencySymbol}{totalExpense.toLocaleString()}</p>
           </div>
         </div>
       </Card>
 
       {/* ── ELEVATED YIELD BREAKDOWN CARD ── */}
-      <Card className="p-5 border border-[#EAE8DF] bg-white space-y-4 shadow-sm">
+      <Card className="p-5 border border-ww-border bg-white space-y-4 shadow-sm">
         {/* Card Header with Badges */}
         <div className="flex justify-between items-start">
           <div>
             <div className="flex items-center gap-1.5">
-              <PieIcon className="w-3.5 h-3.5 text-[#526B56]" />
-              <h3 className="text-sm font-bold text-[#22251F]">Yield Breakdown</h3>
+              <PieIcon className="w-3.5 h-3.5 text-ww-accent" />
+              <h3 className="text-sm font-bold text-ww-text">Yield Breakdown</h3>
             </div>
-            <p className="text-[11px] text-[#77786F] mt-0.5">Revenue distribution across active ventures</p>
+            <p className="text-[11px] text-ww-text-secondary mt-0.5">Revenue distribution across active ventures</p>
           </div>
           <Badge variant="accent">
             {currencySymbol}{activeTotalIncome.toLocaleString()} / mo
@@ -198,20 +198,20 @@ const MobileBusinessView = () => {
 
           {/* Center Donut Metric Badge */}
           <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-            <span className="text-[9px] font-semibold uppercase tracking-wider text-[#A3A297] line-clamp-1">
+            <span className="text-[9px] font-semibold uppercase tracking-wider text-ww-text-muted line-clamp-1">
               {hoveredVenture ? hoveredVenture.name : 'Total Yield'}
             </span>
-            <span className="text-base font-extrabold text-[#22251F] tabular-nums leading-tight mt-0.5">
+            <span className="text-base font-extrabold text-ww-text tabular-nums leading-tight mt-0.5">
               ${(hoveredVenture ? hoveredVenture.value : activeTotalIncome).toLocaleString()}
             </span>
-            <span className="text-[10px] font-bold text-[#526B56] tabular-nums">
+            <span className="text-[10px] font-bold text-ww-accent tabular-nums">
               {hoveredVenture ? `${hoveredVenture.percentage}% share` : `${activeBusinesses.length} Active`}
             </span>
           </div>
         </div>
 
         {/* Segment Breakdown List & Proportional Bars */}
-        <div className="space-y-2.5 pt-2 border-t border-[#EAE8DF]">
+        <div className="space-y-2.5 pt-2 border-t border-ww-border">
           {pieData.map((item) => {
             const isHovered = hoveredVenture?.name === item.name;
             return (
@@ -220,7 +220,7 @@ const MobileBusinessView = () => {
                 onMouseEnter={() => setHoveredVenture(item)}
                 onMouseLeave={() => setHoveredVenture(null)}
                 className={`p-2 rounded-xl transition-all cursor-pointer ${
-                  isHovered ? 'bg-[#EDF2E9]' : 'hover:bg-[#FCFBF8]'
+                  isHovered ? 'bg-ww-green-bg' : 'hover:bg-ww-elevated'
                 }`}
               >
                 <div className="flex items-center justify-between text-xs mb-1">
@@ -229,22 +229,22 @@ const MobileBusinessView = () => {
                       className="w-2.5 h-2.5 rounded-full shrink-0 shadow-2xs"
                       style={{ backgroundColor: item.color }}
                     />
-                    <span className={`font-semibold truncate ${isHovered ? 'text-[#526B56]' : 'text-[#22251F]'}`}>
+                    <span className={`font-semibold truncate ${isHovered ? 'text-ww-accent' : 'text-ww-text'}`}>
                       {item.name}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-[10px] font-semibold text-[#77786F] tabular-nums">
+                    <span className="text-[10px] font-semibold text-ww-text-secondary tabular-nums">
                       {item.percentage}%
                     </span>
-                    <span className="font-bold text-[#22251F] tabular-nums">
+                    <span className="font-bold text-ww-text tabular-nums">
                       {currencySymbol}{item.value.toLocaleString()}
                     </span>
                   </div>
                 </div>
 
                 {/* Progress Proportion Bar */}
-                <div className="w-full h-1.5 bg-[#F1EFE7] rounded-full overflow-hidden">
+                <div className="w-full h-1.5 bg-ww-bg-alt rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full transition-all duration-300"
                     style={{
@@ -260,14 +260,14 @@ const MobileBusinessView = () => {
 
         {/* Top Contributor Summary Callout */}
         {topVenture && (
-          <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl flex items-center justify-between text-xs">
+          <div className="p-3 bg-ww-elevated border border-ww-border rounded-xl flex items-center justify-between text-xs">
             <div className="flex items-center gap-2 min-w-0">
-              <Sparkles className="w-3.5 h-3.5 text-[#C18A48] shrink-0" />
-              <p className="text-[11px] text-[#77786F] truncate">
-                Top Generator: <strong className="text-[#22251F] font-bold">{topVenture.name}</strong> ({topVenture.percentage}%)
+              <Sparkles className="w-3.5 h-3.5 text-ww-warning shrink-0" />
+              <p className="text-[11px] text-ww-text-secondary truncate">
+                Top Generator: <strong className="text-ww-text font-bold">{topVenture.name}</strong> ({topVenture.percentage}%)
               </p>
             </div>
-            <span className="text-[11px] font-bold text-[#526B56] shrink-0">
+            <span className="text-[11px] font-bold text-ww-accent shrink-0">
               ${topVenture.value.toLocaleString()}
             </span>
           </div>
@@ -276,7 +276,7 @@ const MobileBusinessView = () => {
 
       {/* ── Venture Cards List ── */}
       <div className="space-y-2.5">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-[#A3A297] px-1">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-ww-text-muted px-1">
           Active Corporate Ventures ({businesses.length})
         </h3>
         {businesses.map(biz => {
@@ -285,16 +285,16 @@ const MobileBusinessView = () => {
           return (
             <Card
               key={biz.id}
-              className={`p-4 border border-[#EAE8DF] bg-white space-y-3 ${!isActive ? 'opacity-65' : ''}`}
+              className={`p-4 border border-ww-border bg-white space-y-3 ${!isActive ? 'opacity-65' : ''}`}
             >
               <div className="flex justify-between items-start">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-9 h-9 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56] flex items-center justify-center shrink-0">
+                  <div className="w-9 h-9 rounded-xl bg-ww-green-bg border border-ww-accent/20 text-ww-accent flex items-center justify-center shrink-0">
                     <Briefcase className="w-4 h-4" />
                   </div>
                   <div className="min-w-0">
-                    <h4 className="text-xs font-bold text-[#22251F] truncate">{biz.name}</h4>
-                    <p className="text-[10px] text-[#77786F] truncate">{biz.desc}</p>
+                    <h4 className="text-xs font-bold text-ww-text truncate">{biz.name}</h4>
+                    <p className="text-[10px] text-ww-text-secondary truncate">{biz.desc}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
@@ -304,7 +304,7 @@ const MobileBusinessView = () => {
                       setEditingBiz(biz);
                       setEditForm({ name: biz.name, income: String(biz.income || 0), expense: String(biz.expense || 0), desc: biz.desc || '' });
                     }}
-                    className="p-1 rounded-md text-[#A3A297] hover:text-[#22251F] hover:bg-[#F8F7F2] cursor-pointer"
+                    className="p-1 rounded-md text-ww-text-muted hover:text-ww-text hover:bg-ww-bg cursor-pointer"
                     aria-label="Edit venture"
                   >
                     <Edit3 className="w-3.5 h-3.5" />
@@ -312,7 +312,7 @@ const MobileBusinessView = () => {
                   <button
                     type="button"
                     onClick={() => setDeleteConfirmBiz(biz)}
-                    className="p-1 rounded-md text-[#A3A297] hover:text-[#C66D65] hover:bg-[#FCEEED] cursor-pointer"
+                    className="p-1 rounded-md text-ww-text-muted hover:text-ww-danger hover:bg-ww-danger-bg cursor-pointer"
                     aria-label="Delete venture"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -320,10 +320,10 @@ const MobileBusinessView = () => {
                 </div>
               </div>
 
-              <div className="pt-2.5 border-t border-[#EAE8DF] flex justify-between items-center text-xs">
+              <div className="pt-2.5 border-t border-ww-border flex justify-between items-center text-xs">
                 <div>
-                  <span className="text-[10px] font-semibold text-[#A3A297] block">Net Income</span>
-                  <span className={`font-bold tabular-nums ${net >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
+                  <span className="text-[10px] font-semibold text-ww-text-muted block">Net Income</span>
+                  <span className={`font-bold tabular-nums ${net >= 0 ? 'text-ww-accent' : 'text-ww-danger'}`}>
                     ${net.toLocaleString()}
                   </span>
                 </div>
@@ -332,7 +332,7 @@ const MobileBusinessView = () => {
                   <button
                     type="button"
                     onClick={() => toggleStatus(biz.id)}
-                    className="text-[10px] font-semibold px-2.5 py-1 rounded-lg border border-[#EAE8DF] bg-[#FCFBF8] text-[#77786F] hover:bg-[#F1EFE7] cursor-pointer"
+                    className="text-[10px] font-semibold px-2.5 py-1 rounded-lg border border-ww-border bg-ww-elevated text-ww-text-secondary hover:bg-ww-bg-alt cursor-pointer"
                   >
                     {isActive ? 'Pause' : 'Activate'}
                   </button>

@@ -90,19 +90,19 @@ const MobileSettingsView = () => {
       />
 
       {/* ── Pulse Engine Speed ── */}
-      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
-        <div className="flex items-center justify-between pb-2 border-b border-[#EAE8DF]">
+      <Card className="p-4 border border-ww-border bg-white space-y-3">
+        <div className="flex items-center justify-between pb-2 border-b border-ww-border">
           <div className="flex items-center gap-2.5">
             <div className={`p-2 rounded-xl border transition-colors ${
               isPulseActive
-                ? 'bg-[#EDF2E9] text-[#526B56] border-[#D5DFD1]'
-                : 'bg-[#F1EFE7] text-[#77786F] border-[#D5D2C8]'
+                ? 'bg-ww-green-bg text-ww-accent border-ww-accent/20'
+                : 'bg-ww-bg-alt text-ww-text-secondary border-ww-border-strong'
             }`}>
               <Zap className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-xs font-bold text-[#22251F]">Simulation Heartbeat</h3>
-              <p className="text-[10px] text-[#77786F]">{isPulseActive ? 'Compounding Active' : 'Simulation Stopped'}</p>
+              <h3 className="text-xs font-bold text-ww-text">Simulation Heartbeat</h3>
+              <p className="text-[10px] text-ww-text-secondary">{isPulseActive ? 'Compounding Active' : 'Simulation Stopped'}</p>
             </div>
           </div>
           <button
@@ -110,8 +110,8 @@ const MobileSettingsView = () => {
             onClick={togglePulse}
             className={`px-2.5 py-1 rounded-lg text-[10px] font-bold border transition-colors cursor-pointer ${
               isPulseActive
-                ? 'bg-[#FCFBF8] border-[#EAE8DF] text-[#C66D65] hover:bg-[#FCEEED]'
-                : 'bg-[#526B56] border-[#526B56] text-white hover:bg-[#445A48]'
+                ? 'bg-ww-elevated border-ww-border text-ww-danger hover:bg-ww-danger-bg'
+                : 'bg-ww-accent border-ww-accent text-white hover:bg-ww-accent-hover'
             }`}
           >
             {isPulseActive ? 'Stop Pulse' : 'Start Pulse'}
@@ -119,10 +119,10 @@ const MobileSettingsView = () => {
         </div>
 
         <div className="flex items-center justify-between py-1">
-          <span className="text-xs font-bold text-[#22251F]">
+          <span className="text-xs font-bold text-ww-text">
             {speedSeconds}s Heartbeat Interval
           </span>
-          <div className="flex gap-1 bg-[#FCFBF8] p-1 rounded-xl border border-[#EAE8DF]">
+          <div className="flex gap-1 bg-ww-elevated p-1 rounded-xl border border-ww-border">
             {[5, 10, 30, 60].map(s => {
               const ms = s * 1000;
               const isSelected = config?.simulationSpeed === ms;
@@ -132,7 +132,7 @@ const MobileSettingsView = () => {
                   type="button"
                   onClick={() => updateConfig('simulationSpeed', ms)}
                   className={`px-2 py-1 rounded-lg text-[10px] font-bold cursor-pointer transition-colors ${
-                    isSelected ? 'bg-[#526B56] text-white shadow-2xs' : 'text-[#77786F] hover:bg-[#F1EFE7]'
+                    isSelected ? 'bg-ww-accent text-white shadow-2xs' : 'text-ww-text-secondary hover:bg-ww-bg-alt'
                   }`}
                 >
                   {s}s
@@ -144,28 +144,28 @@ const MobileSettingsView = () => {
       </Card>
 
       {/* ── Data Persistence ── */}
-      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
-        <div className="flex items-center gap-2.5 pb-2 border-b border-[#EAE8DF]">
-          <div className="p-2 rounded-xl bg-[#EDF2E9] text-[#526B56] border border-[#D5DFD1]">
+      <Card className="p-4 border border-ww-border bg-white space-y-3">
+        <div className="flex items-center gap-2.5 pb-2 border-b border-ww-border">
+          <div className="p-2 rounded-xl bg-ww-green-bg text-ww-accent border border-ww-accent/20">
             <Database className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-xs font-bold text-[#22251F]">Data & Synchronization</h3>
-            <p className="text-[10px] text-[#77786F]">LocalStorage Auto-Save</p>
+            <h3 className="text-xs font-bold text-ww-text">Data & Synchronization</h3>
+            <p className="text-[10px] text-ww-text-secondary">LocalStorage Auto-Save</p>
           </div>
         </div>
 
         {/* ── Currency Symbol Switch ── */}
-        <div className="py-2 border-b border-[#EAE8DF]">
+        <div className="py-2 border-b border-ww-border">
           <div className="flex items-center justify-between mb-2">
             <div>
-              <p className="text-xs font-bold text-[#22251F]">Currency Symbol</p>
-              <p className="text-[10px] text-[#77786F]">Instant 1-click switch (no math)</p>
+              <p className="text-xs font-bold text-ww-text">Currency Symbol</p>
+              <p className="text-[10px] text-ww-text-secondary">Instant 1-click switch (no math)</p>
             </div>
             <button
               type="button"
               onClick={toggleCurrency}
-              className="px-2 py-0.5 text-[10px] font-bold rounded bg-[#526B56] text-white cursor-pointer"
+              className="px-2 py-0.5 text-[10px] font-bold rounded bg-ww-accent text-white cursor-pointer"
             >
               Toggle ({currencySymbol === '₹' ? '₹ to $' : '$ to ₹'})
             </button>
@@ -181,8 +181,8 @@ const MobileSettingsView = () => {
                 onClick={() => setCurrencySymbol(c.sym)}
                 className={`py-1.5 px-2 rounded-lg text-xs font-bold border text-center transition-all cursor-pointer ${
                   currencySymbol === c.sym
-                    ? 'bg-[#526B56] text-white border-[#526B56]'
-                    : 'bg-[#FCFBF8] text-[#22251F] border-[#EAE8DF]'
+                    ? 'bg-ww-accent text-white border-ww-accent'
+                    : 'bg-ww-elevated text-ww-text border-ww-border'
                 }`}
               >
                 {c.label}
@@ -193,17 +193,17 @@ const MobileSettingsView = () => {
 
         
         {/* Periodic Auto-Reload Preference */}
-        <div className="py-2.5 border-b border-[#EAE8DF] space-y-2">
+        <div className="py-2.5 border-b border-ww-border space-y-2">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs font-bold text-[#22251F]">Periodic Auto-Reload</p>
-              <p className="text-[10px] text-[#77786F]">Refreshes on current tab (never resets page)</p>
+              <p className="text-xs font-bold text-ww-text">Periodic Auto-Reload</p>
+              <p className="text-[10px] text-ww-text-secondary">Refreshes on current tab (never resets page)</p>
             </div>
             <button
               type="button"
               onClick={togglePeriodicReload}
               className={`w-10 h-5.5 rounded-full p-0.5 transition-colors cursor-pointer ${
-                periodicReloadEnabled ? 'bg-[#526B56]' : 'bg-[#D5D2C8]'
+                periodicReloadEnabled ? 'bg-ww-accent' : 'bg-ww-border-strong'
               }`}
               aria-label="Toggle Auto-Reload"
             >
@@ -225,8 +225,8 @@ const MobileSettingsView = () => {
                   onClick={() => setPeriodicReloadSeconds(opt.sec)}
                   className={`py-1 rounded-lg text-xs font-bold border text-center transition-all cursor-pointer ${
                     periodicReloadSeconds === opt.sec
-                      ? 'bg-[#526B56] text-white border-[#526B56]'
-                      : 'bg-[#FCFBF8] text-[#22251F] border-[#EAE8DF]'
+                      ? 'bg-ww-accent text-white border-ww-accent'
+                      : 'bg-ww-elevated text-ww-text border-ww-border'
                   }`}
                 >
                   {opt.label}
@@ -238,14 +238,14 @@ const MobileSettingsView = () => {
 
         <div className="flex items-center justify-between py-1">
           <div>
-            <p className="text-xs font-bold text-[#22251F]">Privacy Mode (Mask Figures)</p>
-            <p className="text-[10px] text-[#77786F]">Hide balances with dots</p>
+            <p className="text-xs font-bold text-ww-text">Privacy Mode (Mask Figures)</p>
+            <p className="text-[10px] text-ww-text-secondary">Hide balances with dots</p>
           </div>
           <button
             type="button"
             onClick={togglePrivacyMode}
             className={`w-10 h-5.5 rounded-full p-0.5 transition-colors cursor-pointer ${
-              privacyMode ? 'bg-[#526B56]' : 'bg-[#D5D2C8]'
+              privacyMode ? 'bg-ww-accent' : 'bg-ww-border-strong'
             }`}
             aria-label="Toggle Privacy Mode"
           >
@@ -257,14 +257,14 @@ const MobileSettingsView = () => {
 
         <div className="flex items-center justify-between py-1">
           <div>
-            <p className="text-xs font-bold text-[#22251F]">Auto-Save to LocalStorage</p>
-            <p className="text-[10px] text-[#77786F]">Preserves changes continuously</p>
+            <p className="text-xs font-bold text-ww-text">Auto-Save to LocalStorage</p>
+            <p className="text-[10px] text-ww-text-secondary">Preserves changes continuously</p>
           </div>
           <button
             type="button"
             onClick={() => updateConfig('autoSave', !config?.autoSave)}
             className={`w-10 h-5.5 rounded-full p-0.5 transition-colors cursor-pointer ${
-              config?.autoSave ? 'bg-[#526B56]' : 'bg-[#D5D2C8]'
+              config?.autoSave ? 'bg-ww-accent' : 'bg-ww-border-strong'
             }`}
             aria-label="Toggle Auto-Save"
           >
@@ -276,19 +276,19 @@ const MobileSettingsView = () => {
       </Card>
 
       {/* ── Backup & Restore ── */}
-      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
-        <div className="flex items-center gap-2.5 pb-2 border-b border-[#EAE8DF]">
-          <div className="p-2 rounded-xl bg-[#EDF2E9] text-[#526B56] border border-[#D5DFD1]">
+      <Card className="p-4 border border-ww-border bg-white space-y-3">
+        <div className="flex items-center gap-2.5 pb-2 border-b border-ww-border">
+          <div className="p-2 rounded-xl bg-ww-green-bg text-ww-accent border border-ww-accent/20">
             <Download className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-xs font-bold text-[#22251F]">Backup & Portability</h3>
-            <p className="text-[10px] text-[#77786F]">Local-first JSON export/restore</p>
+            <h3 className="text-xs font-bold text-ww-text">Backup & Portability</h3>
+            <p className="text-[10px] text-ww-text-secondary">Local-first JSON export/restore</p>
           </div>
         </div>
 
         {backupMsg && (
-          <div className="p-2.5 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56] text-[11px] font-semibold">
+          <div className="p-2.5 rounded-xl bg-ww-green-bg border border-ww-accent/20 text-ww-accent text-[11px] font-semibold">
             {backupMsg}
           </div>
         )}
@@ -324,14 +324,14 @@ const MobileSettingsView = () => {
       </Card>
 
       {/* ── Security & Account ── */}
-      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
-        <div className="flex items-center gap-2.5 pb-2 border-b border-[#EAE8DF]">
-          <div className="p-2 rounded-xl bg-[#EDF2E9] text-[#526B56] border border-[#D5DFD1]">
+      <Card className="p-4 border border-ww-border bg-white space-y-3">
+        <div className="flex items-center gap-2.5 pb-2 border-b border-ww-border">
+          <div className="p-2 rounded-xl bg-ww-green-bg text-ww-accent border border-ww-accent/20">
             <Shield className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-xs font-bold text-[#22251F]">Security & Credentials</h3>
-            <p className="text-[10px] text-[#77786F]">Role: {user?.role || 'CEO'} · {user?.username || 'raghav94'}</p>
+            <h3 className="text-xs font-bold text-ww-text">Security & Credentials</h3>
+            <p className="text-[10px] text-ww-text-secondary">Role: {user?.role || 'CEO'} · {user?.username || 'raghav94'}</p>
           </div>
         </div>
 
@@ -359,9 +359,9 @@ const MobileSettingsView = () => {
       </Card>
 
       {/* ── Danger Zone ── */}
-      <Card className="p-4 border border-[#E8C5C3] bg-[#FCFBF8] space-y-2.5">
-        <h3 className="text-xs font-bold text-[#C66D65]">Danger Zone</h3>
-        <p className="text-[10px] text-[#77786F]">Purge all balances, ventures, and ledger entries.</p>
+      <Card className="p-4 border border-ww-danger/30 bg-ww-elevated space-y-2.5">
+        <h3 className="text-xs font-bold text-ww-danger">Danger Zone</h3>
+        <p className="text-[10px] text-ww-text-secondary">Purge all balances, ventures, and ledger entries.</p>
         <Button
           variant="danger"
           size="md"
@@ -381,13 +381,13 @@ const MobileSettingsView = () => {
         subtitle="Calibrate Terminal Access Password"
       >
         {pinSuccess && (
-          <div className="flex items-center gap-2 p-3 mb-4 bg-[#EDF2E9] border border-[#C8D9CA] rounded-xl text-[#66866A] text-xs font-semibold">
+          <div className="flex items-center gap-2 p-3 mb-4 bg-ww-green-bg border border-ww-success/30 rounded-xl text-ww-success text-xs font-semibold">
             <CheckCircle2 className="w-4 h-4 shrink-0" />
             <span>Master key updated successfully.</span>
           </div>
         )}
         {pinError && (
-          <div className="flex items-center gap-2 p-3 mb-4 bg-[#FCEEED] border border-[#E8C5C3] rounded-xl text-[#C66D65] text-xs font-semibold">
+          <div className="flex items-center gap-2 p-3 mb-4 bg-ww-danger-bg border border-ww-danger/30 rounded-xl text-ww-danger text-xs font-semibold">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{pinError}</span>
           </div>

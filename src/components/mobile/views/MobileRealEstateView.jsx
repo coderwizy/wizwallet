@@ -72,11 +72,11 @@ const MobileRealEstateView = () => {
         variant="danger"
       />
 
-      <Card className="p-5 border border-[#EAE8DF] bg-white space-y-3">
+      <Card className="p-5 border border-ww-border bg-white space-y-3">
         <div className="flex justify-between items-center">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Property Valuation</p>
-            <h2 className="text-3xl font-extrabold text-[#22251F] tabular-nums mt-0.5">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Property Valuation</p>
+            <h2 className="text-3xl font-extrabold text-ww-text tabular-nums mt-0.5">
               {currencySymbol}{mask(totalValue.toLocaleString(undefined, { maximumFractionDigits: 0 }))}
             </h2>
           </div>
@@ -84,48 +84,48 @@ const MobileRealEstateView = () => {
             Acquire
           </Button>
         </div>
-        <div className="pt-2 border-t border-[#EAE8DF] flex justify-between items-center text-xs">
-          <span className="text-[#77786F]">Monthly Gross Rent:</span>
-          <span className="font-bold text-[#526B56] tabular-nums">+{currencySymbol}{mask(totalRent.toLocaleString())}/mo</span>
+        <div className="pt-2 border-t border-ww-border flex justify-between items-center text-xs">
+          <span className="text-ww-text-secondary">Monthly Gross Rent:</span>
+          <span className="font-bold text-ww-accent tabular-nums">+{currencySymbol}{mask(totalRent.toLocaleString())}/mo</span>
         </div>
       </Card>
 
       <div className="space-y-2.5">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-[#A3A297] px-1">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-ww-text-muted px-1">
           Holdings ({properties.length})
         </h3>
         {properties.map(p => (
-          <Card key={p.id} className="p-4 border border-[#EAE8DF] bg-white space-y-3">
+          <Card key={p.id} className="p-4 border border-ww-border bg-white space-y-3">
             <div className="flex justify-between items-start">
               <div>
-                <h4 className="font-bold text-sm text-[#22251F]">{p.name}</h4>
-                <p className="text-[10px] text-[#77786F] flex items-center gap-1 mt-0.5">
-                  <MapPin className="w-3 h-3 text-[#A3A297]" />
+                <h4 className="font-bold text-sm text-ww-text">{p.name}</h4>
+                <p className="text-[10px] text-ww-text-secondary flex items-center gap-1 mt-0.5">
+                  <MapPin className="w-3 h-3 text-ww-text-muted" />
                   {p.address}
                 </p>
               </div>
               <Badge variant="accent">{p.type}</Badge>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-[#EAE8DF]">
+            <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-ww-border">
               <div>
-                <span className="text-[10px] text-[#A3A297] block">Market Value</span>
-                <span className="font-bold text-[#22251F] tabular-nums">{currencySymbol}{mask(Number(p.currentValuation || 0).toLocaleString())}</span>
+                <span className="text-[10px] text-ww-text-muted block">Market Value</span>
+                <span className="font-bold text-ww-text tabular-nums">{currencySymbol}{mask(Number(p.currentValuation || 0).toLocaleString())}</span>
               </div>
               <div>
-                <span className="text-[10px] text-[#A3A297] block">Rent Yield</span>
-                <span className="font-bold text-[#526B56] tabular-nums">+{currencySymbol}{mask(Number(p.monthlyRent || 0).toLocaleString())}/mo</span>
+                <span className="text-[10px] text-ww-text-muted block">Rent Yield</span>
+                <span className="font-bold text-ww-accent tabular-nums">+{currencySymbol}{mask(Number(p.monthlyRent || 0).toLocaleString())}/mo</span>
               </div>
             </div>
 
-            <div className="pt-2 border-t border-[#EAE8DF] flex justify-between items-center text-xs">
-              <span className="text-[10px] text-[#C66D65] font-semibold">
+            <div className="pt-2 border-t border-ww-border flex justify-between items-center text-xs">
+              <span className="text-[10px] text-ww-danger font-semibold">
                 Debt: {currencySymbol}{mask(Number(p.loanBalance || 0).toLocaleString())}
               </span>
               <button
                 type="button"
                 onClick={() => setDeleteConfirm(p)}
-                className="p-1 rounded text-[#A3A297] hover:text-[#C66D65] cursor-pointer"
+                className="p-1 rounded text-ww-text-muted hover:text-ww-danger cursor-pointer"
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>

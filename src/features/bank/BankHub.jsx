@@ -145,10 +145,10 @@ const BankHub = ({ setActiveTab }) => {
       {/* ── Page Header ── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A3A297] mb-1">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ww-text-muted mb-1">
             Global Bank & Institutional Treasury
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold text-[#22251F] tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-bold text-ww-text tracking-tight">
             Reserve Banking
           </h2>
         </div>
@@ -178,15 +178,15 @@ const BankHub = ({ setActiveTab }) => {
           animate={{ opacity: 1, y: 0 }}
           className="lg:col-span-8"
         >
-          <Card className="relative overflow-hidden p-7 md:p-9 min-h-72 flex flex-col justify-between border border-[#EAE8DF] bg-white">
+          <Card className="relative overflow-hidden p-7 md:p-9 min-h-72 flex flex-col justify-between border border-ww-border bg-white">
             <div className="flex justify-between items-start">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] flex items-center justify-center">
-                  <Landmark className="w-5 h-5 text-[#526B56]" />
+                <div className="w-11 h-11 rounded-xl bg-ww-green-bg border border-ww-accent/20 flex items-center justify-center">
+                  <Landmark className="w-5 h-5 text-ww-accent" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Institutional Vault</p>
-                  <p className="text-xs text-[#22251F] font-bold">Compound Interest Treasury</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Institutional Vault</p>
+                  <p className="text-xs text-ww-text font-bold">Compound Interest Treasury</p>
                 </div>
               </div>
               <Badge variant="accent">
@@ -195,36 +195,36 @@ const BankHub = ({ setActiveTab }) => {
             </div>
 
             <div className="my-6">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297] mb-1">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted mb-1">
                 Available Reserve Balance
               </p>
-              <h1 className="text-4xl md:text-5xl font-extrabold text-[#22251F] tabular-nums tracking-tight">
+              <h1 className="text-4xl md:text-5xl font-extrabold text-ww-text tabular-nums tracking-tight">
                 {currencySymbol}{animatedBalance.toLocaleString(undefined, { maximumFractionDigits: 0 })}
               </h1>
-              <p className="text-xs text-[#77786F] mt-1.5 flex items-center gap-1.5 font-medium">
-                <TrendingUp className="w-3.5 h-3.5 text-[#66866A]" />
+              <p className="text-xs text-ww-text-secondary mt-1.5 flex items-center gap-1.5 font-medium">
+                <TrendingUp className="w-3.5 h-3.5 text-ww-success" />
                 <span>Est. monthly compounding yield:</span>
-                <span className="font-bold text-[#66866A] tabular-nums">+{currencySymbol}{monthlyAccrual.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
+                <span className="font-bold text-ww-success tabular-nums">+{currencySymbol}{monthlyAccrual.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
               </p>
             </div>
 
             {/* Bottom 3 metrics */}
-            <div className="pt-5 border-t border-[#EAE8DF] grid grid-cols-3 gap-4 text-center">
-              <div className="p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
-                <p className="text-[10px] font-semibold text-[#A3A297] uppercase tracking-wider">Annual Yield</p>
-                <p className="text-sm font-bold text-[#526B56] tabular-nums mt-0.5">
+            <div className="pt-5 border-t border-ww-border grid grid-cols-3 gap-4 text-center">
+              <div className="p-2.5 bg-ww-elevated rounded-xl border border-ww-border">
+                <p className="text-[10px] font-semibold text-ww-text-muted uppercase tracking-wider">Annual Yield</p>
+                <p className="text-sm font-bold text-ww-accent tabular-nums mt-0.5">
                   {(currentRate * 100).toFixed(1)}% APY
                 </p>
               </div>
-              <div className="p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
-                <p className="text-[10px] font-semibold text-[#A3A297] uppercase tracking-wider">Active Credit Line</p>
-                <p className="text-sm font-bold text-[#C18A48] tabular-nums mt-0.5">
+              <div className="p-2.5 bg-ww-elevated rounded-xl border border-ww-border">
+                <p className="text-[10px] font-semibold text-ww-text-muted uppercase tracking-wider">Active Credit Line</p>
+                <p className="text-sm font-bold text-ww-warning tabular-nums mt-0.5">
                   {currencySymbol}{(bank.loans || 0).toLocaleString()}
                 </p>
               </div>
-              <div className="p-2.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
-                <p className="text-[10px] font-semibold text-[#A3A297] uppercase tracking-wider">Reserve Assets</p>
-                <p className="text-sm font-bold text-[#22251F] tabular-nums mt-0.5">
+              <div className="p-2.5 bg-ww-elevated rounded-xl border border-ww-border">
+                <p className="text-[10px] font-semibold text-ww-text-muted uppercase tracking-wider">Reserve Assets</p>
+                <p className="text-sm font-bold text-ww-text tabular-nums mt-0.5">
                   {currencySymbol}{(bank.assets || 0).toLocaleString()}
                 </p>
               </div>
@@ -234,60 +234,60 @@ const BankHub = ({ setActiveTab }) => {
 
         {/* SIDE ACTIONS */}
         <div className="lg:col-span-4 flex flex-col gap-4">
-          <Card className="p-6 flex-1 flex flex-col justify-between border border-[#EAE8DF] bg-white">
+          <Card className="p-6 flex-1 flex flex-col justify-between border border-ww-border bg-white">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#A3A297]">Treasury Facilities</h3>
-                <p className="text-sm font-bold text-[#22251F] mt-0.5">Banking Operations</p>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-ww-text-muted">Treasury Facilities</h3>
+                <p className="text-sm font-bold text-ww-text mt-0.5">Banking Operations</p>
               </div>
-              <Coins className="w-4 h-4 text-[#526B56]" />
+              <Coins className="w-4 h-4 text-ww-accent" />
             </div>
 
             <div className="space-y-2.5">
               <button
                 onClick={() => setModal({ show: true, type: 'CreditLine' })}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-[#FCFBF8] hover:bg-[#F1EFE7] border border-[#EAE8DF] transition-all text-left cursor-pointer group"
+                className="w-full flex items-center justify-between p-3 rounded-xl bg-ww-elevated hover:bg-ww-bg-alt border border-ww-border transition-all text-left cursor-pointer group"
               >
                 <div>
-                  <p className="text-xs font-bold text-[#22251F]">Drawdown Credit Line</p>
-                  <p className="text-[10px] text-[#A3A297]">Access low-interest credit facility</p>
+                  <p className="text-xs font-bold text-ww-text">Drawdown Credit Line</p>
+                  <p className="text-[10px] text-ww-text-muted">Access low-interest credit facility</p>
                 </div>
-                <ChevronRight className="w-4 h-4 text-[#A3A297] group-hover:text-[#526B56] transition-colors" />
+                <ChevronRight className="w-4 h-4 text-ww-text-muted group-hover:text-ww-accent transition-colors" />
               </button>
 
               {bank.loans > 0 && (
                 <button
                   onClick={() => setModal({ show: true, type: 'RepayLoan' })}
-                  className="w-full flex items-center justify-between p-3 rounded-xl bg-[#FCEEED] hover:bg-[#FCE0DE] border border-[#E8C5C3] transition-all text-left cursor-pointer group"
+                  className="w-full flex items-center justify-between p-3 rounded-xl bg-ww-danger-bg hover:bg-ww-danger-subtle border border-ww-danger/30 transition-all text-left cursor-pointer group"
                 >
                   <div>
-                    <p className="text-xs font-bold text-[#C66D65]">Repay Credit Line</p>
-                    <p className="text-[10px] text-[#C66D65]/80">Outstanding: {currencySymbol}{(bank.loans || 0).toLocaleString()}</p>
+                    <p className="text-xs font-bold text-ww-danger">Repay Credit Line</p>
+                    <p className="text-[10px] text-ww-danger/80">Outstanding: {currencySymbol}{(bank.loans || 0).toLocaleString()}</p>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-[#C66D65]" />
+                  <ChevronRight className="w-4 h-4 text-ww-danger" />
                 </button>
               )}
 
               <button
                 onClick={() => setModal({ show: true, type: 'Forex' })}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-[#FCFBF8] hover:bg-[#F1EFE7] border border-[#EAE8DF] transition-all text-left cursor-pointer group"
+                className="w-full flex items-center justify-between p-3 rounded-xl bg-ww-elevated hover:bg-ww-bg-alt border border-ww-border transition-all text-left cursor-pointer group"
               >
                 <div>
-                  <p className="text-xs font-bold text-[#22251F]">Forex Converter</p>
-                  <p className="text-[10px] text-[#A3A297]">Live institutional foreign exchange</p>
+                  <p className="text-xs font-bold text-ww-text">Forex Converter</p>
+                  <p className="text-[10px] text-ww-text-muted">Live institutional foreign exchange</p>
                 </div>
-                <ArrowLeftRight className="w-4 h-4 text-[#A3A297] group-hover:text-[#526B56] transition-colors" />
+                <ArrowLeftRight className="w-4 h-4 text-ww-text-muted group-hover:text-ww-accent transition-colors" />
               </button>
 
               <button
                 onClick={() => setModal({ show: true, type: 'AssetManager' })}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-[#FCFBF8] hover:bg-[#F1EFE7] border border-[#EAE8DF] transition-all text-left cursor-pointer group"
+                className="w-full flex items-center justify-between p-3 rounded-xl bg-ww-elevated hover:bg-ww-bg-alt border border-ww-border transition-all text-left cursor-pointer group"
               >
                 <div>
-                  <p className="text-xs font-bold text-[#22251F]">Asset Valuation</p>
-                  <p className="text-[10px] text-[#A3A297]">Manage physical asset reserves</p>
+                  <p className="text-xs font-bold text-ww-text">Asset Valuation</p>
+                  <p className="text-[10px] text-ww-text-muted">Manage physical asset reserves</p>
                 </div>
-                <PieChart className="w-4 h-4 text-[#A3A297] group-hover:text-[#526B56] transition-colors" />
+                <PieChart className="w-4 h-4 text-ww-text-muted group-hover:text-ww-accent transition-colors" />
               </button>
             </div>
           </Card>
@@ -295,11 +295,11 @@ const BankHub = ({ setActiveTab }) => {
       </div>
 
       {/* ── APY Interest Tier Calibration ── */}
-      <Card className="p-6 md:p-8 border border-[#EAE8DF] bg-white">
+      <Card className="p-6 md:p-8 border border-ww-border bg-white">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
           <div>
-            <h3 className="text-base font-bold text-[#22251F]">APY Interest Tier Calibration</h3>
-            <p className="text-xs text-[#77786F] mt-0.5">
+            <h3 className="text-base font-bold text-ww-text">APY Interest Tier Calibration</h3>
+            <p className="text-xs text-ww-text-secondary mt-0.5">
               Select your compounding reserve tier. Earnings automatically compound into bank balance on simulation pulses.
             </p>
           </div>
@@ -315,17 +315,17 @@ const BankHub = ({ setActiveTab }) => {
                 onClick={() => setBank(prev => ({ ...prev, interestTier: tier }))}
                 className={`p-4 rounded-xl border flex flex-col items-center text-center transition-all cursor-pointer ${
                   isActive
-                    ? 'border-[#526B56] bg-[#EDF2E9] shadow-xs'
-                    : 'border-[#EAE8DF] bg-[#FCFBF8] hover:border-[#D5D2C8] hover:bg-[#F1EFE7]'
+                    ? 'border-ww-accent bg-ww-green-bg shadow-xs'
+                    : 'border-ww-border bg-ww-elevated hover:border-ww-border-strong hover:bg-ww-bg-alt'
                 }`}
               >
-                <span className={`text-[10px] font-bold uppercase tracking-wider ${isActive ? 'text-[#526B56]' : 'text-[#77786F]'}`}>
+                <span className={`text-[10px] font-bold uppercase tracking-wider ${isActive ? 'text-ww-accent' : 'text-ww-text-secondary'}`}>
                   {tier}
                 </span>
-                <span className={`text-xl font-extrabold mt-1.5 tabular-nums ${isActive ? 'text-[#526B56]' : 'text-[#22251F]'}`}>
+                <span className={`text-xl font-extrabold mt-1.5 tabular-nums ${isActive ? 'text-ww-accent' : 'text-ww-text'}`}>
                   {(rate * 100).toFixed(0)}% APY
                 </span>
-                <span className="text-[10px] text-[#A3A297] mt-1">
+                <span className="text-[10px] text-ww-text-muted mt-1">
                   ~{currencySymbol}{Math.round((bank.balance * rate) / 12).toLocaleString()}/mo
                 </span>
               </button>
@@ -344,7 +344,7 @@ const BankHub = ({ setActiveTab }) => {
         subtitle="Global Bank Vault Facility"
       >
         {txError && (
-          <div className="flex items-center gap-2 mb-4 p-3 bg-[#FCEEED] border border-[#E8C5C3] rounded-xl text-[#C66D65] text-xs font-semibold">
+          <div className="flex items-center gap-2 mb-4 p-3 bg-ww-danger-bg border border-ww-danger/30 rounded-xl text-ww-danger text-xs font-semibold">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{txError}</span>
           </div>
@@ -360,9 +360,9 @@ const BankHub = ({ setActiveTab }) => {
             min="1"
             step="any"
           />
-          <div className="flex justify-between text-xs text-[#77786F] pt-1">
+          <div className="flex justify-between text-xs text-ww-text-secondary pt-1">
             <span>Available Bank Balance:</span>
-            <span className="font-bold text-[#22251F]">{currencySymbol}{(bank.balance || 0).toLocaleString()}</span>
+            <span className="font-bold text-ww-text">{currencySymbol}{(bank.balance || 0).toLocaleString()}</span>
           </div>
           <Button type="submit" variant="primary" className="w-full py-2.5 mt-2">
             Confirm {modal.type}
@@ -378,7 +378,7 @@ const BankHub = ({ setActiveTab }) => {
         subtitle="Low-interest institutional liquidity facility"
       >
         {loanSuccess && (
-          <div className="flex items-center gap-2 mb-4 p-3 bg-[#EDF2E9] border border-[#C8D9CA] rounded-xl text-[#66866A] text-xs font-semibold">
+          <div className="flex items-center gap-2 mb-4 p-3 bg-ww-green-bg border border-ww-success/30 rounded-xl text-ww-success text-xs font-semibold">
             <CheckCircle className="w-4 h-4 shrink-0" />
             <span>Credit facility approved and deposited into reserve.</span>
           </div>
@@ -393,14 +393,14 @@ const BankHub = ({ setActiveTab }) => {
             placeholder="e.g. 50000"
             min="1"
           />
-          <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl text-xs text-[#77786F] space-y-1">
+          <div className="p-3 bg-ww-elevated border border-ww-border rounded-xl text-xs text-ww-text-secondary space-y-1">
             <div className="flex justify-between">
               <span>Facility Rate:</span>
-              <span className="font-semibold text-[#22251F]">2.5% Fixed APR</span>
+              <span className="font-semibold text-ww-text">2.5% Fixed APR</span>
             </div>
             <div className="flex justify-between">
               <span>Current Outstanding:</span>
-              <span className="font-semibold text-[#C18A48]">{currencySymbol}{(bank.loans || 0).toLocaleString()}</span>
+              <span className="font-semibold text-ww-warning">{currencySymbol}{(bank.loans || 0).toLocaleString()}</span>
             </div>
           </div>
           <Button type="submit" variant="primary" className="w-full py-2.5 mt-2">
@@ -417,14 +417,14 @@ const BankHub = ({ setActiveTab }) => {
         subtitle="Settle outstanding facility debt"
       >
         <form onSubmit={handleRepay} className="space-y-4">
-          <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl text-xs space-y-1.5">
+          <div className="p-3 bg-ww-elevated border border-ww-border rounded-xl text-xs space-y-1.5">
             <div className="flex justify-between">
-              <span className="text-[#77786F]">Total Outstanding Debt:</span>
-              <span className="font-bold text-[#C66D65]">{currencySymbol}{(bank.loans || 0).toLocaleString()}</span>
+              <span className="text-ww-text-secondary">Total Outstanding Debt:</span>
+              <span className="font-bold text-ww-danger">{currencySymbol}{(bank.loans || 0).toLocaleString()}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#77786F]">Available Balance:</span>
-              <span className="font-bold text-[#22251F]">{currencySymbol}{(bank.balance || 0).toLocaleString()}</span>
+              <span className="text-ww-text-secondary">Available Balance:</span>
+              <span className="font-bold text-ww-text">{currencySymbol}{(bank.balance || 0).toLocaleString()}</span>
             </div>
           </div>
           <Input
@@ -461,11 +461,11 @@ const BankHub = ({ setActiveTab }) => {
             min="1"
           />
           <div>
-            <label className="text-xs font-bold text-[#77786F] block mb-1.5">Target Currency</label>
+            <label className="text-xs font-bold text-ww-text-secondary block mb-1.5">Target Currency</label>
             <select
               value={forexCurrency}
               onChange={(e) => { setForexCurrency(e.target.value); setForexConverted(null); }}
-              className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2.5 text-sm text-[#22251F] font-semibold outline-none focus:border-[#526B56]"
+              className="w-full bg-ww-elevated border border-ww-border rounded-xl p-2.5 text-sm text-ww-text font-semibold outline-none focus:border-ww-accent"
             >
               <option value="inr">INR — Indian Rupee (₹83.50)</option>
               <option value="aed">AED — UAE Dirham (3.67 AED)</option>
@@ -478,10 +478,10 @@ const BankHub = ({ setActiveTab }) => {
             Calculate Exchange Rate
           </Button>
           {forexConverted && (
-            <div className="p-4 bg-[#EDF2E9] border border-[#C8D9CA] rounded-xl text-center mt-3">
-              <p className="text-[10px] font-semibold uppercase text-[#526B56] tracking-wider">Converted Value</p>
-              <p className="text-2xl font-black text-[#22251F] mt-1 tabular-nums">
-                {forexConverted} <span className="text-sm font-bold text-[#526B56]">{forexCurrency.toUpperCase()}</span>
+            <div className="p-4 bg-ww-green-bg border border-ww-success/30 rounded-xl text-center mt-3">
+              <p className="text-[10px] font-semibold uppercase text-ww-accent tracking-wider">Converted Value</p>
+              <p className="text-2xl font-black text-ww-text mt-1 tabular-nums">
+                {forexConverted} <span className="text-sm font-bold text-ww-accent">{forexCurrency.toUpperCase()}</span>
               </p>
             </div>
           )}
@@ -496,9 +496,9 @@ const BankHub = ({ setActiveTab }) => {
         subtitle="Update total physical asset balance"
       >
         <form onSubmit={handleUpdateAssets} className="space-y-4">
-          <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl text-xs text-[#77786F] flex justify-between">
+          <div className="p-3 bg-ww-elevated border border-ww-border rounded-xl text-xs text-ww-text-secondary flex justify-between">
             <span>Current Asset Reserve:</span>
-            <span className="font-bold text-[#22251F]">{currencySymbol}{(bank.assets || 0).toLocaleString()}</span>
+            <span className="font-bold text-ww-text">{currencySymbol}{(bank.assets || 0).toLocaleString()}</span>
           </div>
           <Input
             label="New Total Asset Valuation (USD)"

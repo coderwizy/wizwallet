@@ -78,7 +78,7 @@ const Header = ({ activeTab, setActiveTab, onOpenCommandPalette }) => {
               title={isPulseActive ? 'Pulse Heartbeat Active · Click to Stop' : 'Pulse Heartbeat Stopped · Click to Start'}
               className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full border transition-colors cursor-pointer ${
                 isPulseActive
-                  ? 'bg-[#EDF2E9] border-[#D5DFD1] hover:bg-[#E2EBDD]'
+                  ? 'bg-ww-green-bg border-ww-accent/20 hover:bg-ww-green-bg'
                   : 'bg-ww-bg-alt border-ww-border-strong hover:bg-ww-border'
               }`}
             >
@@ -93,7 +93,7 @@ const Header = ({ activeTab, setActiveTab, onOpenCommandPalette }) => {
               title={`Click to switch currency to ${currencySymbol === '₹' ? 'USD ($)' : 'Rupees (₹)'} (No conversion)`}
               className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-ww-border bg-ww-bg hover:bg-ww-bg-alt transition-colors cursor-pointer text-ww-text shadow-2xs group"
             >
-              <span className="w-4 h-4 rounded-full bg-[#EDF2E9] text-ww-accent flex items-center justify-center font-extrabold text-[10px]">
+              <span className="w-4 h-4 rounded-full bg-ww-green-bg text-ww-accent flex items-center justify-center font-extrabold text-[10px]">
                 {currencySymbol}
               </span>
               <span className="text-[10px] font-bold text-ww-text-secondary group-hover:text-ww-accent transition-colors">
@@ -106,7 +106,7 @@ const Header = ({ activeTab, setActiveTab, onOpenCommandPalette }) => {
               title={`Periodic auto-reload: ${periodicReloadEnabled ? `Every ${periodicReloadSeconds}s (click to turn off)` : 'Off (click to turn on)'}. Reloads safely without resetting your active page.`}
               className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border transition-colors cursor-pointer shadow-2xs ${
                 periodicReloadEnabled
-                  ? 'bg-[#EDF2E9] border-[#D5DFD1] hover:bg-[#E2EBDD] text-ww-accent'
+                  ? 'bg-ww-green-bg border-ww-accent/20 hover:bg-ww-green-bg text-ww-accent'
                   : 'bg-ww-bg-alt border-ww-border-strong hover:bg-ww-border text-ww-text-secondary'
               }`}
             >
@@ -157,7 +157,7 @@ const Header = ({ activeTab, setActiveTab, onOpenCommandPalette }) => {
         <div className="relative">
           <button
             onClick={() => setShowQuickMenu(!showQuickMenu)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#EDF2E9] hover:bg-[#E3EBDD] text-ww-accent border border-[#D5DFD1] rounded-xl text-xs font-bold transition-all cursor-pointer shadow-2xs"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-ww-green-bg hover:bg-ww-green-bg text-ww-accent border border-ww-accent/20 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-2xs"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Actions</span>

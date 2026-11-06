@@ -84,10 +84,10 @@ const GoalsHub = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A3A297] mb-1">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ww-text-muted mb-1">
             Dynasty Milestones & Gamification Engine
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold text-[#22251F] tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-bold text-ww-text tracking-tight">
             Wealth Goals & Mission Center
           </h2>
         </div>
@@ -97,34 +97,34 @@ const GoalsHub = () => {
       </div>
 
       {/* Dynasty Progression Banner */}
-      <Card className="p-6 border border-[#EAE8DF] bg-white space-y-4">
+      <Card className="p-6 border border-ww-border bg-white space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56] flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-ww-green-bg border border-ww-accent/20 text-ww-accent flex items-center justify-center shrink-0">
               <Crown className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-[#A3A297]">Current Dynasty Rank</p>
-              <h3 className="text-xl font-extrabold text-[#22251F]">{currentLevelInfo.currentRank.title}</h3>
-              <p className="text-xs text-[#77786F]">Level {currentLevelInfo.currentRank.level} · {currentLevelInfo.xp} Total Empire XP</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-ww-text-muted">Current Dynasty Rank</p>
+              <h3 className="text-xl font-extrabold text-ww-text">{currentLevelInfo.currentRank.title}</h3>
+              <p className="text-xs text-ww-text-secondary">Level {currentLevelInfo.currentRank.level} · {currentLevelInfo.xp} Total Empire XP</p>
             </div>
           </div>
           {currentLevelInfo.nextRank && (
             <div className="text-right">
-              <span className="text-[11px] font-semibold text-[#77786F]">Next Rank: <strong>{currentLevelInfo.nextRank.title}</strong></span>
-              <p className="text-[10px] text-[#A3A297] mt-0.5">{currentLevelInfo.nextRank.minXP - currentLevelInfo.xp} XP to promote</p>
+              <span className="text-[11px] font-semibold text-ww-text-secondary">Next Rank: <strong>{currentLevelInfo.nextRank.title}</strong></span>
+              <p className="text-[10px] text-ww-text-muted mt-0.5">{currentLevelInfo.nextRank.minXP - currentLevelInfo.xp} XP to promote</p>
             </div>
           )}
         </div>
 
         <div className="space-y-1 pt-1">
-          <div className="flex justify-between text-xs font-bold text-[#77786F]">
+          <div className="flex justify-between text-xs font-bold text-ww-text-secondary">
             <span>Rank Progress</span>
             <span>{currentLevelInfo.progressInLevel}%</span>
           </div>
-          <div className="w-full h-3 bg-[#F1EFE7] rounded-full overflow-hidden border border-[#EAE8DF]">
+          <div className="w-full h-3 bg-ww-bg-alt rounded-full overflow-hidden border border-ww-border">
             <div
-              className="h-full bg-[#526B56] rounded-full transition-all duration-700"
+              className="h-full bg-ww-accent rounded-full transition-all duration-700"
               style={{ width: `${currentLevelInfo.progressInLevel}%` }}
             />
           </div>
@@ -132,11 +132,11 @@ const GoalsHub = () => {
       </Card>
 
       {/* Daily Tactical Missions */}
-      <Card className="p-5 border border-[#EAE8DF] bg-white space-y-3">
-        <div className="flex items-center justify-between pb-2 border-b border-[#EAE8DF]">
+      <Card className="p-5 border border-ww-border bg-white space-y-3">
+        <div className="flex items-center justify-between pb-2 border-b border-ww-border">
           <div className="flex items-center gap-2">
-            <Zap className="w-4 h-4 text-[#C18A48]" />
-            <h3 className="text-sm font-bold text-[#22251F]">Daily Tactical Missions</h3>
+            <Zap className="w-4 h-4 text-ww-warning" />
+            <h3 className="text-sm font-bold text-ww-text">Daily Tactical Missions</h3>
           </div>
           <Badge variant="success">Refreshes Daily</Badge>
         </div>
@@ -147,16 +147,16 @@ const GoalsHub = () => {
               key={m.id}
               className={`p-3.5 rounded-xl border flex flex-col justify-between space-y-3 ${
                 m.completed
-                  ? 'bg-[#EDF2E9]/40 border-[#D5DFD1]'
-                  : 'bg-[#FCFBF8] border-[#EAE8DF]'
+                  ? 'bg-ww-green-bg/40 border-ww-accent/20'
+                  : 'bg-ww-elevated border-ww-border'
               }`}
             >
               <div>
                 <div className="flex items-center justify-between text-xs mb-1">
-                  <span className="font-bold text-[#22251F]">{m.title}</span>
-                  <span className="text-[10px] font-extrabold text-[#C18A48] tabular-nums">+{m.reward} XP</span>
+                  <span className="font-bold text-ww-text">{m.title}</span>
+                  <span className="text-[10px] font-extrabold text-ww-warning tabular-nums">+{m.reward} XP</span>
                 </div>
-                <p className="text-[11px] text-[#77786F]">Strategic calibration task</p>
+                <p className="text-[11px] text-ww-text-secondary">Strategic calibration task</p>
               </div>
 
               <button
@@ -165,8 +165,8 @@ const GoalsHub = () => {
                 disabled={m.completed}
                 className={`w-full py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
                   m.completed
-                    ? 'bg-[#EDF2E9] text-[#526B56] cursor-default'
-                    : 'bg-[#526B56] text-white hover:bg-[#445A48] cursor-pointer'
+                    ? 'bg-ww-green-bg text-ww-accent cursor-default'
+                    : 'bg-ww-accent text-white hover:bg-ww-accent-hover cursor-pointer'
                 }`}
               >
                 {m.completed ? '✓ Mission Completed' : 'Claim Mission Reward'}
@@ -179,18 +179,18 @@ const GoalsHub = () => {
       {/* Sovereign Milestones */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-[#A3A297]">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-ww-text-muted">
             Dynasty Milestones ({evaluatedMilestones.length})
           </h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {evaluatedMilestones.map(m => (
-            <Card key={m.id} className="p-4 border border-[#EAE8DF] bg-white space-y-3">
+            <Card key={m.id} className="p-4 border border-ww-border bg-white space-y-3">
               <div className="flex justify-between items-start">
                 <div>
-                  <h4 className="text-sm font-bold text-[#22251F]">{m.title}</h4>
-                  <p className="text-[11px] text-[#77786F] mt-0.5">
+                  <h4 className="text-sm font-bold text-ww-text">{m.title}</h4>
+                  <p className="text-[11px] text-ww-text-secondary mt-0.5">
                     Target: {m.metric === 'netWorth' || m.metric === 'passiveIncome' ? `$${m.target.toLocaleString()}` : `${m.target} Units`}
                   </p>
                 </div>
@@ -200,13 +200,13 @@ const GoalsHub = () => {
               </div>
 
               <div className="space-y-1">
-                <div className="flex justify-between text-[11px] text-[#77786F] tabular-nums font-semibold">
+                <div className="flex justify-between text-[11px] text-ww-text-secondary tabular-nums font-semibold">
                   <span>Current: {m.metric === 'netWorth' || m.metric === 'passiveIncome' ? `${currencySymbol}${Math.round(m.currentVal).toLocaleString()}` : m.currentVal}</span>
                   <span>+{m.xp} XP</span>
                 </div>
-                <div className="w-full h-2 bg-[#F1EFE7] rounded-full overflow-hidden">
+                <div className="w-full h-2 bg-ww-bg-alt rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-[#526B56] rounded-full transition-all duration-500"
+                    className="h-full bg-ww-accent rounded-full transition-all duration-500"
                     style={{ width: `${m.progress}%` }}
                   />
                 </div>
@@ -217,13 +217,13 @@ const GoalsHub = () => {
       </div>
 
       {/* Achievement Badges Showcase */}
-      <Card className="p-5 border border-[#EAE8DF] bg-white space-y-4">
-        <div className="flex items-center justify-between pb-2 border-b border-[#EAE8DF]">
+      <Card className="p-5 border border-ww-border bg-white space-y-4">
+        <div className="flex items-center justify-between pb-2 border-b border-ww-border">
           <div className="flex items-center gap-2">
-            <Trophy className="w-4 h-4 text-[#C18A48]" />
-            <h3 className="text-sm font-bold text-[#22251F]">Imperial Achievement Badges</h3>
+            <Trophy className="w-4 h-4 text-ww-warning" />
+            <h3 className="text-sm font-bold text-ww-text">Imperial Achievement Badges</h3>
           </div>
-          <span className="text-xs text-[#77786F] font-semibold">{BADGES.filter(b => b.unlocked).length} / {BADGES.length} Unlocked</span>
+          <span className="text-xs text-ww-text-secondary font-semibold">{BADGES.filter(b => b.unlocked).length} / {BADGES.length} Unlocked</span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -232,13 +232,13 @@ const GoalsHub = () => {
               key={b.id}
               className={`p-3 rounded-xl border text-center space-y-1.5 transition-all ${
                 b.unlocked
-                  ? 'bg-[#FCFBF8] border-[#EAE8DF]'
-                  : 'bg-[#F8F7F2]/60 border-dashed border-[#D5D2C8] opacity-50'
+                  ? 'bg-ww-elevated border-ww-border'
+                  : 'bg-ww-bg/60 border-dashed border-ww-border-strong opacity-50'
               }`}
             >
               <span className="text-2xl block">{b.icon}</span>
-              <p className="text-xs font-bold text-[#22251F] leading-tight">{b.name}</p>
-              <p className="text-[9px] text-[#77786F] leading-snug">{b.desc}</p>
+              <p className="text-xs font-bold text-ww-text leading-tight">{b.name}</p>
+              <p className="text-[9px] text-ww-text-secondary leading-snug">{b.desc}</p>
             </div>
           ))}
         </div>

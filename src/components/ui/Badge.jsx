@@ -6,16 +6,16 @@ const Badge = ({
   className = '',
 }) => {
   const variants = {
-    default: 'bg-[#F1EFE7] border-[#EAE8DF] text-[#77786F]',
-    accent: 'bg-[#EDF2E9] border-[#C8D9CA] text-[#526B56]',
-    cyan: 'bg-[#EDF2E9] border-[#C8D9CA] text-[#526B56]',
-    emerald: 'bg-[#EDF2E9] border-[#C8D9CA] text-[#66866A]',
-    success: 'bg-[#EDF2E9] border-[#C8D9CA] text-[#66866A]',
-    rose: 'bg-[#FCEEED] border-[#E8C5C3] text-[#C66D65]',
-    danger: 'bg-[#FCEEED] border-[#E8C5C3] text-[#C66D65]',
-    amber: 'bg-[#FDF3E3] border-[#E8D5B0] text-[#C18A48]',
-    warning: 'bg-[#FDF3E3] border-[#E8D5B0] text-[#C18A48]',
-    violet: 'bg-[#F3EEF8] border-[#DECDEE] text-[#7C5ABF]',
+    default: 'bg-ww-bg-alt border-ww-border text-ww-text-secondary',
+    accent: 'bg-ww-green-bg border-ww-success/30 text-ww-accent',
+    cyan: 'bg-ww-green-bg border-ww-success/30 text-ww-accent',
+    emerald: 'bg-ww-green-bg border-ww-success/30 text-ww-success',
+    success: 'bg-ww-green-bg border-ww-success/30 text-ww-success',
+    rose: 'bg-ww-danger-bg border-ww-danger/30 text-ww-danger',
+    danger: 'bg-ww-danger-bg border-ww-danger/30 text-ww-danger',
+    amber: 'bg-ww-warning-bg border-ww-warning/30 text-ww-warning',
+    warning: 'bg-ww-warning-bg border-ww-warning/30 text-ww-warning',
+    violet: 'bg-ww-violet-bg border-ww-violet/30 text-ww-violet',
   };
 
   return (

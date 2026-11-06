@@ -102,10 +102,10 @@ const ExpenseHub = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A3A297] mb-1">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ww-text-muted mb-1">
             Cash Burn & Budget Governance
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold text-[#22251F] tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-bold text-ww-text tracking-tight">
             Expense & Budget Manager
           </h2>
         </div>
@@ -120,7 +120,7 @@ const ExpenseHub = () => {
       </div>
 
       {/* Scope Selector Tabs */}
-      <div className="flex items-center gap-1.5 p-1 bg-white border border-[#EAE8DF] rounded-xl w-fit">
+      <div className="flex items-center gap-1.5 p-1 bg-white border border-ww-border rounded-xl w-fit">
         {['All', 'Business', 'Personal'].map(tab => (
           <button
             key={tab}
@@ -128,8 +128,8 @@ const ExpenseHub = () => {
             onClick={() => setScope(tab)}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               scope === tab
-                ? 'bg-[#526B56] text-white shadow-2xs'
-                : 'text-[#77786F] hover:text-[#22251F] hover:bg-[#F8F7F2]'
+                ? 'bg-ww-accent text-white shadow-2xs'
+                : 'text-ww-text-secondary hover:text-ww-text hover:bg-ww-bg'
             }`}
           >
             {tab} Outflows
@@ -139,75 +139,75 @@ const ExpenseHub = () => {
 
       {/* Summary Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">
+        <Card className="p-5 border border-ww-border bg-white">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">
             {scope} Monthly Outflows
           </span>
-          <h3 className="text-3xl font-extrabold text-[#C66D65] tabular-nums mt-1">
+          <h3 className="text-3xl font-extrabold text-ww-danger tabular-nums mt-1">
             {currencySymbol}{mask(totalBurn.toLocaleString())}
           </h3>
-          <p className="text-[11px] text-[#77786F] mt-1">Across {filteredExpenses.length} recurring records</p>
+          <p className="text-[11px] text-ww-text-secondary mt-1">Across {filteredExpenses.length} recurring records</p>
         </Card>
 
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">
+        <Card className="p-5 border border-ww-border bg-white">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">
             Total Allocated Budget
           </span>
-          <h3 className="text-3xl font-extrabold text-[#22251F] tabular-nums mt-1">
+          <h3 className="text-3xl font-extrabold text-ww-text tabular-nums mt-1">
             {currencySymbol}{mask(Object.values(budgets).reduce((a, b) => a + b, 0).toLocaleString())}
           </h3>
-          <p className="text-[11px] text-[#77786F] mt-1">Monthly threshold ceiling</p>
+          <p className="text-[11px] text-ww-text-secondary mt-1">Monthly threshold ceiling</p>
         </Card>
 
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">
+        <Card className="p-5 border border-ww-border bg-white">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">
             Annual Run-Rate Burn
           </span>
-          <h3 className="text-3xl font-extrabold text-[#C18A48] tabular-nums mt-1">
+          <h3 className="text-3xl font-extrabold text-ww-warning tabular-nums mt-1">
             {currencySymbol}{mask((totalBurn * 12).toLocaleString())}
           </h3>
-          <p className="text-[11px] text-[#77786F] mt-1">Projected annual operational cost</p>
+          <p className="text-[11px] text-ww-text-secondary mt-1">Projected annual operational cost</p>
         </Card>
       </div>
 
       {/* Budget Utilization Progress Section */}
-      <Card className="p-6 border border-[#EAE8DF] bg-white space-y-4">
+      <Card className="p-6 border border-ww-border bg-white space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-sm font-bold text-[#22251F]">Category Budget Utilization</h3>
-            <p className="text-xs text-[#77786F]">Real-time tracking of expenses against monthly thresholds</p>
+            <h3 className="text-sm font-bold text-ww-text">Category Budget Utilization</h3>
+            <p className="text-xs text-ww-text-secondary">Real-time tracking of expenses against monthly thresholds</p>
           </div>
           <Badge variant="accent">5 Categories Calibrated</Badge>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
           {categoryStats.map(stat => (
-            <div key={stat.category} className="p-3.5 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl space-y-2">
+            <div key={stat.category} className="p-3.5 bg-ww-elevated border border-ww-border rounded-xl space-y-2">
               <div className="flex justify-between items-center text-xs">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: stat.color }} />
-                  <span className="font-bold text-[#22251F]">{stat.category}</span>
+                  <span className="font-bold text-ww-text">{stat.category}</span>
                 </div>
                 <div className="text-right">
-                  <span className={`font-bold tabular-nums ${stat.isOver ? 'text-[#C66D65]' : 'text-[#22251F]'}`}>
+                  <span className={`font-bold tabular-nums ${stat.isOver ? 'text-ww-danger' : 'text-ww-text'}`}>
                     {currencySymbol}{mask(stat.spent.toLocaleString())}
                   </span>
-                  <span className="text-[#A3A297] text-[10px]"> / {currencySymbol}{mask(stat.budgetLimit.toLocaleString())}</span>
+                  <span className="text-ww-text-muted text-[10px]"> / {currencySymbol}{mask(stat.budgetLimit.toLocaleString())}</span>
                 </div>
               </div>
 
-              <div className="w-full h-2 bg-[#F1EFE7] rounded-full overflow-hidden">
+              <div className="w-full h-2 bg-ww-bg-alt rounded-full overflow-hidden">
                 <div
-                  className={`h-full rounded-full transition-all duration-500 ${stat.isOver ? 'bg-[#C66D65]' : 'bg-[#526B56]'}`}
+                  className={`h-full rounded-full transition-all duration-500 ${stat.isOver ? 'bg-ww-danger' : 'bg-ww-accent'}`}
                   style={{ width: `${Math.min(stat.percentage, 100)}%` }}
                 />
               </div>
 
               <div className="flex justify-between items-center text-[10px]">
-                <span className={stat.isOver ? 'text-[#C66D65] font-bold' : 'text-[#77786F]'}>
+                <span className={stat.isOver ? 'text-ww-danger font-bold' : 'text-ww-text-secondary'}>
                   {stat.isOver ? `Over budget by ${currencySymbol}${mask((stat.spent - stat.budgetLimit).toLocaleString())}` : 'Within target'}
                 </span>
-                <span className="font-semibold text-[#A3A297]">{stat.percentage}% utilized</span>
+                <span className="font-semibold text-ww-text-muted">{stat.percentage}% utilized</span>
               </div>
             </div>
           ))}
@@ -215,15 +215,15 @@ const ExpenseHub = () => {
       </Card>
 
       {/* Expenses Records Table */}
-      <Card className="overflow-hidden border border-[#EAE8DF] bg-white p-0">
-        <div className="p-4 border-b border-[#EAE8DF] flex justify-between items-center">
-          <h3 className="text-sm font-bold text-[#22251F]">Recurring Expenses & Invoices ({filteredExpenses.length})</h3>
+      <Card className="overflow-hidden border border-ww-border bg-white p-0">
+        <div className="p-4 border-b border-ww-border flex justify-between items-center">
+          <h3 className="text-sm font-bold text-ww-text">Recurring Expenses & Invoices ({filteredExpenses.length})</h3>
           <Badge variant="default">{scope} Scope</Badge>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#FCFBF8] border-b border-[#EAE8DF] text-[10px] font-semibold text-[#A3A297] uppercase tracking-wider">
+            <thead className="bg-ww-elevated border-b border-ww-border text-[10px] font-semibold text-ww-text-muted uppercase tracking-wider">
               <tr>
                 <th className="py-3 px-4">Expense Description</th>
                 <th className="py-3 px-3">Category</th>
@@ -235,29 +235,29 @@ const ExpenseHub = () => {
             </thead>
             <tbody className="divide-y divide-[#EAE8DF]">
               {filteredExpenses.map(exp => (
-                <tr key={exp.id} className="hover:bg-[#FCFBF8] transition-colors">
-                  <td className="py-3 px-4 font-bold text-[#22251F]">
+                <tr key={exp.id} className="hover:bg-ww-elevated transition-colors">
+                  <td className="py-3 px-4 font-bold text-ww-text">
                     {exp.name}
                   </td>
                   <td className="py-3 px-3">
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-[#F1EFE7] text-[#77786F]">
+                    <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-ww-bg-alt text-ww-text-secondary">
                       {exp.category}
                     </span>
                   </td>
                   <td className="py-3 px-3">
                     <Badge variant={exp.type === 'Business' ? 'primary' : 'default'}>{exp.type}</Badge>
                   </td>
-                  <td className="py-3 px-3 text-[#77786F]">
+                  <td className="py-3 px-3 text-ww-text-secondary">
                     {exp.frequency || 'Monthly'}
                   </td>
-                  <td className="py-3 px-3 text-right font-bold text-[#C66D65] tabular-nums">
+                  <td className="py-3 px-3 text-right font-bold text-ww-danger tabular-nums">
                     -{currencySymbol}{mask(Number(exp.amount || 0).toLocaleString())}
                   </td>
                   <td className="py-3 px-4 text-center">
                     <button
                       type="button"
                       onClick={() => removeExpense(exp.id)}
-                      className="p-1 rounded text-[#A3A297] hover:text-[#C66D65] hover:bg-[#FCEEED] cursor-pointer"
+                      className="p-1 rounded text-ww-text-muted hover:text-ww-danger hover:bg-ww-danger-bg cursor-pointer"
                       title="Delete Expense"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -288,11 +288,11 @@ const ExpenseHub = () => {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-bold text-[#77786F] block mb-1.5">Category</label>
+              <label className="text-xs font-bold text-ww-text-secondary block mb-1.5">Category</label>
               <select
                 value={form.category}
                 onChange={e => setForm({ ...form, category: e.target.value })}
-                className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2.5 text-xs text-[#22251F] font-semibold outline-none focus:border-[#526B56]"
+                className="w-full bg-ww-elevated border border-ww-border rounded-xl p-2.5 text-xs text-ww-text font-semibold outline-none focus:border-ww-accent"
               >
                 <option value="Technology">Technology & Infrastructure</option>
                 <option value="Operations">Operations & Logistics</option>
@@ -304,11 +304,11 @@ const ExpenseHub = () => {
             </div>
 
             <div>
-              <label className="text-xs font-bold text-[#77786F] block mb-1.5">Classification</label>
+              <label className="text-xs font-bold text-ww-text-secondary block mb-1.5">Classification</label>
               <select
                 value={form.type}
                 onChange={e => setForm({ ...form, type: e.target.value })}
-                className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2.5 text-xs text-[#22251F] font-semibold outline-none focus:border-[#526B56]"
+                className="w-full bg-ww-elevated border border-ww-border rounded-xl p-2.5 text-xs text-ww-text font-semibold outline-none focus:border-ww-accent"
               >
                 <option value="Business">Business Venture Outflow</option>
                 <option value="Personal">Personal / Estate Outflow</option>
@@ -325,11 +325,11 @@ const ExpenseHub = () => {
               required
             />
             <div>
-              <label className="text-xs font-bold text-[#77786F] block mb-1.5">Billing Cadence</label>
+              <label className="text-xs font-bold text-ww-text-secondary block mb-1.5">Billing Cadence</label>
               <select
                 value={form.frequency}
                 onChange={e => setForm({ ...form, frequency: e.target.value })}
-                className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2.5 text-xs text-[#22251F] font-semibold outline-none focus:border-[#526B56]"
+                className="w-full bg-ww-elevated border border-ww-border rounded-xl p-2.5 text-xs text-ww-text font-semibold outline-none focus:border-ww-accent"
               >
                 <option value="Monthly">Monthly Recurring</option>
                 <option value="Annual">Annual Subscription</option>
@@ -353,15 +353,15 @@ const ExpenseHub = () => {
       >
         <div className="space-y-3">
           {Object.entries(budgets).map(([cat, val]) => (
-            <div key={cat} className="flex items-center justify-between gap-4 p-2.5 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl">
-              <span className="text-xs font-bold text-[#22251F]">{cat}</span>
+            <div key={cat} className="flex items-center justify-between gap-4 p-2.5 bg-ww-elevated border border-ww-border rounded-xl">
+              <span className="text-xs font-bold text-ww-text">{cat}</span>
               <div className="flex items-center gap-1.5 w-36">
-                <span className="text-xs text-[#A3A297]">{currencySymbol}</span>
+                <span className="text-xs text-ww-text-muted">{currencySymbol}</span>
                 <input
                   type="number"
                   value={val}
                   onChange={e => updateBudget(cat, e.target.value)}
-                  className="w-full text-xs font-bold text-[#22251F] bg-white border border-[#EAE8DF] rounded-lg px-2 py-1 outline-none focus:border-[#526B56]"
+                  className="w-full text-xs font-bold text-ww-text bg-white border border-ww-border rounded-lg px-2 py-1 outline-none focus:border-ww-accent"
                 />
               </div>
             </div>

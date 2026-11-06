@@ -151,10 +151,10 @@ const DocumentVaultHub = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A3A297] mb-1">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ww-text-muted mb-1">
             Local-First Encrypted Financial Archive
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold text-[#22251F] tracking-tight flex items-center gap-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-ww-text tracking-tight flex items-center gap-2">
             Document Vault
             <Badge variant="accent">IndexedDB Powered</Badge>
           </h2>
@@ -168,29 +168,29 @@ const DocumentVaultHub = () => {
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Enshrined Documents</span>
-          <h3 className="text-3xl font-extrabold text-[#22251F] tabular-nums mt-1">
+        <Card className="p-5 border border-ww-border bg-white">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Enshrined Documents</span>
+          <h3 className="text-3xl font-extrabold text-ww-text tabular-nums mt-1">
             {documents.length}
           </h3>
-          <p className="text-[11px] text-[#77786F] mt-1">Stored safely on device storage</p>
+          <p className="text-[11px] text-ww-text-secondary mt-1">Stored safely on device storage</p>
         </Card>
 
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Vault Storage Footprint</span>
-          <h3 className="text-3xl font-extrabold text-[#526B56] tabular-nums mt-1">
+        <Card className="p-5 border border-ww-border bg-white">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Vault Storage Footprint</span>
+          <h3 className="text-3xl font-extrabold text-ww-accent tabular-nums mt-1">
             {formatSize(totalVaultBytes)}
           </h3>
-          <p className="text-[11px] text-[#77786F] mt-1">No server bandwidth utilized</p>
+          <p className="text-[11px] text-ww-text-secondary mt-1">No server bandwidth utilized</p>
         </Card>
 
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Data Privacy Architecture</span>
-          <h3 className="text-2xl font-extrabold text-[#4A7C8A] mt-1 flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-[#526B56]" />
+        <Card className="p-5 border border-ww-border bg-white">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Data Privacy Architecture</span>
+          <h3 className="text-2xl font-extrabold text-ww-teal mt-1 flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5 text-ww-accent" />
             100% Local-First
           </h3>
-          <p className="text-[11px] text-[#77786F] mt-1">Zero cloud dependencies</p>
+          <p className="text-[11px] text-ww-text-secondary mt-1">Zero cloud dependencies</p>
         </Card>
       </div>
 
@@ -204,8 +204,8 @@ const DocumentVaultHub = () => {
               onClick={() => setCategoryFilter(cat)}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer shrink-0 ${
                 categoryFilter === cat
-                  ? 'bg-[#526B56] text-white shadow-2xs'
-                  : 'bg-white border border-[#EAE8DF] text-[#77786F] hover:text-[#22251F]'
+                  ? 'bg-ww-accent text-white shadow-2xs'
+                  : 'bg-white border border-ww-border text-ww-text-secondary hover:text-ww-text'
               }`}
             >
               {cat}
@@ -214,13 +214,13 @@ const DocumentVaultHub = () => {
         </div>
 
         <div className="relative">
-          <Search className="w-3.5 h-3.5 text-[#A3A297] absolute left-2.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-3.5 h-3.5 text-ww-text-muted absolute left-2.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search documents..."
-            className="pl-8 pr-3 py-1.5 text-xs bg-white border border-[#EAE8DF] rounded-lg outline-none focus:border-[#526B56] w-48 sm:w-60"
+            className="pl-8 pr-3 py-1.5 text-xs bg-white border border-ww-border rounded-lg outline-none focus:border-ww-accent w-48 sm:w-60"
           />
         </div>
       </div>
@@ -228,35 +228,35 @@ const DocumentVaultHub = () => {
       {/* Documents Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredDocs.length === 0 ? (
-          <div className="col-span-full py-16 text-center text-[#A3A297]">
-            <FolderLock className="w-12 h-12 mx-auto text-[#D5D2C8] mb-3" />
+          <div className="col-span-full py-16 text-center text-ww-text-muted">
+            <FolderLock className="w-12 h-12 mx-auto text-ww-border-strong mb-3" />
             <p className="font-semibold text-sm">No documents found</p>
             <p className="text-xs mt-1">Click "Store Document" above to archive receipts, deeds, or tax filings.</p>
           </div>
         ) : (
           filteredDocs.map(doc => (
-            <Card key={doc.id} className="p-4 border border-[#EAE8DF] bg-white space-y-3 hover:border-[#D5D2C8] transition-all flex flex-col justify-between">
+            <Card key={doc.id} className="p-4 border border-ww-border bg-white space-y-3 hover:border-ww-border-strong transition-all flex flex-col justify-between">
               <div>
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-9 h-9 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56] flex items-center justify-center shrink-0">
+                    <div className="w-9 h-9 rounded-xl bg-ww-green-bg border border-ww-accent/20 text-ww-accent flex items-center justify-center shrink-0">
                       <FileText className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
-                      <h4 className="text-xs font-bold text-[#22251F] truncate">{doc.name}</h4>
-                      <p className="text-[10px] text-[#77786F] truncate mt-0.5">{doc.fileName || 'Archive'}</p>
+                      <h4 className="text-xs font-bold text-ww-text truncate">{doc.name}</h4>
+                      <p className="text-[10px] text-ww-text-secondary truncate mt-0.5">{doc.fileName || 'Archive'}</p>
                     </div>
                   </div>
                   <Badge variant="accent">{doc.category}</Badge>
                 </div>
 
                 {doc.notes && (
-                  <p className="text-[11px] text-[#77786F] mt-2 line-clamp-2 bg-[#FCFBF8] p-2 rounded-lg border border-[#EAE8DF]">
+                  <p className="text-[11px] text-ww-text-secondary mt-2 line-clamp-2 bg-ww-elevated p-2 rounded-lg border border-ww-border">
                     {doc.notes}
                   </p>
                 )}
 
-                <div className="mt-3 flex items-center justify-between text-[10px] text-[#A3A297] pt-2 border-t border-[#EAE8DF]">
+                <div className="mt-3 flex items-center justify-between text-[10px] text-ww-text-muted pt-2 border-t border-ww-border">
                   <span>{new Date(doc.createdAt).toLocaleDateString()}</span>
                   <span>{formatSize(doc.size || 0)}</span>
                 </div>
@@ -267,7 +267,7 @@ const DocumentVaultHub = () => {
                   <button
                     type="button"
                     onClick={() => setPreviewDoc(doc)}
-                    className="p-1.5 rounded-lg text-[#526B56] hover:bg-[#EDF2E9] cursor-pointer flex items-center gap-1 text-xs font-semibold"
+                    className="p-1.5 rounded-lg text-ww-accent hover:bg-ww-green-bg cursor-pointer flex items-center gap-1 text-xs font-semibold"
                   >
                     <Eye className="w-3.5 h-3.5" />
                     <span>Preview</span>
@@ -276,7 +276,7 @@ const DocumentVaultHub = () => {
                 <button
                   type="button"
                   onClick={() => setDeleteConfirmDoc(doc)}
-                  className="p-1.5 rounded-lg text-[#A3A297] hover:text-[#C66D65] hover:bg-[#FCEEED] cursor-pointer"
+                  className="p-1.5 rounded-lg text-ww-text-muted hover:text-ww-danger hover:bg-ww-danger-bg cursor-pointer"
                   title="Purge"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -304,11 +304,11 @@ const DocumentVaultHub = () => {
           />
 
           <div>
-            <label className="text-xs font-bold text-[#77786F] block mb-1.5">Category</label>
+            <label className="text-xs font-bold text-ww-text-secondary block mb-1.5">Category</label>
             <select
               value={uploadForm.category}
               onChange={e => setUploadForm({ ...uploadForm, category: e.target.value })}
-              className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2.5 text-xs text-[#22251F] font-semibold outline-none focus:border-[#526B56]"
+              className="w-full bg-ww-elevated border border-ww-border rounded-xl p-2.5 text-xs text-ww-text font-semibold outline-none focus:border-ww-accent"
             >
               <option value="Invoices">Commercial Invoice</option>
               <option value="Receipts">Operating Receipt</option>
@@ -320,15 +320,15 @@ const DocumentVaultHub = () => {
           </div>
 
           <div>
-            <label className="text-xs font-bold text-[#77786F] block mb-1.5">Select File (Image / PDF / Doc)</label>
+            <label className="text-xs font-bold text-ww-text-secondary block mb-1.5">Select File (Image / PDF / Doc)</label>
             <input
               type="file"
               onChange={handleFileChange}
               required
-              className="w-full text-xs text-[#77786F] file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[#EDF2E9] file:text-[#526B56] hover:file:bg-[#D5DFD1] cursor-pointer"
+              className="w-full text-xs text-ww-text-secondary file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-ww-green-bg file:text-ww-accent hover:file:bg-ww-accent-subtle cursor-pointer"
             />
             {uploadForm.fileName && (
-              <p className="text-[10px] text-[#526B56] font-semibold mt-1">
+              <p className="text-[10px] text-ww-accent font-semibold mt-1">
                 Selected: {uploadForm.fileName} ({formatSize(uploadForm.fileSize)})
               </p>
             )}
@@ -356,18 +356,18 @@ const DocumentVaultHub = () => {
           subtitle={`${previewDoc.category} · ${formatSize(previewDoc.size)}`}
         >
           <div className="space-y-4">
-            <div className="max-h-96 overflow-auto border border-[#EAE8DF] rounded-xl p-2 bg-[#FCFBF8] flex items-center justify-center">
+            <div className="max-h-96 overflow-auto border border-ww-border rounded-xl p-2 bg-ww-elevated flex items-center justify-center">
               {previewDoc.mimeType?.startsWith('image/') ? (
                 <img src={previewDoc.dataUrl} alt={previewDoc.name} className="max-h-80 object-contain rounded-lg" />
               ) : (
                 <div className="text-center p-8 space-y-3">
-                  <FileText className="w-12 h-12 text-[#526B56] mx-auto" />
-                  <p className="text-xs font-bold text-[#22251F]">{previewDoc.fileName}</p>
-                  <p className="text-[11px] text-[#77786F]">Binary Document stored in local vault.</p>
+                  <FileText className="w-12 h-12 text-ww-accent mx-auto" />
+                  <p className="text-xs font-bold text-ww-text">{previewDoc.fileName}</p>
+                  <p className="text-[11px] text-ww-text-secondary">Binary Document stored in local vault.</p>
                   <a
                     href={previewDoc.dataUrl}
                     download={previewDoc.fileName || 'vault-document'}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#526B56] text-white text-xs font-semibold"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-ww-accent text-white text-xs font-semibold"
                   >
                     <Download className="w-3.5 h-3.5" />
                     Download File
@@ -376,7 +376,7 @@ const DocumentVaultHub = () => {
               )}
             </div>
             {previewDoc.notes && (
-              <p className="text-xs text-[#77786F] p-3 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
+              <p className="text-xs text-ww-text-secondary p-3 bg-ww-elevated rounded-xl border border-ww-border">
                 <strong>Notes:</strong> {previewDoc.notes}
               </p>
             )}

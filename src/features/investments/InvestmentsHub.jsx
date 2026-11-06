@@ -178,10 +178,10 @@ const InvestmentsHub = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A3A297] mb-1">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ww-text-muted mb-1">
             Global Capital Markets & Securities
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold text-[#22251F] tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-bold text-ww-text tracking-tight">
             Investment Portfolio
           </h2>
         </div>
@@ -194,57 +194,57 @@ const InvestmentsHub = () => {
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Portfolio Value</span>
-          <h3 className="text-2xl font-extrabold text-[#22251F] tabular-nums mt-1">
+        <Card className="p-5 border border-ww-border bg-white">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Portfolio Value</span>
+          <h3 className="text-2xl font-extrabold text-ww-text tabular-nums mt-1">
             {currencySymbol}{mask(portfolioMetrics.totalCurrentValue.toLocaleString(undefined, { maximumFractionDigits: 0 }))}
           </h3>
-          <p className="text-[11px] text-[#77786F] mt-1">Across {investments.length} active holdings</p>
+          <p className="text-[11px] text-ww-text-secondary mt-1">Across {investments.length} active holdings</p>
         </Card>
 
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Unrealized P&L</span>
+        <Card className="p-5 border border-ww-border bg-white">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Unrealized P&L</span>
           <div className="flex items-baseline gap-2 mt-1">
-            <h3 className={`text-2xl font-extrabold tabular-nums ${portfolioMetrics.totalPnL >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
+            <h3 className={`text-2xl font-extrabold tabular-nums ${portfolioMetrics.totalPnL >= 0 ? 'text-ww-accent' : 'text-ww-danger'}`}>
               {portfolioMetrics.totalPnL >= 0 ? '+' : ''}{currencySymbol}{mask(Math.abs(portfolioMetrics.totalPnL).toLocaleString(undefined, { maximumFractionDigits: 0 }))}
             </h3>
-            <span className={`text-xs font-bold ${portfolioMetrics.totalPnL >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
+            <span className={`text-xs font-bold ${portfolioMetrics.totalPnL >= 0 ? 'text-ww-accent' : 'text-ww-danger'}`}>
               ({portfolioMetrics.totalPnLPct}%)
             </span>
           </div>
-          <p className="text-[11px] text-[#77786F] mt-1">Cost basis: {currencySymbol}{mask(portfolioMetrics.totalInvested.toLocaleString())}</p>
+          <p className="text-[11px] text-ww-text-secondary mt-1">Cost basis: {currencySymbol}{mask(portfolioMetrics.totalInvested.toLocaleString())}</p>
         </Card>
 
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Est. Monthly Dividends</span>
-          <h3 className="text-2xl font-extrabold text-[#C18A48] tabular-nums mt-1">
+        <Card className="p-5 border border-ww-border bg-white">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Est. Monthly Dividends</span>
+          <h3 className="text-2xl font-extrabold text-ww-warning tabular-nums mt-1">
             +{currencySymbol}{mask(portfolioMetrics.monthlyDividends.toLocaleString())}
           </h3>
-          <p className="text-[11px] text-[#77786F] mt-1">Passive securities cash flow</p>
+          <p className="text-[11px] text-ww-text-secondary mt-1">Passive securities cash flow</p>
         </Card>
 
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Liquid Buying Power</span>
-          <h3 className="text-2xl font-extrabold text-[#4A7C8A] tabular-nums mt-1">
+        <Card className="p-5 border border-ww-border bg-white">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Liquid Buying Power</span>
+          <h3 className="text-2xl font-extrabold text-ww-teal tabular-nums mt-1">
             {currencySymbol}{mask((wallet?.balance || 0).toLocaleString())}
           </h3>
-          <p className="text-[11px] text-[#77786F] mt-1">Available in Smart Wallet</p>
+          <p className="text-[11px] text-ww-text-secondary mt-1">Available in Smart Wallet</p>
         </Card>
       </div>
 
       {/* Allocation & Visual Analytics */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         <div className="lg:col-span-5">
-          <Card className="p-6 border border-[#EAE8DF] bg-white h-full flex flex-col justify-between">
+          <Card className="p-6 border border-ww-border bg-white h-full flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <PieIcon className="w-4 h-4 text-[#526B56]" />
-                  <h3 className="text-sm font-bold text-[#22251F]">Asset Allocation</h3>
+                  <PieIcon className="w-4 h-4 text-ww-accent" />
+                  <h3 className="text-sm font-bold text-ww-text">Asset Allocation</h3>
                 </div>
                 <Badge variant="accent">{allocationData.length} Classes</Badge>
               </div>
-              <p className="text-xs text-[#77786F]">Diversification profile across equities, commodities, and bonds</p>
+              <p className="text-xs text-ww-text-secondary">Diversification profile across equities, commodities, and bonds</p>
             </div>
 
             <div className="h-48 my-3">
@@ -270,16 +270,16 @@ const InvestmentsHub = () => {
               </ResponsiveContainer>
             </div>
 
-            <div className="space-y-2 pt-2 border-t border-[#EAE8DF]">
+            <div className="space-y-2 pt-2 border-t border-ww-border">
               {allocationData.map(item => (
                 <div key={item.name} className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
-                    <span className="font-semibold text-[#22251F]">{item.name}</span>
+                    <span className="font-semibold text-ww-text">{item.name}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-[#77786F]">{item.percentage}%</span>
-                    <span className="font-bold text-[#22251F] tabular-nums">{currencySymbol}{mask(item.value.toLocaleString())}</span>
+                    <span className="text-[11px] text-ww-text-secondary">{item.percentage}%</span>
+                    <span className="font-bold text-ww-text tabular-nums">{currencySymbol}{mask(item.value.toLocaleString())}</span>
                   </div>
                 </div>
               ))}
@@ -288,35 +288,35 @@ const InvestmentsHub = () => {
         </div>
 
         <div className="lg:col-span-7">
-          <Card className="p-6 border border-[#EAE8DF] bg-white h-full flex flex-col justify-between space-y-4">
+          <Card className="p-6 border border-ww-border bg-white h-full flex flex-col justify-between space-y-4">
             <div>
               <div className="flex items-center justify-between mb-1">
-                <h3 className="text-sm font-bold text-[#22251F]">Simulated Market Engine</h3>
+                <h3 className="text-sm font-bold text-ww-text">Simulated Market Engine</h3>
                 <Badge variant="success">Auto-Fluctuation Active</Badge>
               </div>
-              <p className="text-xs text-[#77786F]">
+              <p className="text-xs text-ww-text-secondary">
                 Holding prices dynamically adjust in real time during heartbeat pulses based on market volatility simulations.
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-3 text-xs">
-              <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl">
-                <span className="text-[10px] text-[#A3A297] font-semibold uppercase">Largest Holding</span>
-                <p className="text-sm font-bold text-[#22251F] mt-0.5">
+              <div className="p-3 bg-ww-elevated border border-ww-border rounded-xl">
+                <span className="text-[10px] text-ww-text-muted font-semibold uppercase">Largest Holding</span>
+                <p className="text-sm font-bold text-ww-text mt-0.5">
                   {investments[0]?.symbol || 'N/A'} · {investments[0]?.name || ''}
                 </p>
               </div>
-              <div className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl">
-                <span className="text-[10px] text-[#A3A297] font-semibold uppercase">Dividend Yield</span>
-                <p className="text-sm font-bold text-[#526B56] mt-0.5">
+              <div className="p-3 bg-ww-elevated border border-ww-border rounded-xl">
+                <span className="text-[10px] text-ww-text-muted font-semibold uppercase">Dividend Yield</span>
+                <p className="text-sm font-bold text-ww-accent mt-0.5">
                   ~2.4% Weighted APY
                 </p>
               </div>
             </div>
 
-            <div className="p-3.5 bg-[#EDF2E9] border border-[#D5DFD1] rounded-xl flex items-center gap-3">
-              <ShieldCheck className="w-5 h-5 text-[#526B56] shrink-0" />
-              <p className="text-[11px] text-[#526B56] leading-relaxed">
+            <div className="p-3.5 bg-ww-green-bg border border-ww-accent/20 rounded-xl flex items-center gap-3">
+              <ShieldCheck className="w-5 h-5 text-ww-accent shrink-0" />
+              <p className="text-[11px] text-ww-accent leading-relaxed">
                 <strong>Local Simulation Guarantee:</strong> WizWallet 3.0 never presents synthetic sandbox data as official financial advice. All trades are executed against your local Smart Wallet vault.
               </p>
             </div>
@@ -325,28 +325,28 @@ const InvestmentsHub = () => {
       </div>
 
       {/* Holdings Table */}
-      <Card className="overflow-hidden border border-[#EAE8DF] bg-white p-0">
-        <div className="p-4 border-b border-[#EAE8DF] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <Card className="overflow-hidden border border-ww-border bg-white p-0">
+        <div className="p-4 border-b border-ww-border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <h3 className="text-sm font-bold text-[#22251F]">Portfolio Positions ({filteredInvestments.length})</h3>
+            <h3 className="text-sm font-bold text-ww-text">Portfolio Positions ({filteredInvestments.length})</h3>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
             <div className="relative">
-              <Search className="w-3.5 h-3.5 text-[#A3A297] absolute left-2.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-3.5 h-3.5 text-ww-text-muted absolute left-2.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 placeholder="Search symbol..."
-                className="pl-8 pr-3 py-1.5 text-xs bg-[#FCFBF8] border border-[#EAE8DF] rounded-lg outline-none focus:border-[#526B56] w-36 sm:w-48"
+                className="pl-8 pr-3 py-1.5 text-xs bg-ww-elevated border border-ww-border rounded-lg outline-none focus:border-ww-accent w-36 sm:w-48"
               />
             </div>
 
             <select
               value={filterType}
               onChange={e => setFilterType(e.target.value)}
-              className="text-xs bg-[#FCFBF8] border border-[#EAE8DF] rounded-lg px-2.5 py-1.5 outline-none font-semibold text-[#22251F]"
+              className="text-xs bg-ww-elevated border border-ww-border rounded-lg px-2.5 py-1.5 outline-none font-semibold text-ww-text"
             >
               <option value="All">All Asset Types</option>
               <option value="Stock">Stocks</option>
@@ -359,7 +359,7 @@ const InvestmentsHub = () => {
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#FCFBF8] border-b border-[#EAE8DF] text-[10px] font-semibold text-[#A3A297] uppercase tracking-wider">
+            <thead className="bg-ww-elevated border-b border-ww-border text-[10px] font-semibold text-ww-text-muted uppercase tracking-wider">
               <tr>
                 <th className="py-3 px-4">Asset</th>
                 <th className="py-3 px-3">Type</th>
@@ -374,7 +374,7 @@ const InvestmentsHub = () => {
             <tbody className="divide-y divide-[#EAE8DF]">
               {filteredInvestments.length === 0 ? (
                 <tr>
-                  <td colSpan="8" className="py-8 text-center text-[#A3A297]">
+                  <td colSpan="8" className="py-8 text-center text-ww-text-muted">
                     No investment positions match your filter criteria.
                   </td>
                 </tr>
@@ -388,35 +388,35 @@ const InvestmentsHub = () => {
                   const pnlPct = buyPrice > 0 ? ((pnl / (qty * buyPrice)) * 100).toFixed(2) : '0';
 
                   return (
-                    <tr key={inv.id} className="hover:bg-[#FCFBF8] transition-colors">
-                      <td className="py-3.5 px-4 font-semibold text-[#22251F]">
+                    <tr key={inv.id} className="hover:bg-ww-elevated transition-colors">
+                      <td className="py-3.5 px-4 font-semibold text-ww-text">
                         <div className="flex items-center gap-2">
-                          <span className="w-8 h-8 rounded-lg bg-[#EDF2E9] text-[#526B56] font-extrabold flex items-center justify-center text-xs border border-[#D5DFD1]">
+                          <span className="w-8 h-8 rounded-lg bg-ww-green-bg text-ww-accent font-extrabold flex items-center justify-center text-xs border border-ww-accent/20">
                             {inv.symbol.slice(0, 3)}
                           </span>
                           <div>
-                            <p className="font-bold text-[#22251F]">{inv.symbol}</p>
-                            <p className="text-[10px] text-[#77786F] truncate max-w-[140px]">{inv.name}</p>
+                            <p className="font-bold text-ww-text">{inv.symbol}</p>
+                            <p className="text-[10px] text-ww-text-secondary truncate max-w-[140px]">{inv.name}</p>
                           </div>
                         </div>
                       </td>
                       <td className="py-3.5 px-3">
                         <Badge variant="default">{inv.type}</Badge>
                       </td>
-                      <td className="py-3.5 px-3 text-right font-medium text-[#22251F] tabular-nums">
+                      <td className="py-3.5 px-3 text-right font-medium text-ww-text tabular-nums">
                         {mask(qty.toLocaleString())}
                       </td>
-                      <td className="py-3.5 px-3 text-right text-[#77786F] tabular-nums">
+                      <td className="py-3.5 px-3 text-right text-ww-text-secondary tabular-nums">
                         {currencySymbol}{mask(buyPrice.toFixed(2))}
                       </td>
-                      <td className="py-3.5 px-3 text-right font-bold text-[#22251F] tabular-nums">
+                      <td className="py-3.5 px-3 text-right font-bold text-ww-text tabular-nums">
                         {currencySymbol}{mask(curPrice.toFixed(2))}
                       </td>
-                      <td className="py-3.5 px-3 text-right font-bold text-[#22251F] tabular-nums">
+                      <td className="py-3.5 px-3 text-right font-bold text-ww-text tabular-nums">
                         {currencySymbol}{mask(totalVal.toLocaleString(undefined, { maximumFractionDigits: 0 }))}
                       </td>
                       <td className="py-3.5 px-3 text-right font-bold tabular-nums">
-                        <span className={pnl >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}>
+                        <span className={pnl >= 0 ? 'text-ww-accent' : 'text-ww-danger'}>
                           {pnl >= 0 ? '+' : ''}{currencySymbol}{mask(Math.abs(pnl).toLocaleString(undefined, { maximumFractionDigits: 0 }))}
                           <span className="text-[10px] block opacity-85">({pnlPct}%)</span>
                         </span>
@@ -426,7 +426,7 @@ const InvestmentsHub = () => {
                           <button
                             type="button"
                             onClick={() => openEdit(inv)}
-                            className="p-1 rounded text-[#A3A297] hover:text-[#22251F] hover:bg-[#F1EFE7] cursor-pointer"
+                            className="p-1 rounded text-ww-text-muted hover:text-ww-text hover:bg-ww-bg-alt cursor-pointer"
                             title="Edit / Rebalance"
                           >
                             <Edit3 className="w-3.5 h-3.5" />
@@ -434,7 +434,7 @@ const InvestmentsHub = () => {
                           <button
                             type="button"
                             onClick={() => setDeleteConfirm(inv)}
-                            className="p-1 rounded text-[#A3A297] hover:text-[#C66D65] hover:bg-[#FCEEED] cursor-pointer"
+                            className="p-1 rounded text-ww-text-muted hover:text-ww-danger hover:bg-ww-danger-bg cursor-pointer"
                             title="Liquidate Position"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -467,11 +467,11 @@ const InvestmentsHub = () => {
               placeholder="e.g. NVDA, VOO"
             />
             <div>
-              <label className="text-xs font-bold text-[#77786F] block mb-1.5">Asset Class</label>
+              <label className="text-xs font-bold text-ww-text-secondary block mb-1.5">Asset Class</label>
               <select
                 value={form.type}
                 onChange={e => setForm({ ...form, type: e.target.value })}
-                className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2.5 text-xs text-[#22251F] font-semibold outline-none focus:border-[#526B56]"
+                className="w-full bg-ww-elevated border border-ww-border rounded-xl p-2.5 text-xs text-ww-text font-semibold outline-none focus:border-ww-accent"
               >
                 <option value="Stock">Stock / Equity</option>
                 <option value="ETF">Index ETF</option>

@@ -50,11 +50,11 @@ const MobileExpenseView = () => {
 
   return (
     <div className="space-y-4 pb-8">
-      <Card className="p-5 border border-[#EAE8DF] bg-white space-y-3">
+      <Card className="p-5 border border-ww-border bg-white space-y-3">
         <div className="flex justify-between items-center">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Monthly Outflows</p>
-            <h2 className="text-3xl font-extrabold text-[#C66D65] tabular-nums mt-0.5">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Monthly Outflows</p>
+            <h2 className="text-3xl font-extrabold text-ww-danger tabular-nums mt-0.5">
               {currencySymbol}{mask(totalBurn.toLocaleString())}
             </h2>
           </div>
@@ -63,14 +63,14 @@ const MobileExpenseView = () => {
           </Button>
         </div>
 
-        <div className="flex items-center gap-1 pt-2 border-t border-[#EAE8DF]">
+        <div className="flex items-center gap-1 pt-2 border-t border-ww-border">
           {['All', 'Business', 'Personal'].map(s => (
             <button
               key={s}
               type="button"
               onClick={() => setScope(s)}
               className={`flex-1 py-1 rounded-lg text-xs font-semibold cursor-pointer ${
-                scope === s ? 'bg-[#526B56] text-white' : 'bg-[#FCFBF8] text-[#77786F] border border-[#EAE8DF]'
+                scope === s ? 'bg-ww-accent text-white' : 'bg-ww-elevated text-ww-text-secondary border border-ww-border'
               }`}
             >
               {s}
@@ -80,23 +80,23 @@ const MobileExpenseView = () => {
       </Card>
 
       <div className="space-y-2.5">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-[#A3A297] px-1">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-ww-text-muted px-1">
           Expenditure Records ({filtered.length})
         </h3>
         {filtered.map(exp => (
-          <Card key={exp.id} className="p-3.5 border border-[#EAE8DF] bg-white flex items-center justify-between">
+          <Card key={exp.id} className="p-3.5 border border-ww-border bg-white flex items-center justify-between">
             <div>
-              <h4 className="text-xs font-bold text-[#22251F]">{exp.name}</h4>
-              <p className="text-[10px] text-[#77786F] mt-0.5">{exp.category} · {exp.type}</p>
+              <h4 className="text-xs font-bold text-ww-text">{exp.name}</h4>
+              <p className="text-[10px] text-ww-text-secondary mt-0.5">{exp.category} · {exp.type}</p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-extrabold text-xs text-[#C66D65] tabular-nums">
+              <span className="font-extrabold text-xs text-ww-danger tabular-nums">
                 -{currencySymbol}{mask(Number(exp.amount || 0).toLocaleString())}
               </span>
               <button
                 type="button"
                 onClick={() => removeExpense(exp.id)}
-                className="p-1 rounded text-[#A3A297] hover:text-[#C66D65] cursor-pointer"
+                className="p-1 rounded text-ww-text-muted hover:text-ww-danger cursor-pointer"
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>
@@ -121,11 +121,11 @@ const MobileExpenseView = () => {
           />
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs font-bold text-[#77786F] block mb-1">Category</label>
+              <label className="text-xs font-bold text-ww-text-secondary block mb-1">Category</label>
               <select
                 value={form.category}
                 onChange={e => setForm({ ...form, category: e.target.value })}
-                className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2.5 text-xs text-[#22251F] font-semibold outline-none"
+                className="w-full bg-ww-elevated border border-ww-border rounded-xl p-2.5 text-xs text-ww-text font-semibold outline-none"
               >
                 <option value="Technology">Technology</option>
                 <option value="Operations">Operations</option>

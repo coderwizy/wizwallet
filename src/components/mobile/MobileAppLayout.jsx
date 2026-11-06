@@ -43,7 +43,7 @@ const MobileAppLayout = ({ activeTab, setActiveTab }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F7F2] text-[#22251F] flex flex-col justify-between relative selection:bg-[#EDF2E9] selection:text-[#526B56]">
+    <div className="min-h-screen bg-ww-bg text-ww-text flex flex-col justify-between relative selection:bg-ww-green-bg selection:text-ww-accent">
       {/* Native Cream Mobile Header */}
       <MobileHeader activeTab={activeTab} setActiveTab={setActiveTab} />
 

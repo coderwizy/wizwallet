@@ -39,23 +39,23 @@ const MobileSectorsView = () => {
   return (
     <div className="space-y-4 pb-8">
       {/* ── Search & Filter Card ── */}
-      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
+      <Card className="p-4 border border-ww-border bg-white space-y-3">
         <div className="relative">
-          <Search className="w-4 h-4 text-[#A3A297] absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-ww-text-muted absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search 30 domain nodes..."
-            className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl py-2 pl-9 pr-3 text-xs font-medium text-[#22251F] placeholder-[#A3A297] outline-none focus:border-[#526B56]"
+            className="w-full bg-ww-elevated border border-ww-border rounded-xl py-2 pl-9 pr-3 text-xs font-medium text-ww-text placeholder-ww-text-muted outline-none focus:border-ww-accent"
           />
         </div>
 
         <div className="flex justify-between items-center text-xs">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-[#77786F]">Sort Nodes:</span>
+          <span className="text-[10px] font-bold uppercase tracking-wider text-ww-text-secondary">Sort Nodes:</span>
           <select
             value={sortBy}
             onChange={e => setSortBy(e.target.value)}
-            className="bg-[#FCFBF8] border border-[#EAE8DF] rounded-lg px-2.5 py-1 text-xs font-semibold text-[#22251F] outline-none"
+            className="bg-ww-elevated border border-ww-border rounded-lg px-2.5 py-1 text-xs font-semibold text-ww-text outline-none"
           >
             <option value="revenue">By Revenue</option>
             <option value="expense">By Expense</option>
@@ -67,10 +67,10 @@ const MobileSectorsView = () => {
       {/* ── Sectors List ── */}
       <div className="space-y-2.5">
         <div className="flex justify-between items-center px-1">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-[#A3A297]">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-ww-text-muted">
             Domain Nodes ({filteredSectors.length})
           </h3>
-          <span className="text-[10px] text-[#526B56] font-semibold">+5% yield boost active</span>
+          <span className="text-[10px] text-ww-accent font-semibold">+5% yield boost active</span>
         </div>
 
         {filteredSectors.map(sec => {
@@ -79,11 +79,11 @@ const MobileSectorsView = () => {
           return (
             <Card
               key={sec.id}
-              className="p-3.5 border border-[#EAE8DF] bg-white transition-all cursor-pointer relative overflow-hidden"
+              className="p-3.5 border border-ww-border bg-white transition-all cursor-pointer relative overflow-hidden"
               onClick={() => setSelectedSector(sec)}
             >
               <div className="flex justify-between items-start mb-1.5">
-                <h4 className="text-xs font-bold uppercase text-[#22251F] truncate mr-2">
+                <h4 className="text-xs font-bold uppercase text-ww-text truncate mr-2">
                   {sec.name}
                 </h4>
                 <Badge variant="accent">
@@ -93,8 +93,8 @@ const MobileSectorsView = () => {
 
               <div className="flex justify-between items-end">
                 <div>
-                  <p className="text-[10px] text-[#A3A297]">Gross Revenue</p>
-                  <p className="text-base font-bold text-[#526B56] tabular-nums">
+                  <p className="text-[10px] text-ww-text-muted">Gross Revenue</p>
+                  <p className="text-base font-bold text-ww-accent tabular-nums">
                     {currencySymbol}{Math.round(sec.revenue || 0).toLocaleString()}
                   </p>
                 </div>
@@ -103,7 +103,7 @@ const MobileSectorsView = () => {
                     e.stopPropagation();
                     optimizeSector(sec.id);
                   }}
-                  className="px-3 py-1.5 rounded-lg bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56] text-xs font-bold flex items-center gap-1 cursor-pointer hover:bg-[#526B56] hover:text-white transition-all"
+                  className="px-3 py-1.5 rounded-lg bg-ww-green-bg border border-ww-accent/20 text-ww-accent text-xs font-bold flex items-center gap-1 cursor-pointer hover:bg-ww-accent hover:text-white transition-all"
                 >
                   <Zap className="w-3 h-3" />
                   <span>+5% Boost</span>
@@ -111,7 +111,7 @@ const MobileSectorsView = () => {
               </div>
 
               {isOptimized && (
-                <div className="absolute inset-0 bg-[#EDF2E9]/95 flex items-center justify-center text-xs font-bold text-[#526B56] gap-1">
+                <div className="absolute inset-0 bg-ww-green-bg/95 flex items-center justify-center text-xs font-bold text-ww-accent gap-1">
                   <CheckCircle2 className="w-4 h-4" />
                   <span>+5% Optimization Applied</span>
                 </div>
@@ -130,18 +130,18 @@ const MobileSectorsView = () => {
       >
         {selectedSector && (
           <div className="space-y-4">
-            <div className="p-4 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl space-y-2.5 text-xs">
+            <div className="p-4 bg-ww-elevated border border-ww-border rounded-xl space-y-2.5 text-xs">
               <div className="flex justify-between">
-                <span className="text-[#77786F]">Gross Revenue:</span>
-                <span className="font-bold text-[#526B56] tabular-nums">{currencySymbol}{Math.round(selectedSector.revenue || 0).toLocaleString()}</span>
+                <span className="text-ww-text-secondary">Gross Revenue:</span>
+                <span className="font-bold text-ww-accent tabular-nums">{currencySymbol}{Math.round(selectedSector.revenue || 0).toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[#77786F]">Operational Burn:</span>
-                <span className="font-bold text-[#C66D65] tabular-nums">{currencySymbol}{Math.round(selectedSector.expense || 0).toLocaleString()}</span>
+                <span className="text-ww-text-secondary">Operational Burn:</span>
+                <span className="font-bold text-ww-danger tabular-nums">{currencySymbol}{Math.round(selectedSector.expense || 0).toLocaleString()}</span>
               </div>
-              <div className="flex justify-between pt-2 border-t border-[#EAE8DF]">
-                <span className="text-[#22251F] font-bold">Net Profit Margin:</span>
-                <span className="font-bold text-[#526B56] tabular-nums">
+              <div className="flex justify-between pt-2 border-t border-ww-border">
+                <span className="text-ww-text font-bold">Net Profit Margin:</span>
+                <span className="font-bold text-ww-accent tabular-nums">
                   {currencySymbol}{Math.round((selectedSector.revenue || 0) - (selectedSector.expense || 0)).toLocaleString()}
                 </span>
               </div>

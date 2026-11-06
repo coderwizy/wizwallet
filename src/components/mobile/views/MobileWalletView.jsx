@@ -60,21 +60,21 @@ const MobileWalletView = ({ setActiveTab }) => {
   return (
     <div className="space-y-4 pb-8">
       {/* ── Hero Vault Card ── */}
-      <Card className="p-5 border border-[#EAE8DF] bg-white space-y-4">
+      <Card className="p-5 border border-ww-border bg-white space-y-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] flex items-center justify-center text-[#526B56]">
+            <div className="w-9 h-9 rounded-xl bg-ww-green-bg border border-ww-accent/20 flex items-center justify-center text-ww-accent">
               <Wallet className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Liquid Capital</p>
-              <p className="text-xs font-bold text-[#22251F]">Smart Wallet · USD Vault</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Liquid Capital</p>
+              <p className="text-xs font-bold text-ww-text">Smart Wallet · USD Vault</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setBalanceHidden(!balanceHidden)}
-              className="p-1.5 rounded-lg text-[#A3A297] hover:text-[#22251F] hover:bg-[#F8F7F2] cursor-pointer"
+              className="p-1.5 rounded-lg text-ww-text-muted hover:text-ww-text hover:bg-ww-bg cursor-pointer"
             >
               {balanceHidden ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
             </button>
@@ -85,7 +85,7 @@ const MobileWalletView = ({ setActiveTab }) => {
         <div>
           {isEditing ? (
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-[#A3A297]">{currencySymbol}</span>
+              <span className="text-2xl font-bold text-ww-text-muted">{currencySymbol}</span>
               <input
                 autoFocus
                 type="number"
@@ -99,22 +99,22 @@ const MobileWalletView = ({ setActiveTab }) => {
                   setWallet(w => ({ ...w, balance: editValue }));
                   setIsEditing(false);
                 }}
-                className="text-3xl font-extrabold text-[#22251F] bg-transparent border-b-2 border-[#526B56] outline-none w-full"
+                className="text-3xl font-extrabold text-ww-text bg-transparent border-b-2 border-ww-accent outline-none w-full"
               />
             </div>
           ) : (
             <h2
               onClick={() => { setEditValue(wallet.balance); setIsEditing(true); }}
-              className="text-3xl font-extrabold text-[#22251F] tracking-tight tabular-nums cursor-pointer"
+              className="text-3xl font-extrabold text-ww-text tracking-tight tabular-nums cursor-pointer"
             >
               {balanceHidden ? '••••••••' : `$${wallet.balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
             </h2>
           )}
-          <p className="text-[10px] text-[#A3A297] mt-1">Tap balance to calibrate manually</p>
+          <p className="text-[10px] text-ww-text-muted mt-1">Tap balance to calibrate manually</p>
         </div>
 
         {/* Action Buttons */}
-        <div className="grid grid-cols-2 gap-3 pt-3.5 border-t border-[#EAE8DF]">
+        <div className="grid grid-cols-2 gap-3 pt-3.5 border-t border-ww-border">
           <Button
             variant="primary"
             icon={Send}
@@ -137,9 +137,9 @@ const MobileWalletView = ({ setActiveTab }) => {
       </Card>
 
       {/* ── Growth Engine Tier Selector ── */}
-      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
+      <Card className="p-4 border border-ww-border bg-white space-y-3">
         <div className="flex justify-between items-center">
-          <h3 className="text-xs font-bold text-[#22251F]">Growth Multiplier Tier</h3>
+          <h3 className="text-xs font-bold text-ww-text">Growth Multiplier Tier</h3>
           <Badge variant="accent">
             <Zap className="w-3 h-3 mr-1" />
             {wallet.growthRate || 'Stable'} Tier
@@ -155,14 +155,14 @@ const MobileWalletView = ({ setActiveTab }) => {
                 onClick={() => setWallet(w => ({ ...w, growthRate: tier.id }))}
                 className={`p-2 rounded-xl border text-center transition-all cursor-pointer ${
                   isActive
-                    ? 'border-[#526B56] bg-[#EDF2E9] shadow-2xs font-bold'
-                    : 'border-[#EAE8DF] bg-[#FCFBF8] text-[#77786F]'
+                    ? 'border-ww-accent bg-ww-green-bg shadow-2xs font-bold'
+                    : 'border-ww-border bg-ww-elevated text-ww-text-secondary'
                 }`}
               >
-                <p className={`text-[9px] uppercase tracking-wider truncate ${isActive ? 'text-[#526B56]' : 'text-[#A3A297]'}`}>
+                <p className={`text-[9px] uppercase tracking-wider truncate ${isActive ? 'text-ww-accent' : 'text-ww-text-muted'}`}>
                   {tier.label}
                 </p>
-                <p className={`text-xs font-extrabold mt-0.5 ${isActive ? 'text-[#526B56]' : 'text-[#22251F]'}`}>
+                <p className={`text-xs font-extrabold mt-0.5 ${isActive ? 'text-ww-accent' : 'text-ww-text'}`}>
                   {tier.mult}
                 </p>
               </button>
@@ -179,7 +179,7 @@ const MobileWalletView = ({ setActiveTab }) => {
         subtitle="Direct P2P Settlement"
       >
         {payError && (
-          <div className="flex items-center gap-2 p-3 mb-4 bg-[#FCEEED] border border-[#E8C5C3] rounded-xl text-[#C66D65] text-xs font-semibold">
+          <div className="flex items-center gap-2 p-3 mb-4 bg-ww-danger-bg border border-ww-danger/30 rounded-xl text-ww-danger text-xs font-semibold">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{payError}</span>
           </div>
@@ -221,13 +221,13 @@ const MobileWalletView = ({ setActiveTab }) => {
         subtitle="Wallet ⇄ Bank Treasury"
       >
         {transferError && (
-          <div className="flex items-center gap-2 p-3 mb-4 bg-[#FCEEED] border border-[#E8C5C3] rounded-xl text-[#C66D65] text-xs font-semibold">
+          <div className="flex items-center gap-2 p-3 mb-4 bg-ww-danger-bg border border-ww-danger/30 rounded-xl text-ww-danger text-xs font-semibold">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{transferError}</span>
           </div>
         )}
         <form onSubmit={handleTransfer} className="space-y-4">
-          <div className="grid grid-cols-2 gap-2 p-1.5 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl">
+          <div className="grid grid-cols-2 gap-2 p-1.5 bg-ww-elevated border border-ww-border rounded-xl">
             {[
               { val: 'wallet-to-bank', label: 'Wallet → Bank' },
               { val: 'bank-to-wallet', label: 'Bank → Wallet' },
@@ -237,7 +237,7 @@ const MobileWalletView = ({ setActiveTab }) => {
                 type="button"
                 onClick={() => setTransferDir(dir.val)}
                 className={`py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  transferDir === dir.val ? 'bg-[#526B56] text-white shadow-2xs' : 'text-[#77786F]'
+                  transferDir === dir.val ? 'bg-ww-accent text-white shadow-2xs' : 'text-ww-text-secondary'
                 }`}
               >
                 {dir.label}

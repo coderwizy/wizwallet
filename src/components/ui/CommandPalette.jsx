@@ -111,7 +111,7 @@ const CommandPalette = ({ isOpen, onClose, setActiveTab, onTriggerAction }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-[#22251F]/40 backdrop-blur-xs"
+          className="absolute inset-0 bg-ww-text/40 backdrop-blur-xs"
         />
 
         <motion.div
@@ -119,28 +119,28 @@ const CommandPalette = ({ isOpen, onClose, setActiveTab, onTriggerAction }) => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: -10 }}
           transition={{ duration: 0.15 }}
-          className="relative z-10 w-full max-w-xl bg-white border border-[#EAE8DF] rounded-2xl shadow-[0_24px_70px_rgba(34,37,31,0.18)] overflow-hidden flex flex-col"
+          className="relative z-10 w-full max-w-xl bg-white border border-ww-border rounded-2xl shadow-[0_24px_70px_rgba(34,37,31,0.18)] overflow-hidden flex flex-col"
         >
           {/* Search Input Bar */}
-          <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[#EAE8DF]">
-            <Search className="w-4 h-4 text-[#A3A297] shrink-0" />
+          <div className="flex items-center gap-3 px-4 py-3.5 border-b border-ww-border">
+            <Search className="w-4 h-4 text-ww-text-muted shrink-0" />
             <input
               ref={inputRef}
               value={query}
               onChange={e => setQuery(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Search views, actions, or commands... (e.g. transfer, sectors)"
-              className="w-full bg-transparent text-sm text-[#22251F] placeholder-[#A3A297] outline-none font-medium"
+              className="w-full bg-transparent text-sm text-ww-text placeholder-ww-text-muted outline-none font-medium"
             />
             {query && (
               <button
                 onClick={() => setQuery('')}
-                className="p-1 text-[#A3A297] hover:text-[#22251F] rounded-md transition-colors"
+                className="p-1 text-ww-text-muted hover:text-ww-text rounded-md transition-colors"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             )}
-            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-[#77786F] bg-[#F1EFE7] border border-[#EAE8DF] rounded shadow-xs">
+            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-ww-text-secondary bg-ww-bg-alt border border-ww-border rounded shadow-xs">
               ESC
             </kbd>
           </div>
@@ -148,7 +148,7 @@ const CommandPalette = ({ isOpen, onClose, setActiveTab, onTriggerAction }) => {
           {/* Results List */}
           <div ref={listRef} className="max-h-80 overflow-y-auto p-2 scroll-hide space-y-1">
             {items.length === 0 ? (
-              <div className="py-8 text-center text-xs text-[#A3A297]">
+              <div className="py-8 text-center text-xs text-ww-text-muted">
                 No matching actions found for "{query}"
               </div>
             ) : (
@@ -161,24 +161,24 @@ const CommandPalette = ({ isOpen, onClose, setActiveTab, onTriggerAction }) => {
                     onClick={item.action}
                     onMouseEnter={() => setSelectedIndex(idx)}
                     className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left transition-colors cursor-pointer ${
-                      isSelected ? 'bg-[#EDF2E9] text-[#526B56]' : 'text-[#22251F] hover:bg-[#F8F7F2]'
+                      isSelected ? 'bg-ww-green-bg text-ww-accent' : 'text-ww-text hover:bg-ww-bg'
                     }`}
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
-                        isSelected ? 'bg-white text-[#526B56] shadow-xs' : 'bg-[#F8F7F2] text-[#77786F]'
+                        isSelected ? 'bg-white text-ww-accent shadow-xs' : 'bg-ww-bg text-ww-text-secondary'
                       }`}>
                         <Icon className="w-4 h-4" />
                       </div>
                       <div className="min-w-0">
-                        <p className={`text-xs font-semibold truncate ${isSelected ? 'text-[#526B56]' : 'text-[#22251F]'}`}>
+                        <p className={`text-xs font-semibold truncate ${isSelected ? 'text-ww-accent' : 'text-ww-text'}`}>
                           {item.title}
                         </p>
-                        <p className="text-[10px] text-[#A3A297]">{item.category}</p>
+                        <p className="text-[10px] text-ww-text-muted">{item.category}</p>
                       </div>
                     </div>
                     {isSelected && (
-                      <ArrowRight className="w-3.5 h-3.5 text-[#526B56] shrink-0 ml-2" />
+                      <ArrowRight className="w-3.5 h-3.5 text-ww-accent shrink-0 ml-2" />
                     )}
                   </button>
                 );
@@ -187,10 +187,10 @@ const CommandPalette = ({ isOpen, onClose, setActiveTab, onTriggerAction }) => {
           </div>
 
           {/* Footer Guide */}
-          <div className="px-4 py-2 bg-[#FCFBF8] border-t border-[#EAE8DF] flex items-center justify-between text-[11px] text-[#A3A297]">
+          <div className="px-4 py-2 bg-ww-elevated border-t border-ww-border flex items-center justify-between text-[11px] text-ww-text-muted">
             <div className="flex items-center gap-3">
-              <span>Use <kbd className="px-1 py-0.2 bg-white border border-[#EAE8DF] rounded text-[9px] font-mono">↑</kbd> <kbd className="px-1 py-0.2 bg-white border border-[#EAE8DF] rounded text-[9px] font-mono">↓</kbd> to navigate</span>
-              <span><kbd className="px-1 py-0.2 bg-white border border-[#EAE8DF] rounded text-[9px] font-mono">↵</kbd> to select</span>
+              <span>Use <kbd className="px-1 py-0.2 bg-white border border-ww-border rounded text-[9px] font-mono">↑</kbd> <kbd className="px-1 py-0.2 bg-white border border-ww-border rounded text-[9px] font-mono">↓</kbd> to navigate</span>
+              <span><kbd className="px-1 py-0.2 bg-white border border-ww-border rounded text-[9px] font-mono">↵</kbd> to select</span>
             </div>
             <span>WizWallet 3.0</span>
           </div>

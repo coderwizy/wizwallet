@@ -95,11 +95,11 @@ const MobileInvestmentsView = () => {
       />
 
       {/* Summary Card */}
-      <Card className="p-5 border border-[#EAE8DF] bg-white space-y-3">
+      <Card className="p-5 border border-ww-border bg-white space-y-3">
         <div className="flex justify-between items-center">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Portfolio Valuation</p>
-            <h2 className="text-3xl font-extrabold text-[#22251F] tabular-nums mt-0.5">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Portfolio Valuation</p>
+            <h2 className="text-3xl font-extrabold text-ww-text tabular-nums mt-0.5">
               {currencySymbol}{mask(totalValue.toLocaleString(undefined, { maximumFractionDigits: 0 }))}
             </h2>
           </div>
@@ -111,19 +111,19 @@ const MobileInvestmentsView = () => {
 
       {/* Search Input */}
       <div className="relative">
-        <Search className="w-3.5 h-3.5 text-[#A3A297] absolute left-3 top-1/2 -translate-y-1/2" />
+        <Search className="w-3.5 h-3.5 text-ww-text-muted absolute left-3 top-1/2 -translate-y-1/2" />
         <input
           type="text"
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder="Search symbol (e.g. AAPL)..."
-          className="w-full pl-9 pr-3 py-2 text-xs bg-white border border-[#EAE8DF] rounded-xl outline-none focus:border-[#526B56]"
+          className="w-full pl-9 pr-3 py-2 text-xs bg-white border border-ww-border rounded-xl outline-none focus:border-ww-accent"
         />
       </div>
 
       {/* Assets List */}
       <div className="space-y-2.5">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-[#A3A297] px-1">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-ww-text-muted px-1">
           Positions ({filtered.length})
         </h3>
         {filtered.map(inv => {
@@ -134,27 +134,27 @@ const MobileInvestmentsView = () => {
           const pnl = posVal - (qty * buy);
 
           return (
-            <Card key={inv.id} className="p-4 border border-[#EAE8DF] bg-white space-y-2.5">
+            <Card key={inv.id} className="p-4 border border-ww-border bg-white space-y-2.5">
               <div className="flex justify-between items-start">
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <span className="font-bold text-sm text-[#22251F]">{inv.symbol}</span>
+                    <span className="font-bold text-sm text-ww-text">{inv.symbol}</span>
                     <Badge variant="default">{inv.type}</Badge>
                   </div>
-                  <p className="text-[10px] text-[#77786F] truncate">{inv.name}</p>
+                  <p className="text-[10px] text-ww-text-secondary truncate">{inv.name}</p>
                 </div>
                 <div className="text-right">
-                  <span className="font-extrabold text-sm text-[#22251F] tabular-nums block">
+                  <span className="font-extrabold text-sm text-ww-text tabular-nums block">
                     {currencySymbol}{mask(posVal.toLocaleString(undefined, { maximumFractionDigits: 0 }))}
                   </span>
-                  <span className={`text-[10px] font-bold tabular-nums ${pnl >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
+                  <span className={`text-[10px] font-bold tabular-nums ${pnl >= 0 ? 'text-ww-accent' : 'text-ww-danger'}`}>
                     {pnl >= 0 ? '+' : ''}{currencySymbol}{mask(Math.abs(pnl).toLocaleString(undefined, { maximumFractionDigits: 0 }))}
                   </span>
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-[#EAE8DF] flex justify-between items-center text-xs">
-                <span className="text-[10px] text-[#77786F]">
+              <div className="pt-2 border-t border-ww-border flex justify-between items-center text-xs">
+                <span className="text-[10px] text-ww-text-secondary">
                   {qty} Units @ ${cur.toFixed(2)}
                 </span>
                 <div className="flex items-center gap-1">
@@ -172,14 +172,14 @@ const MobileInvestmentsView = () => {
                         dividendYield: String(inv.dividendYield || 0)
                       });
                     }}
-                    className="p-1 rounded text-[#A3A297] hover:text-[#22251F] cursor-pointer"
+                    className="p-1 rounded text-ww-text-muted hover:text-ww-text cursor-pointer"
                   >
                     <Edit3 className="w-3.5 h-3.5" />
                   </button>
                   <button
                     type="button"
                     onClick={() => setDeleteConfirm(inv)}
-                    className="p-1 rounded text-[#A3A297] hover:text-[#C66D65] cursor-pointer"
+                    className="p-1 rounded text-ww-text-muted hover:text-ww-danger cursor-pointer"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>

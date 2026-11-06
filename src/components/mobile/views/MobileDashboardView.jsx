@@ -39,13 +39,13 @@ const MobileDashboardView = ({ setActiveTab }) => {
   return (
     <div className="space-y-4 pb-8">
       {/* ── Hero Net Worth Card ── */}
-      <Card className="p-5 border border-[#EAE8DF] bg-white">
+      <Card className="p-5 border border-ww-border bg-white">
         <div className="flex justify-between items-start mb-3">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">
               Total Portfolio Capital
             </p>
-            <h2 className="text-3xl font-extrabold text-[#22251F] tracking-tight tabular-nums mt-0.5">
+            <h2 className="text-3xl font-extrabold text-ww-text tracking-tight tabular-nums mt-0.5">
               {currencySymbol}{totalNetWorth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </h2>
           </div>
@@ -55,29 +55,29 @@ const MobileDashboardView = ({ setActiveTab }) => {
           </Badge>
         </div>
 
-        <div className="grid grid-cols-2 gap-2.5 pt-3.5 border-t border-[#EAE8DF]">
+        <div className="grid grid-cols-2 gap-2.5 pt-3.5 border-t border-ww-border">
           <div
             onClick={() => setActiveTab('wallet')}
-            className="p-3 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF] cursor-pointer hover:border-[#526B56]/30 transition-all"
+            className="p-3 bg-ww-elevated rounded-xl border border-ww-border cursor-pointer hover:border-ww-accent/30 transition-all"
           >
             <div className="flex items-center gap-1.5 mb-1">
-              <Wallet className="w-3.5 h-3.5 text-[#526B56]" />
-              <span className="text-[10px] font-semibold text-[#77786F] uppercase">Liquid Vault</span>
+              <Wallet className="w-3.5 h-3.5 text-ww-accent" />
+              <span className="text-[10px] font-semibold text-ww-text-secondary uppercase">Liquid Vault</span>
             </div>
-            <p className="text-sm font-bold text-[#22251F] tabular-nums">
+            <p className="text-sm font-bold text-ww-text tabular-nums">
               {currencySymbol}{(wallet?.balance || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </p>
           </div>
 
           <div
             onClick={() => setActiveTab('bank')}
-            className="p-3 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF] cursor-pointer hover:border-[#526B56]/30 transition-all"
+            className="p-3 bg-ww-elevated rounded-xl border border-ww-border cursor-pointer hover:border-ww-accent/30 transition-all"
           >
             <div className="flex items-center gap-1.5 mb-1">
-              <Landmark className="w-3.5 h-3.5 text-[#526B56]" />
-              <span className="text-[10px] font-semibold text-[#77786F] uppercase">Bank Reserve</span>
+              <Landmark className="w-3.5 h-3.5 text-ww-accent" />
+              <span className="text-[10px] font-semibold text-ww-text-secondary uppercase">Bank Reserve</span>
             </div>
-            <p className="text-sm font-bold text-[#22251F] tabular-nums">
+            <p className="text-sm font-bold text-ww-text tabular-nums">
               {currencySymbol}{(bank?.balance || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </p>
           </div>
@@ -88,53 +88,53 @@ const MobileDashboardView = ({ setActiveTab }) => {
       <div className="grid grid-cols-2 gap-3">
         <Card
           onClick={() => setActiveTab('business')}
-          className="p-4 border border-[#EAE8DF] bg-white cursor-pointer hover:border-[#D5D2C8] transition-all"
+          className="p-4 border border-ww-border bg-white cursor-pointer hover:border-ww-border-strong transition-all"
         >
           <div className="flex items-center gap-2 mb-2">
-            <div className="p-1.5 rounded-lg bg-[#F3EEF8] text-[#7C5ABF] border border-[#DECDEE]">
+            <div className="p-1.5 rounded-lg bg-ww-violet-bg text-ww-violet border border-ww-violet/30">
               <Briefcase className="w-3.5 h-3.5" />
             </div>
-            <span className="text-[10px] font-semibold text-[#77786F] uppercase">Ventures</span>
+            <span className="text-[10px] font-semibold text-ww-text-secondary uppercase">Ventures</span>
           </div>
-          <p className="text-base font-bold text-[#22251F] tabular-nums">
+          <p className="text-base font-bold text-ww-text tabular-nums">
             {currencySymbol}{totalBusinessIncome.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </p>
-          <p className="text-[10px] text-[#66866A] font-semibold mt-0.5">Monthly Yield</p>
+          <p className="text-[10px] text-ww-success font-semibold mt-0.5">Monthly Yield</p>
         </Card>
 
         <Card
           onClick={() => setActiveTab('sectors')}
-          className="p-4 border border-[#EAE8DF] bg-white cursor-pointer hover:border-[#D5D2C8] transition-all"
+          className="p-4 border border-ww-border bg-white cursor-pointer hover:border-ww-border-strong transition-all"
         >
           <div className="flex items-center gap-2 mb-2">
-            <div className="p-1.5 rounded-lg bg-[#FDF3E3] text-[#C18A48] border border-[#E8D5B0]">
+            <div className="p-1.5 rounded-lg bg-ww-warning-bg text-ww-warning border border-ww-warning/30">
               <Layers className="w-3.5 h-3.5" />
             </div>
-            <span className="text-[10px] font-semibold text-[#77786F] uppercase">Sectors</span>
+            <span className="text-[10px] font-semibold text-ww-text-secondary uppercase">Sectors</span>
           </div>
-          <p className="text-base font-bold text-[#22251F] tabular-nums">
+          <p className="text-base font-bold text-ww-text tabular-nums">
             {currencySymbol}{totalSectorRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </p>
-          <p className="text-[10px] text-[#C18A48] font-semibold mt-0.5">30 Active Domains</p>
+          <p className="text-[10px] text-ww-warning font-semibold mt-0.5">30 Active Domains</p>
         </Card>
       </div>
 
       {/* ── Portfolio Trajectory Chart ── */}
-      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
+      <Card className="p-4 border border-ww-border bg-white space-y-3">
         <div className="flex justify-between items-center">
           <div>
-            <h3 className="text-xs font-bold text-[#22251F]">Portfolio Trajectory</h3>
-            <p className="text-[10px] text-[#A3A297]">Net worth progression</p>
+            <h3 className="text-xs font-bold text-ww-text">Portfolio Trajectory</h3>
+            <p className="text-[10px] text-ww-text-muted">Net worth progression</p>
           </div>
-          <div className="flex gap-1 bg-[#F8F7F2] p-1 rounded-xl border border-[#EAE8DF]">
+          <div className="flex gap-1 bg-ww-bg p-1 rounded-xl border border-ww-border">
             {['7d', '30d'].map(r => (
               <button
                 key={r}
                 onClick={() => setChartRange(r)}
                 className={`px-2.5 py-1 rounded-lg text-[10px] font-semibold uppercase transition-all cursor-pointer ${
                   chartRange === r
-                    ? 'bg-white text-[#526B56] shadow-2xs font-bold'
-                    : 'text-[#A3A297]'
+                    ? 'bg-white text-ww-accent shadow-2xs font-bold'
+                    : 'text-ww-text-muted'
                 }`}
               >
                 {r === '7d' ? '7D' : '30D'}
@@ -177,12 +177,12 @@ const MobileDashboardView = ({ setActiveTab }) => {
       </Card>
 
       {/* ── Recent Activity ── */}
-      <Card className="p-4 border border-[#EAE8DF] bg-white space-y-3">
+      <Card className="p-4 border border-ww-border bg-white space-y-3">
         <div className="flex justify-between items-center">
-          <h3 className="text-xs font-bold text-[#22251F]">Recent Activity</h3>
+          <h3 className="text-xs font-bold text-ww-text">Recent Activity</h3>
           <button
             onClick={() => setActiveTab('transactions')}
-            className="text-[10px] font-semibold text-[#526B56] hover:underline cursor-pointer"
+            className="text-[10px] font-semibold text-ww-accent hover:underline cursor-pointer"
           >
             View All →
           </button>
@@ -193,21 +193,21 @@ const MobileDashboardView = ({ setActiveTab }) => {
             <div
               key={tx.id}
               onClick={() => setActiveTab('transactions')}
-              className="flex items-center justify-between p-2.5 rounded-xl bg-[#FCFBF8] border border-[#EAE8DF] cursor-pointer"
+              className="flex items-center justify-between p-2.5 rounded-xl bg-ww-elevated border border-ww-border cursor-pointer"
             >
               <div className="flex items-center gap-2.5 min-w-0">
                 <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
-                  tx.type === 'Credit' ? 'bg-[#EDF2E9] text-[#66866A]' : 'bg-[#FCEEED] text-[#C66D65]'
+                  tx.type === 'Credit' ? 'bg-ww-green-bg text-ww-success' : 'bg-ww-danger-bg text-ww-danger'
                 }`}>
                   {tx.type === 'Credit' ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownLeft className="w-3.5 h-3.5" />}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-xs font-semibold text-[#22251F] truncate">{tx.description}</p>
-                  <p className="text-[9px] text-[#A3A297]">{tx.module} · {new Date(tx.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                  <p className="text-xs font-semibold text-ww-text truncate">{tx.description}</p>
+                  <p className="text-[9px] text-ww-text-muted">{tx.module} · {new Date(tx.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                 </div>
               </div>
               <span className={`text-xs font-bold tabular-nums shrink-0 ml-2 ${
-                tx.type === 'Credit' ? 'text-[#66866A]' : 'text-[#C66D65]'
+                tx.type === 'Credit' ? 'text-ww-success' : 'text-ww-danger'
               }`}>
                 {tx.type === 'Credit' ? '+' : '−'}{currencySymbol}{Number(tx.amount || 0).toLocaleString()}
               </span>

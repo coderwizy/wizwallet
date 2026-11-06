@@ -46,33 +46,33 @@ const MobileLedgerView = () => {
     <div className="space-y-4 pb-8">
       {/* ── Summary Cards ── */}
       <div className="grid grid-cols-3 gap-2 text-center">
-        <Card className="p-3 border border-[#EAE8DF] bg-white">
-          <p className="text-[9px] font-semibold text-[#A3A297] uppercase">Items</p>
-          <p className="text-sm font-bold text-[#22251F] tabular-nums mt-0.5">{filtered.length}</p>
+        <Card className="p-3 border border-ww-border bg-white">
+          <p className="text-[9px] font-semibold text-ww-text-muted uppercase">Items</p>
+          <p className="text-sm font-bold text-ww-text tabular-nums mt-0.5">{filtered.length}</p>
         </Card>
-        <Card className="p-3 border border-[#EAE8DF] bg-white">
-          <p className="text-[9px] font-semibold text-[#66866A] uppercase">Credits</p>
-          <p className="text-sm font-bold text-[#66866A] tabular-nums mt-0.5">
+        <Card className="p-3 border border-ww-border bg-white">
+          <p className="text-[9px] font-semibold text-ww-success uppercase">Credits</p>
+          <p className="text-sm font-bold text-ww-success tabular-nums mt-0.5">
             +{currencySymbol}{totalCredit.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </p>
         </Card>
-        <Card className="p-3 border border-[#EAE8DF] bg-white">
-          <p className="text-[9px] font-semibold text-[#C66D65] uppercase">Debits</p>
-          <p className="text-sm font-bold text-[#C66D65] tabular-nums mt-0.5">
+        <Card className="p-3 border border-ww-border bg-white">
+          <p className="text-[9px] font-semibold text-ww-danger uppercase">Debits</p>
+          <p className="text-sm font-bold text-ww-danger tabular-nums mt-0.5">
             -{currencySymbol}{totalDebit.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </p>
         </Card>
       </div>
 
       {/* ── Search & Filter Toolbar ── */}
-      <Card className="p-3.5 border border-[#EAE8DF] bg-white space-y-2.5">
+      <Card className="p-3.5 border border-ww-border bg-white space-y-2.5">
         <div className="relative">
-          <Search className="w-4 h-4 text-[#A3A297] absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-ww-text-muted absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search transactions..."
-            className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl py-2 pl-9 pr-3 text-xs font-medium text-[#22251F] placeholder-[#A3A297] outline-none focus:border-[#526B56]"
+            className="w-full bg-ww-elevated border border-ww-border rounded-xl py-2 pl-9 pr-3 text-xs font-medium text-ww-text placeholder-ww-text-muted outline-none focus:border-ww-accent"
           />
         </div>
 
@@ -80,7 +80,7 @@ const MobileLedgerView = () => {
           <select
             value={filterModule}
             onChange={e => setFilterModule(e.target.value)}
-            className="flex-1 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2 text-xs font-semibold text-[#22251F] outline-none"
+            className="flex-1 bg-ww-elevated border border-ww-border rounded-xl p-2 text-xs font-semibold text-ww-text outline-none"
           >
             <option value="All">All Hubs</option>
             <option value="Wallet">Wallet</option>
@@ -93,7 +93,7 @@ const MobileLedgerView = () => {
           <select
             value={filterType}
             onChange={e => setFilterType(e.target.value)}
-            className="flex-1 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2 text-xs font-semibold text-[#22251F] outline-none"
+            className="flex-1 bg-ww-elevated border border-ww-border rounded-xl p-2 text-xs font-semibold text-ww-text outline-none"
           >
             <option value="All">All Types</option>
             <option value="Credit">Credits (+)</option>
@@ -119,7 +119,7 @@ const MobileLedgerView = () => {
         ))}
 
         {filtered.length === 0 && (
-          <div className="py-12 text-center text-[#A3A297] bg-white rounded-2xl border border-[#EAE8DF] text-xs font-medium">
+          <div className="py-12 text-center text-ww-text-muted bg-white rounded-2xl border border-ww-border text-xs font-medium">
             No transactions match criteria.
           </div>
         )}

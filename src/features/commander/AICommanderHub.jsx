@@ -165,10 +165,10 @@ const AICommanderHub = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A3A297] mb-1">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ww-text-muted mb-1">
             Autonomous Financial Intelligence
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold text-[#22251F] tracking-tight flex items-center gap-2.5">
+          <h2 className="text-2xl md:text-3xl font-bold text-ww-text tracking-tight flex items-center gap-2.5">
             AI Empire Commander
             <Badge variant="accent">Local Offline Engine</Badge>
           </h2>
@@ -180,95 +180,95 @@ const AICommanderHub = () => {
 
       {/* Strategic Intelligence Briefing Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="p-5 border border-[#EAE8DF] bg-white space-y-2">
-          <div className="flex items-center gap-2 text-[#526B56]">
+        <Card className="p-5 border border-ww-border bg-white space-y-2">
+          <div className="flex items-center gap-2 text-ww-accent">
             <TrendingUp className="w-4 h-4" />
             <span className="text-[10px] font-bold uppercase tracking-wider">Top Enterprise Node</span>
           </div>
-          <h3 className="text-lg font-bold text-[#22251F]">
+          <h3 className="text-lg font-bold text-ww-text">
             {diagnostics.topPerformer ? diagnostics.topPerformer.name : 'N/A'}
           </h3>
-          <p className="text-xs text-[#77786F]">
-            Surplus: <strong className="text-[#526B56] font-bold">+{currencySymbol}{mask(((diagnostics.topPerformer?.income || 0) - (diagnostics.topPerformer?.expense || 0)).toLocaleString())}/mo</strong>
+          <p className="text-xs text-ww-text-secondary">
+            Surplus: <strong className="text-ww-accent font-bold">+{currencySymbol}{mask(((diagnostics.topPerformer?.income || 0) - (diagnostics.topPerformer?.expense || 0)).toLocaleString())}/mo</strong>
           </p>
         </Card>
 
-        <Card className="p-5 border border-[#EAE8DF] bg-white space-y-2">
-          <div className="flex items-center gap-2 text-[#C18A48]">
+        <Card className="p-5 border border-ww-border bg-white space-y-2">
+          <div className="flex items-center gap-2 text-ww-warning">
             <DollarSign className="w-4 h-4" />
             <span className="text-[10px] font-bold uppercase tracking-wider">Passive Cashflow</span>
           </div>
-          <h3 className="text-lg font-bold text-[#22251F]">
+          <h3 className="text-lg font-bold text-ww-text">
             {currencySymbol}{mask(cashFlowMetrics.passiveIncome.toLocaleString())} / mo
           </h3>
-          <p className="text-xs text-[#77786F]">
+          <p className="text-xs text-ww-text-secondary">
             From real estate rentals & securities dividends
           </p>
         </Card>
 
-        <Card className="p-5 border border-[#EAE8DF] bg-white space-y-2">
-          <div className="flex items-center gap-2 text-[#4A7C8A]">
+        <Card className="p-5 border border-ww-border bg-white space-y-2">
+          <div className="flex items-center gap-2 text-ww-teal">
             <ShieldCheck className="w-4 h-4" />
             <span className="text-[10px] font-bold uppercase tracking-wider">Solvency Ratio</span>
           </div>
-          <h3 className="text-lg font-bold text-[#22251F]">
+          <h3 className="text-lg font-bold text-ww-text">
             {diagnostics.liquidRatio}% Liquid Buffer
           </h3>
-          <p className="text-xs text-[#77786F]">
+          <p className="text-xs text-ww-text-secondary">
             Total Liquid Vault: {currencySymbol}{mask(diagnostics.liquidTotal.toLocaleString())}
           </p>
         </Card>
       </div>
 
       {/* Strategic Recommendations Banner */}
-      <Card className="p-5 border border-[#EAE8DF] bg-white space-y-3">
-        <div className="flex items-center justify-between pb-2 border-b border-[#EAE8DF]">
+      <Card className="p-5 border border-ww-border bg-white space-y-3">
+        <div className="flex items-center justify-between pb-2 border-b border-ww-border">
           <div className="flex items-center gap-2">
-            <Lightbulb className="w-4 h-4 text-[#C18A48]" />
-            <h3 className="text-sm font-bold text-[#22251F]">Autonomous Strategic Recommendations</h3>
+            <Lightbulb className="w-4 h-4 text-ww-warning" />
+            <h3 className="text-sm font-bold text-ww-text">Autonomous Strategic Recommendations</h3>
           </div>
-          <span className="text-[11px] text-[#A3A297] font-semibold">{diagnostics.recs.length} Active Insights</span>
+          <span className="text-[11px] text-ww-text-muted font-semibold">{diagnostics.recs.length} Active Insights</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
           {diagnostics.recs.map((rec, i) => (
-            <div key={i} className="p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl space-y-1">
+            <div key={i} className="p-3 bg-ww-elevated border border-ww-border rounded-xl space-y-1">
               <span className={`text-[10px] font-bold uppercase ${
-                rec.severity === 'warning' ? 'text-[#C66D65]' : rec.severity === 'success' ? 'text-[#526B56]' : 'text-[#4A7C8A]'
+                rec.severity === 'warning' ? 'text-ww-danger' : rec.severity === 'success' ? 'text-ww-accent' : 'text-ww-teal'
               }`}>
                 {rec.title}
               </span>
-              <p className="text-xs text-[#77786F] leading-relaxed">{rec.desc}</p>
+              <p className="text-xs text-ww-text-secondary leading-relaxed">{rec.desc}</p>
             </div>
           ))}
         </div>
       </Card>
 
       {/* Interactive Dialogue Terminal */}
-      <Card className="border border-[#EAE8DF] bg-white p-0 overflow-hidden flex flex-col h-[520px]">
+      <Card className="border border-ww-border bg-white p-0 overflow-hidden flex flex-col h-[520px]">
         {/* Terminal Header */}
-        <div className="p-4 border-b border-[#EAE8DF] bg-[#FCFBF8] flex items-center justify-between">
+        <div className="p-4 border-b border-ww-border bg-ww-elevated flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-ww-green-bg border border-ww-accent/20 text-ww-accent flex items-center justify-center">
               <Bot className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-xs font-bold text-[#22251F]">Empire Commander Terminal</h3>
-              <p className="text-[10px] text-[#77786F]">Live synthesis using your actual local portfolio data</p>
+              <h3 className="text-xs font-bold text-ww-text">Empire Commander Terminal</h3>
+              <p className="text-[10px] text-ww-text-secondary">Live synthesis using your actual local portfolio data</p>
             </div>
           </div>
           <Badge variant="success">Engine Ready</Badge>
         </div>
 
         {/* Preset Prompt Buttons */}
-        <div className="p-3 bg-[#FCFBF8] border-b border-[#EAE8DF] flex items-center gap-2 overflow-x-auto scroll-hide">
-          <span className="text-[10px] font-bold text-[#A3A297] uppercase shrink-0">Quick Queries:</span>
+        <div className="p-3 bg-ww-elevated border-b border-ww-border flex items-center gap-2 overflow-x-auto scroll-hide">
+          <span className="text-[10px] font-bold text-ww-text-muted uppercase shrink-0">Quick Queries:</span>
           {presetQueries.map((pq, idx) => (
             <button
               key={idx}
               type="button"
               onClick={() => handleSend(pq)}
-              className="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-white border border-[#EAE8DF] text-[#77786F] hover:text-[#526B56] hover:border-[#526B56] transition-colors shrink-0 cursor-pointer"
+              className="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-white border border-ww-border text-ww-text-secondary hover:text-ww-accent hover:border-ww-accent transition-colors shrink-0 cursor-pointer"
             >
               {pq}
             </button>
@@ -276,7 +276,7 @@ const AICommanderHub = () => {
         </div>
 
         {/* Chat History */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3.5 scroll-hide bg-[#F8F7F2]/40">
+        <div className="flex-1 overflow-y-auto p-4 space-y-3.5 scroll-hide bg-ww-bg/40">
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -285,13 +285,13 @@ const AICommanderHub = () => {
               <div
                 className={`max-w-xl p-3.5 rounded-2xl text-xs leading-relaxed ${
                   msg.sender === 'user'
-                    ? 'bg-[#526B56] text-white rounded-br-xs'
-                    : 'bg-white border border-[#EAE8DF] text-[#22251F] shadow-2xs rounded-bl-xs'
+                    ? 'bg-ww-accent text-white rounded-br-xs'
+                    : 'bg-white border border-ww-border text-ww-text shadow-2xs rounded-bl-xs'
                 }`}
               >
                 {msg.text}
               </div>
-              <span className="text-[9px] text-[#A3A297] mt-1 px-1">{msg.time}</span>
+              <span className="text-[9px] text-ww-text-muted mt-1 px-1">{msg.time}</span>
             </div>
           ))}
         </div>
@@ -299,14 +299,14 @@ const AICommanderHub = () => {
         {/* Input Bar */}
         <form
           onSubmit={e => { e.preventDefault(); handleSend(); }}
-          className="p-3 border-t border-[#EAE8DF] bg-white flex items-center gap-2"
+          className="p-3 border-t border-ww-border bg-white flex items-center gap-2"
         >
           <input
             type="text"
             value={customQuery}
             onChange={e => setCustomQuery(e.target.value)}
             placeholder="Ask commander anything about your empire (e.g. Which business generates the most profit?)..."
-            className="flex-1 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl px-3.5 py-2.5 text-xs text-[#22251F] outline-none focus:border-[#526B56] font-medium"
+            className="flex-1 bg-ww-elevated border border-ww-border rounded-xl px-3.5 py-2.5 text-xs text-ww-text outline-none focus:border-ww-accent font-medium"
           />
           <Button type="submit" variant="primary" icon={Send} disabled={!customQuery.trim()}>
             Analyze

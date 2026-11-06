@@ -165,10 +165,10 @@ const RealEstateHub = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A3A297] mb-1">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ww-text-muted mb-1">
             Real Estate Sovereignty & Property Holdings
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold text-[#22251F] tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-bold text-ww-text tracking-tight">
             Real Estate Empire
           </h2>
         </div>
@@ -181,63 +181,63 @@ const RealEstateHub = () => {
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Gross Portfolio Value</span>
-          <h3 className="text-2xl font-extrabold text-[#22251F] tabular-nums mt-1">
+        <Card className="p-5 border border-ww-border bg-white">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Gross Portfolio Value</span>
+          <h3 className="text-2xl font-extrabold text-ww-text tabular-nums mt-1">
             {currencySymbol}{mask(portfolioMetrics.totalValue.toLocaleString())}
           </h3>
-          <p className="text-[11px] text-[#77786F] mt-1">Across {properties.length} prime properties</p>
+          <p className="text-[11px] text-ww-text-secondary mt-1">Across {properties.length} prime properties</p>
         </Card>
 
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Net Property Equity</span>
-          <h3 className="text-2xl font-extrabold text-[#526B56] tabular-nums mt-1">
+        <Card className="p-5 border border-ww-border bg-white">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Net Property Equity</span>
+          <h3 className="text-2xl font-extrabold text-ww-accent tabular-nums mt-1">
             {currencySymbol}{mask(portfolioMetrics.netEquity.toLocaleString())}
           </h3>
-          <p className="text-[11px] text-[#77786F] mt-1">Total debt: {currencySymbol}{mask(portfolioMetrics.totalDebt.toLocaleString())}</p>
+          <p className="text-[11px] text-ww-text-secondary mt-1">Total debt: {currencySymbol}{mask(portfolioMetrics.totalDebt.toLocaleString())}</p>
         </Card>
 
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Monthly Rental Inflow</span>
-          <h3 className="text-2xl font-extrabold text-[#C18A48] tabular-nums mt-1">
+        <Card className="p-5 border border-ww-border bg-white">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Monthly Rental Inflow</span>
+          <h3 className="text-2xl font-extrabold text-ww-warning tabular-nums mt-1">
             +{currencySymbol}{mask(portfolioMetrics.totalGrossRent.toLocaleString())}/mo
           </h3>
-          <p className="text-[11px] text-[#77786F] mt-1">Gross cash flow</p>
+          <p className="text-[11px] text-ww-text-secondary mt-1">Gross cash flow</p>
         </Card>
 
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Net Monthly Cashflow</span>
-          <h3 className="text-2xl font-extrabold text-[#4A7C8A] tabular-nums mt-1">
+        <Card className="p-5 border border-ww-border bg-white">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Net Monthly Cashflow</span>
+          <h3 className="text-2xl font-extrabold text-ww-teal tabular-nums mt-1">
             +{currencySymbol}{mask(portfolioMetrics.netMonthlyIncome.toLocaleString())}/mo
           </h3>
-          <p className="text-[11px] text-[#77786F] mt-1">After mortgages, tax & maintenance</p>
+          <p className="text-[11px] text-ww-text-secondary mt-1">After mortgages, tax & maintenance</p>
         </Card>
       </div>
 
       {/* Search and Filters */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-[#A3A297]">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-ww-text-muted">
             Holdings Directory ({filteredProperties.length})
           </h3>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
           <div className="relative">
-            <Search className="w-3.5 h-3.5 text-[#A3A297] absolute left-2.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-3.5 h-3.5 text-ww-text-muted absolute left-2.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search properties..."
-              className="pl-8 pr-3 py-1.5 text-xs bg-[#FCFBF8] border border-[#EAE8DF] rounded-lg outline-none focus:border-[#526B56] w-36 sm:w-48"
+              className="pl-8 pr-3 py-1.5 text-xs bg-ww-elevated border border-ww-border rounded-lg outline-none focus:border-ww-accent w-36 sm:w-48"
             />
           </div>
 
           <select
             value={filterType}
             onChange={e => setFilterType(e.target.value)}
-            className="text-xs bg-[#FCFBF8] border border-[#EAE8DF] rounded-lg px-2.5 py-1.5 outline-none font-semibold text-[#22251F]"
+            className="text-xs bg-ww-elevated border border-ww-border rounded-lg px-2.5 py-1.5 outline-none font-semibold text-ww-text"
           >
             <option value="All">All Property Types</option>
             <option value="Residential">Residential</option>
@@ -256,17 +256,17 @@ const RealEstateHub = () => {
           const netYield = Number(p.monthlyRent || 0) - (Number(p.maintenanceMonthly || 0) + Number(p.taxMonthly || 0) + Number(p.mortgagePaymentMonthly || 0));
 
           return (
-            <Card key={p.id} className="p-5 border border-[#EAE8DF] bg-white space-y-4 hover:border-[#D5D2C8] transition-all flex flex-col justify-between">
+            <Card key={p.id} className="p-5 border border-ww-border bg-white space-y-4 hover:border-ww-border-strong transition-all flex flex-col justify-between">
               <div>
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-9 h-9 rounded-xl bg-[#EDF2E9] border border-[#D5DFD1] text-[#526B56] flex items-center justify-center shrink-0">
+                    <div className="w-9 h-9 rounded-xl bg-ww-green-bg border border-ww-accent/20 text-ww-accent flex items-center justify-center shrink-0">
                       {p.type === 'Commercial' ? <Landmark className="w-4 h-4" /> : <Home className="w-4 h-4" />}
                     </div>
                     <div className="min-w-0">
-                      <h4 className="text-sm font-bold text-[#22251F] truncate">{p.name}</h4>
-                      <p className="text-[10px] text-[#77786F] flex items-center gap-1 mt-0.5 truncate">
-                        <MapPin className="w-3 h-3 text-[#A3A297]" />
+                      <h4 className="text-sm font-bold text-ww-text truncate">{p.name}</h4>
+                      <p className="text-[10px] text-ww-text-secondary flex items-center gap-1 mt-0.5 truncate">
+                        <MapPin className="w-3 h-3 text-ww-text-muted" />
                         {p.address}
                       </p>
                     </div>
@@ -274,43 +274,43 @@ const RealEstateHub = () => {
                   <Badge variant="accent">{p.type}</Badge>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-[#EAE8DF] grid grid-cols-2 gap-2 text-xs">
+                <div className="mt-4 pt-3 border-t border-ww-border grid grid-cols-2 gap-2 text-xs">
                   <div>
-                    <span className="text-[10px] font-semibold text-[#A3A297] block">Market Valuation</span>
-                    <span className="font-extrabold text-[#22251F] tabular-nums text-sm">
+                    <span className="text-[10px] font-semibold text-ww-text-muted block">Market Valuation</span>
+                    <span className="font-extrabold text-ww-text tabular-nums text-sm">
                       {currencySymbol}{mask(Number(p.currentValuation || 0).toLocaleString())}
                     </span>
-                    <span className={`text-[10px] block font-semibold ${appreciation >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
+                    <span className={`text-[10px] block font-semibold ${appreciation >= 0 ? 'text-ww-accent' : 'text-ww-danger'}`}>
                       {appreciation >= 0 ? '+' : ''}{currencySymbol}{mask(Math.abs(appreciation).toLocaleString())} ({appreciationPct}%)
                     </span>
                   </div>
 
                   <div>
-                    <span className="text-[10px] font-semibold text-[#A3A297] block">Net Monthly Rent</span>
-                    <span className="font-extrabold text-[#526B56] tabular-nums text-sm">
+                    <span className="text-[10px] font-semibold text-ww-text-muted block">Net Monthly Rent</span>
+                    <span className="font-extrabold text-ww-accent tabular-nums text-sm">
                       +{currencySymbol}{mask(netYield.toLocaleString())}
                     </span>
-                    <span className="text-[10px] text-[#77786F] block">
+                    <span className="text-[10px] text-ww-text-secondary block">
                       Gross: {currencySymbol}{mask(Number(p.monthlyRent || 0).toLocaleString())}
                     </span>
                   </div>
                 </div>
 
-                <div className="mt-3 p-2.5 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl flex items-center justify-between text-[11px]">
-                  <span className="text-[#77786F]">Mortgage Liability:</span>
-                  <span className="font-bold text-[#C66D65] tabular-nums">
+                <div className="mt-3 p-2.5 bg-ww-elevated border border-ww-border rounded-xl flex items-center justify-between text-[11px]">
+                  <span className="text-ww-text-secondary">Mortgage Liability:</span>
+                  <span className="font-bold text-ww-danger tabular-nums">
                     {currencySymbol}{mask(Number(p.loanBalance || 0).toLocaleString())}
                   </span>
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-[#EAE8DF] flex items-center justify-between">
+              <div className="pt-3 border-t border-ww-border flex items-center justify-between">
                 <Badge variant={p.status === 'Occupied' ? 'success' : 'default'}>{p.status || 'Active'}</Badge>
                 <div className="flex items-center gap-1">
                   <button
                     type="button"
                     onClick={() => openEdit(p)}
-                    className="p-1.5 rounded-lg text-[#A3A297] hover:text-[#22251F] hover:bg-[#F1EFE7] cursor-pointer"
+                    className="p-1.5 rounded-lg text-ww-text-muted hover:text-ww-text hover:bg-ww-bg-alt cursor-pointer"
                     title="Edit Property"
                   >
                     <Edit3 className="w-3.5 h-3.5" />
@@ -318,7 +318,7 @@ const RealEstateHub = () => {
                   <button
                     type="button"
                     onClick={() => setDeleteConfirm(p)}
-                    className="p-1.5 rounded-lg text-[#A3A297] hover:text-[#C66D65] hover:bg-[#FCEEED] cursor-pointer"
+                    className="p-1.5 rounded-lg text-ww-text-muted hover:text-ww-danger hover:bg-ww-danger-bg cursor-pointer"
                     title="Dispose Property"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -348,11 +348,11 @@ const RealEstateHub = () => {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-bold text-[#77786F] block mb-1.5">Asset Classification</label>
+              <label className="text-xs font-bold text-ww-text-secondary block mb-1.5">Asset Classification</label>
               <select
                 value={form.type}
                 onChange={e => setForm({ ...form, type: e.target.value })}
-                className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2.5 text-xs text-[#22251F] font-semibold outline-none focus:border-[#526B56]"
+                className="w-full bg-ww-elevated border border-ww-border rounded-xl p-2.5 text-xs text-ww-text font-semibold outline-none focus:border-ww-accent"
               >
                 <option value="Residential">Residential Luxury</option>
                 <option value="Commercial">Commercial Office</option>
@@ -361,11 +361,11 @@ const RealEstateHub = () => {
               </select>
             </div>
             <div>
-              <label className="text-xs font-bold text-[#77786F] block mb-1.5">Tenancy Status</label>
+              <label className="text-xs font-bold text-ww-text-secondary block mb-1.5">Tenancy Status</label>
               <select
                 value={form.status}
                 onChange={e => setForm({ ...form, status: e.target.value })}
-                className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl p-2.5 text-xs text-[#22251F] font-semibold outline-none focus:border-[#526B56]"
+                className="w-full bg-ww-elevated border border-ww-border rounded-xl p-2.5 text-xs text-ww-text font-semibold outline-none focus:border-ww-accent"
               >
                 <option value="Occupied">Fully Occupied</option>
                 <option value="Vacant">Vacant / Available</option>

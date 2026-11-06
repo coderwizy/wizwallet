@@ -55,8 +55,8 @@ const MobileCommanderView = () => {
     <div className="space-y-4 pb-8 flex flex-col h-[calc(100vh-140px)]">
       <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-2">
-          <Bot className="w-4 h-4 text-[#526B56]" />
-          <h2 className="text-sm font-bold text-[#22251F]">AI Empire Commander</h2>
+          <Bot className="w-4 h-4 text-ww-accent" />
+          <h2 className="text-sm font-bold text-ww-text">AI Empire Commander</h2>
         </div>
         <Badge variant="success">Local Engine</Badge>
       </div>
@@ -67,18 +67,18 @@ const MobileCommanderView = () => {
             key={i}
             type="button"
             onClick={() => handleSend(q)}
-            className="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-white border border-[#EAE8DF] text-[#77786F] whitespace-nowrap cursor-pointer"
+            className="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-white border border-ww-border text-ww-text-secondary whitespace-nowrap cursor-pointer"
           >
             {q}
           </button>
         ))}
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-2.5 p-3 bg-white border border-[#EAE8DF] rounded-2xl scroll-hide">
+      <div className="flex-1 overflow-y-auto space-y-2.5 p-3 bg-white border border-ww-border rounded-2xl scroll-hide">
         {messages.map((m, idx) => (
           <div key={idx} className={`flex flex-col ${m.sender === 'user' ? 'items-end' : 'items-start'}`}>
             <div className={`max-w-[85%] p-3 rounded-xl text-xs ${
-              m.sender === 'user' ? 'bg-[#526B56] text-white' : 'bg-[#FCFBF8] border border-[#EAE8DF] text-[#22251F]'
+              m.sender === 'user' ? 'bg-ww-accent text-white' : 'bg-ww-elevated border border-ww-border text-ww-text'
             }`}>
               {m.text}
             </div>
@@ -92,7 +92,7 @@ const MobileCommanderView = () => {
           value={query}
           onChange={e => setQuery(e.target.value)}
           placeholder="Ask commander anything..."
-          className="flex-1 bg-white border border-[#EAE8DF] rounded-xl px-3 py-2 text-xs outline-none focus:border-[#526B56]"
+          className="flex-1 bg-white border border-ww-border rounded-xl px-3 py-2 text-xs outline-none focus:border-ww-accent"
         />
         <Button type="submit" variant="primary" size="sm" icon={Send} disabled={!query.trim()}>
           Send

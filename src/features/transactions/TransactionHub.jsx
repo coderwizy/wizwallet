@@ -105,10 +105,10 @@ const TransactionHub = () => {
       {/* ── Page Header ── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A3A297] mb-1">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ww-text-muted mb-1">
             Executive Ledger & Transaction Auditor
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold text-[#22251F] tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-bold text-ww-text tracking-tight">
             Global Ledger
           </h2>
         </div>
@@ -128,38 +128,38 @@ const TransactionHub = () => {
 
       {/* ── Summary KPI Cards ── */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Total Entries</p>
-          <h3 className="text-2xl font-bold text-[#22251F] tabular-nums mt-1">{filtered.length} Records</h3>
-          <p className="text-[10px] text-[#77786F] mt-1">Live synchronized ledger</p>
+        <Card className="p-5 border border-ww-border bg-white">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Total Entries</p>
+          <h3 className="text-2xl font-bold text-ww-text tabular-nums mt-1">{filtered.length} Records</h3>
+          <p className="text-[10px] text-ww-text-secondary mt-1">Live synchronized ledger</p>
         </Card>
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Total Credits</p>
-          <h3 className="text-2xl font-bold text-[#66866A] tabular-nums mt-1">
+        <Card className="p-5 border border-ww-border bg-white">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Total Credits</p>
+          <h3 className="text-2xl font-bold text-ww-success tabular-nums mt-1">
             +{currencySymbol}{totalCredit.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </h3>
-          <p className="text-[10px] text-[#77786F] mt-1">Yields, dividends, and deposits</p>
+          <p className="text-[10px] text-ww-text-secondary mt-1">Yields, dividends, and deposits</p>
         </Card>
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Total Debits</p>
-          <h3 className="text-2xl font-bold text-[#C66D65] tabular-nums mt-1">
+        <Card className="p-5 border border-ww-border bg-white">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Total Debits</p>
+          <h3 className="text-2xl font-bold text-ww-danger tabular-nums mt-1">
             -{currencySymbol}{totalDebit.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </h3>
-          <p className="text-[10px] text-[#77786F] mt-1">Venture costs & payments</p>
+          <p className="text-[10px] text-ww-text-secondary mt-1">Venture costs & payments</p>
         </Card>
-        <Card className="p-5 border border-[#EAE8DF] bg-white">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Net Cash Flow</p>
-          <h3 className={`text-2xl font-bold tabular-nums mt-1 ${netCashFlow >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
+        <Card className="p-5 border border-ww-border bg-white">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted">Net Cash Flow</p>
+          <h3 className={`text-2xl font-bold tabular-nums mt-1 ${netCashFlow >= 0 ? 'text-ww-accent' : 'text-ww-danger'}`}>
             {netCashFlow >= 0 ? '+' : '−'}{currencySymbol}{Math.abs(netCashFlow).toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </h3>
-          <p className="text-[10px] text-[#77786F] mt-1">Net portfolio retention</p>
+          <p className="text-[10px] text-ww-text-secondary mt-1">Net portfolio retention</p>
         </Card>
       </div>
 
       {/* ── Table & Filter Container ── */}
-      <Card className="overflow-hidden p-0 border border-[#EAE8DF] bg-white">
+      <Card className="overflow-hidden p-0 border border-ww-border bg-white">
         {/* Filter Toolbar */}
-        <div className="p-4 md:p-5 border-b border-[#EAE8DF] bg-[#FCFBF8] space-y-3">
+        <div className="p-4 md:p-5 border-b border-ww-border bg-ww-elevated space-y-3">
           <div className="flex flex-col md:flex-row gap-3">
             {/* Search Input */}
             <div className="flex-1">
@@ -176,7 +176,7 @@ const TransactionHub = () => {
               <select
                 value={filterModule}
                 onChange={(e) => setFilterModule(e.target.value)}
-                className="bg-white border border-[#EAE8DF] rounded-xl px-3.5 py-2.5 text-xs font-semibold text-[#22251F] outline-none focus:border-[#526B56] cursor-pointer"
+                className="bg-white border border-ww-border rounded-xl px-3.5 py-2.5 text-xs font-semibold text-ww-text outline-none focus:border-ww-accent cursor-pointer"
               >
                 <option value="All">All Modules</option>
                 <option value="Wallet">Wallet Hub</option>
@@ -189,7 +189,7 @@ const TransactionHub = () => {
               <select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value)}
-                className="bg-white border border-[#EAE8DF] rounded-xl px-3.5 py-2.5 text-xs font-semibold text-[#22251F] outline-none focus:border-[#526B56] cursor-pointer"
+                className="bg-white border border-ww-border rounded-xl px-3.5 py-2.5 text-xs font-semibold text-ww-text outline-none focus:border-ww-accent cursor-pointer"
               >
                 <option value="All">All Types</option>
                 <option value="Credit">Credits (+)</option>
@@ -216,23 +216,23 @@ const TransactionHub = () => {
                 exit={{ opacity: 0, height: 0 }}
                 className="overflow-hidden pt-2"
               >
-                <div className="flex flex-col sm:flex-row flex-wrap gap-3 p-3.5 bg-white border border-[#EAE8DF] rounded-xl items-start sm:items-end">
+                <div className="flex flex-col sm:flex-row flex-wrap gap-3 p-3.5 bg-white border border-ww-border rounded-xl items-start sm:items-end">
                   <div className="w-full sm:w-auto">
-                    <label className="text-[10px] font-bold text-[#77786F] uppercase tracking-wider block mb-1">From Date</label>
+                    <label className="text-[10px] font-bold text-ww-text-secondary uppercase tracking-wider block mb-1">From Date</label>
                     <input
                       type="date"
                       value={dateFrom}
                       onChange={(e) => setDateFrom(e.target.value)}
-                      className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-lg px-3 py-1.5 text-xs font-medium text-[#22251F] outline-none focus:border-[#526B56]"
+                      className="w-full bg-ww-elevated border border-ww-border rounded-lg px-3 py-1.5 text-xs font-medium text-ww-text outline-none focus:border-ww-accent"
                     />
                   </div>
                   <div className="w-full sm:w-auto">
-                    <label className="text-[10px] font-bold text-[#77786F] uppercase tracking-wider block mb-1">To Date</label>
+                    <label className="text-[10px] font-bold text-ww-text-secondary uppercase tracking-wider block mb-1">To Date</label>
                     <input
                       type="date"
                       value={dateTo}
                       onChange={(e) => setDateTo(e.target.value)}
-                      className="w-full bg-[#FCFBF8] border border-[#EAE8DF] rounded-lg px-3 py-1.5 text-xs font-medium text-[#22251F] outline-none focus:border-[#526B56]"
+                      className="w-full bg-ww-elevated border border-ww-border rounded-lg px-3 py-1.5 text-xs font-medium text-ww-text outline-none focus:border-ww-accent"
                     />
                   </div>
                   {(dateFrom || dateTo) && (
@@ -254,7 +254,7 @@ const TransactionHub = () => {
             </div>
           ))}
           {filtered.length === 0 && (
-            <div className="py-12 text-center text-[#A3A297] text-xs font-medium">
+            <div className="py-12 text-center text-ww-text-muted text-xs font-medium">
               No transactions match current filter criteria.
             </div>
           )}
@@ -264,12 +264,12 @@ const TransactionHub = () => {
         <div className="hidden md:block overflow-x-auto scroll-hide">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-[#FCFBF8] border-b border-[#EAE8DF]">
-                <th className="px-6 py-3.5 text-[10px] font-bold uppercase tracking-wider text-[#A3A297]">Timestamp</th>
-                <th className="px-6 py-3.5 text-[10px] font-bold uppercase tracking-wider text-[#A3A297]">Description</th>
-                <th className="px-6 py-3.5 text-[10px] font-bold uppercase tracking-wider text-[#A3A297]">Hub Module</th>
-                <th className="px-6 py-3.5 text-[10px] font-bold uppercase tracking-wider text-[#A3A297]">Type</th>
-                <th className="px-6 py-3.5 text-[10px] font-bold uppercase tracking-wider text-[#A3A297] text-right">Amount (USD)</th>
+              <tr className="bg-ww-elevated border-b border-ww-border">
+                <th className="px-6 py-3.5 text-[10px] font-bold uppercase tracking-wider text-ww-text-muted">Timestamp</th>
+                <th className="px-6 py-3.5 text-[10px] font-bold uppercase tracking-wider text-ww-text-muted">Description</th>
+                <th className="px-6 py-3.5 text-[10px] font-bold uppercase tracking-wider text-ww-text-muted">Hub Module</th>
+                <th className="px-6 py-3.5 text-[10px] font-bold uppercase tracking-wider text-ww-text-muted">Type</th>
+                <th className="px-6 py-3.5 text-[10px] font-bold uppercase tracking-wider text-ww-text-muted text-right">Amount (USD)</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#F1EFE7]">
@@ -280,13 +280,13 @@ const TransactionHub = () => {
                   <tr
                     key={tx.id}
                     onClick={() => setSelectedTx(tx)}
-                    className="hover:bg-[#FCFBF8] transition-colors cursor-pointer group"
+                    className="hover:bg-ww-elevated transition-colors cursor-pointer group"
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <p className="text-xs font-semibold text-[#22251F] tabular-nums">
+                      <p className="text-xs font-semibold text-ww-text tabular-nums">
                         {new Date(tx.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
                       </p>
-                      <p className="text-[10px] text-[#A3A297] mt-0.5">
+                      <p className="text-[10px] text-ww-text-muted mt-0.5">
                         {new Date(tx.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </p>
                     </td>
@@ -294,16 +294,16 @@ const TransactionHub = () => {
                       <div className="flex items-center gap-3">
                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border ${
                           isCredit
-                            ? 'bg-[#EDF2E9] border-[#C8D9CA] text-[#66866A]'
-                            : 'bg-[#FCEEED] border-[#E8C5C3] text-[#C66D65]'
+                            ? 'bg-ww-green-bg border-ww-success/30 text-ww-success'
+                            : 'bg-ww-danger-bg border-ww-danger/30 text-ww-danger'
                         }`}>
                           {isCredit ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownLeft className="w-4 h-4" />}
                         </div>
                         <div className="min-w-0">
-                          <p className="text-xs font-bold text-[#22251F] truncate group-hover:text-[#526B56] transition-colors">
+                          <p className="text-xs font-bold text-ww-text truncate group-hover:text-ww-accent transition-colors">
                             {tx.description}
                           </p>
-                          <p className="text-[10px] text-[#A3A297]">Authorized by {tx.user || 'raghav94'}</p>
+                          <p className="text-[10px] text-ww-text-muted">Authorized by {tx.user || 'raghav94'}</p>
                         </div>
                       </div>
                     </td>
@@ -319,7 +319,7 @@ const TransactionHub = () => {
                       </Badge>
                     </td>
                     <td className={`px-6 py-4 text-right font-extrabold tabular-nums text-sm whitespace-nowrap ${
-                      isCredit ? 'text-[#66866A]' : 'text-[#22251F]'
+                      isCredit ? 'text-ww-success' : 'text-ww-text'
                     }`}>
                       {isCredit ? '+' : '−'}{currencySymbol}{Number(tx.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </td>
@@ -330,7 +330,7 @@ const TransactionHub = () => {
           </table>
 
           {filtered.length === 0 && (
-            <div className="py-16 text-center text-[#A3A297] text-xs font-medium">
+            <div className="py-16 text-center text-ww-text-muted text-xs font-medium">
               No financial activities match the selected filters.
             </div>
           )}
