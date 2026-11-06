@@ -37,7 +37,7 @@ const GoalsHub = () => {
   const [isAddMilestoneOpen, setIsAddMilestoneOpen] = useState(false);
   const [milestoneForm, setMilestoneForm] = useState({
     title: '',
-    target: '1000000',
+    target: '500000',
     metric: 'netWorth'
   });
 
@@ -201,7 +201,7 @@ const GoalsHub = () => {
 
               <div className="space-y-1">
                 <div className="flex justify-between text-[11px] text-[#77786F] tabular-nums font-semibold">
-                  <span>Current: {m.metric === 'netWorth' || m.metric === 'passiveIncome' ? `$${Math.round(m.currentVal).toLocaleString()}` : m.currentVal}</span>
+                  <span>Current: {m.metric === 'netWorth' || m.metric === 'passiveIncome' ? `${currencySymbol}${Math.round(m.currentVal).toLocaleString()}` : m.currentVal}</span>
                   <span>+{m.xp} XP</span>
                 </div>
                 <div className="w-full h-2 bg-[#F1EFE7] rounded-full overflow-hidden">

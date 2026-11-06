@@ -168,7 +168,7 @@ const MobileDashboardView = ({ setActiveTab }) => {
                   fontSize: 11,
                   padding: '6px 10px'
                 }}
-                formatter={v => [`$${Number(v).toLocaleString()}`, 'Net Worth']}
+                formatter={v => [`${currencySymbol}${Number(v).toLocaleString()}`, 'Net Worth']}
               />
               <Area type="monotone" dataKey="income" stroke="#526B56" strokeWidth={2} fill="url(#mobGreen)" />
             </AreaChart>
@@ -209,7 +209,7 @@ const MobileDashboardView = ({ setActiveTab }) => {
               <span className={`text-xs font-bold tabular-nums shrink-0 ml-2 ${
                 tx.type === 'Credit' ? 'text-[#66866A]' : 'text-[#C66D65]'
               }`}>
-                {tx.type === 'Credit' ? '+' : '−'}${Number(tx.amount || 0).toLocaleString()}
+                {tx.type === 'Credit' ? '+' : '−'}{currencySymbol}{Number(tx.amount || 0).toLocaleString()}
               </span>
             </div>
           ))}

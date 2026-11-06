@@ -140,11 +140,11 @@ const MobileBusinessView = () => {
         <div className="grid grid-cols-2 gap-2.5 pt-3.5 border-t border-[#EAE8DF]">
           <div className="p-3 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
             <p className="text-[10px] font-semibold text-[#66866A] uppercase">Gross Yield</p>
-            <p className="text-sm font-bold text-[#22251F] tabular-nums mt-0.5">${totalIncome.toLocaleString()}</p>
+            <p className="text-sm font-bold text-[#22251F] tabular-nums mt-0.5">{currencySymbol}{totalIncome.toLocaleString()}</p>
           </div>
           <div className="p-3 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">
             <p className="text-[10px] font-semibold text-[#C66D65] uppercase">Operating Burn</p>
-            <p className="text-sm font-bold text-[#22251F] tabular-nums mt-0.5">${totalExpense.toLocaleString()}</p>
+            <p className="text-sm font-bold text-[#22251F] tabular-nums mt-0.5">{currencySymbol}{totalExpense.toLocaleString()}</p>
           </div>
         </div>
       </Card>
@@ -161,7 +161,7 @@ const MobileBusinessView = () => {
             <p className="text-[11px] text-[#77786F] mt-0.5">Revenue distribution across active ventures</p>
           </div>
           <Badge variant="accent">
-            ${activeTotalIncome.toLocaleString()} / mo
+            {currencySymbol}{activeTotalIncome.toLocaleString()} / mo
           </Badge>
         </div>
 
@@ -238,7 +238,7 @@ const MobileBusinessView = () => {
                       {item.percentage}%
                     </span>
                     <span className="font-bold text-[#22251F] tabular-nums">
-                      ${item.value.toLocaleString()}
+                      {currencySymbol}{item.value.toLocaleString()}
                     </span>
                   </div>
                 </div>

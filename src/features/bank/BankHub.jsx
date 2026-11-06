@@ -326,7 +326,7 @@ const BankHub = ({ setActiveTab }) => {
                   {(rate * 100).toFixed(0)}% APY
                 </span>
                 <span className="text-[10px] text-[#A3A297] mt-1">
-                  ~${Math.round((bank.balance * rate) / 12).toLocaleString()}/mo
+                  ~{currencySymbol}{Math.round((bank.balance * rate) / 12).toLocaleString()}/mo
                 </span>
               </button>
             );

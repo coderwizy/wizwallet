@@ -100,7 +100,7 @@ const MobileInvestmentsView = () => {
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Portfolio Valuation</p>
             <h2 className="text-3xl font-extrabold text-[#22251F] tabular-nums mt-0.5">
-              ${mask(totalValue.toLocaleString(undefined, { maximumFractionDigits: 0 }))}
+              {currencySymbol}{mask(totalValue.toLocaleString(undefined, { maximumFractionDigits: 0 }))}
             </h2>
           </div>
           <Button variant="primary" size="sm" icon={Plus} onClick={() => setShowAddSheet(true)}>
@@ -145,10 +145,10 @@ const MobileInvestmentsView = () => {
                 </div>
                 <div className="text-right">
                   <span className="font-extrabold text-sm text-[#22251F] tabular-nums block">
-                    ${mask(posVal.toLocaleString(undefined, { maximumFractionDigits: 0 }))}
+                    {currencySymbol}{mask(posVal.toLocaleString(undefined, { maximumFractionDigits: 0 }))}
                   </span>
                   <span className={`text-[10px] font-bold tabular-nums ${pnl >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
-                    {pnl >= 0 ? '+' : ''}${mask(Math.abs(pnl).toLocaleString(undefined, { maximumFractionDigits: 0 }))}
+                    {pnl >= 0 ? '+' : ''}{currencySymbol}{mask(Math.abs(pnl).toLocaleString(undefined, { maximumFractionDigits: 0 }))}
                   </span>
                 </div>
               </div>

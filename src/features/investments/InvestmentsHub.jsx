@@ -197,7 +197,7 @@ const InvestmentsHub = () => {
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Portfolio Value</span>
           <h3 className="text-2xl font-extrabold text-[#22251F] tabular-nums mt-1">
-            ${mask(portfolioMetrics.totalCurrentValue.toLocaleString(undefined, { maximumFractionDigits: 0 }))}
+            {currencySymbol}{mask(portfolioMetrics.totalCurrentValue.toLocaleString(undefined, { maximumFractionDigits: 0 }))}
           </h3>
           <p className="text-[11px] text-[#77786F] mt-1">Across {investments.length} active holdings</p>
         </Card>
@@ -206,19 +206,19 @@ const InvestmentsHub = () => {
           <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Unrealized P&L</span>
           <div className="flex items-baseline gap-2 mt-1">
             <h3 className={`text-2xl font-extrabold tabular-nums ${portfolioMetrics.totalPnL >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
-              {portfolioMetrics.totalPnL >= 0 ? '+' : ''}${mask(Math.abs(portfolioMetrics.totalPnL).toLocaleString(undefined, { maximumFractionDigits: 0 }))}
+              {portfolioMetrics.totalPnL >= 0 ? '+' : ''}{currencySymbol}{mask(Math.abs(portfolioMetrics.totalPnL).toLocaleString(undefined, { maximumFractionDigits: 0 }))}
             </h3>
             <span className={`text-xs font-bold ${portfolioMetrics.totalPnL >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
               ({portfolioMetrics.totalPnLPct}%)
             </span>
           </div>
-          <p className="text-[11px] text-[#77786F] mt-1">Cost basis: ${mask(portfolioMetrics.totalInvested.toLocaleString())}</p>
+          <p className="text-[11px] text-[#77786F] mt-1">Cost basis: {currencySymbol}{mask(portfolioMetrics.totalInvested.toLocaleString())}</p>
         </Card>
 
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Est. Monthly Dividends</span>
           <h3 className="text-2xl font-extrabold text-[#C18A48] tabular-nums mt-1">
-            +${mask(portfolioMetrics.monthlyDividends.toLocaleString())}
+            +{currencySymbol}{mask(portfolioMetrics.monthlyDividends.toLocaleString())}
           </h3>
           <p className="text-[11px] text-[#77786F] mt-1">Passive securities cash flow</p>
         </Card>
@@ -226,7 +226,7 @@ const InvestmentsHub = () => {
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Liquid Buying Power</span>
           <h3 className="text-2xl font-extrabold text-[#4A7C8A] tabular-nums mt-1">
-            ${mask((wallet?.balance || 0).toLocaleString())}
+            {currencySymbol}{mask((wallet?.balance || 0).toLocaleString())}
           </h3>
           <p className="text-[11px] text-[#77786F] mt-1">Available in Smart Wallet</p>
         </Card>
@@ -264,7 +264,7 @@ const InvestmentsHub = () => {
                     ))}
                   </Pie>
                   <Tooltip
-                    formatter={(val) => `$${Number(val).toLocaleString()}`}
+                    formatter={(val) => `${currencySymbol}${Number(val).toLocaleString()}`}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -279,7 +279,7 @@ const InvestmentsHub = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-[11px] text-[#77786F]">{item.percentage}%</span>
-                    <span className="font-bold text-[#22251F] tabular-nums">${mask(item.value.toLocaleString())}</span>
+                    <span className="font-bold text-[#22251F] tabular-nums">{currencySymbol}{mask(item.value.toLocaleString())}</span>
                   </div>
                 </div>
               ))}
@@ -407,17 +407,17 @@ const InvestmentsHub = () => {
                         {mask(qty.toLocaleString())}
                       </td>
                       <td className="py-3.5 px-3 text-right text-[#77786F] tabular-nums">
-                        ${mask(buyPrice.toFixed(2))}
+                        {currencySymbol}{mask(buyPrice.toFixed(2))}
                       </td>
                       <td className="py-3.5 px-3 text-right font-bold text-[#22251F] tabular-nums">
-                        ${mask(curPrice.toFixed(2))}
+                        {currencySymbol}{mask(curPrice.toFixed(2))}
                       </td>
                       <td className="py-3.5 px-3 text-right font-bold text-[#22251F] tabular-nums">
-                        ${mask(totalVal.toLocaleString(undefined, { maximumFractionDigits: 0 }))}
+                        {currencySymbol}{mask(totalVal.toLocaleString(undefined, { maximumFractionDigits: 0 }))}
                       </td>
                       <td className="py-3.5 px-3 text-right font-bold tabular-nums">
                         <span className={pnl >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}>
-                          {pnl >= 0 ? '+' : ''}${mask(Math.abs(pnl).toLocaleString(undefined, { maximumFractionDigits: 0 }))}
+                          {pnl >= 0 ? '+' : ''}{currencySymbol}{mask(Math.abs(pnl).toLocaleString(undefined, { maximumFractionDigits: 0 }))}
                           <span className="text-[10px] block opacity-85">({pnlPct}%)</span>
                         </span>
                       </td>

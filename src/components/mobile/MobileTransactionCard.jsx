@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEmpire } from '../../context/EmpireContext';
 import { 
   ArrowUpRight, ArrowDownLeft, Wallet, Landmark, Briefcase, Layers, ChevronDown
 } from 'lucide-react';
@@ -15,6 +16,7 @@ const getModuleIcon = (module) => {
 };
 
 const MobileTransactionCard = ({ tx }) => {
+  const { currencySymbol } = useEmpire();
   if (!tx) return null;
   const [expanded, setExpanded] = useState(false);
   const isCredit = tx.type === 'Credit';
@@ -50,7 +52,7 @@ const MobileTransactionCard = ({ tx }) => {
         <div className="text-right shrink-0 flex items-center gap-2">
           <div>
             <p className={`text-sm font-semibold tabular-nums ${isCredit ? 'text-[#66866A]' : 'text-[#C66D65]'}`}>
-              {isCredit ? '+' : '-'}${tx.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+              {isCredit ? '+' : '-'}{currencySymbol}{tx.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
             </p>
             <p className="text-[9px] font-medium text-[#A3A297] uppercase text-right">{tx.type}</p>
           </div>

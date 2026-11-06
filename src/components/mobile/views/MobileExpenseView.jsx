@@ -55,7 +55,7 @@ const MobileExpenseView = () => {
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Monthly Outflows</p>
             <h2 className="text-3xl font-extrabold text-[#C66D65] tabular-nums mt-0.5">
-              ${mask(totalBurn.toLocaleString())}
+              {currencySymbol}{mask(totalBurn.toLocaleString())}
             </h2>
           </div>
           <Button variant="primary" size="sm" icon={Plus} onClick={() => setShowAddSheet(true)}>
@@ -91,7 +91,7 @@ const MobileExpenseView = () => {
             </div>
             <div className="flex items-center gap-2">
               <span className="font-extrabold text-xs text-[#C66D65] tabular-nums">
-                -${mask(Number(exp.amount || 0).toLocaleString())}
+                -{currencySymbol}{mask(Number(exp.amount || 0).toLocaleString())}
               </span>
               <button
                 type="button"

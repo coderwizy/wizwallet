@@ -107,7 +107,7 @@ const FamilyHub = () => {
                 Total Protected Trust Capital
               </p>
               <h1 className="text-4xl md:text-5xl font-extrabold text-[#22251F] tabular-nums tracking-tight">
-                ${totalWealth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                {currencySymbol}{totalWealth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
               </h1>
               <p className="text-xs text-[#77786F] mt-1.5 font-medium">
                 Combined liquid vault and institutional bank reserve allocated across family council.
@@ -248,7 +248,7 @@ const FamilyHub = () => {
                 <div className="min-w-0">
                   <h4 className="font-bold text-[#22251F] text-sm truncate">{member.name}</h4>
                   <p className="text-[10px] text-[#77786F] font-semibold mt-0.5">
-                    {member.role} · Wealth Share: <span className="text-[#526B56] font-bold">{member.wealth}%</span> (~${Math.round((totalWealth * member.wealth) / 100).toLocaleString()})
+                    {member.role} · Wealth Share: <span className="text-[#526B56] font-bold">{member.wealth}%</span> (~{currencySymbol}{Math.round((totalWealth * member.wealth) / 100).toLocaleString()})
                   </p>
                 </div>
               </div>

@@ -120,7 +120,7 @@ const WalletHub = ({ setActiveTab }) => {
     setPayError('');
     const amt = parseFloat(payData.amount);
     if (isNaN(amt) || amt <= 0) { setPayError('Enter a valid positive amount.'); return; }
-    if (wallet.balance < amt) { setPayError(`Insufficient funds — balance is $${wallet.balance.toLocaleString()}`); return; }
+    if (wallet.balance < amt) { setPayError(`Insufficient funds — balance is ${currencySymbol}${wallet.balance.toLocaleString()}`); return; }
     setWallet(prev => ({ ...prev, balance: prev.balance - amt }));
     addTransaction('Wallet', 'Debit', amt, `Payment to ${payData.recipient}: ${payData.purpose}`);
     setShowPayModal(false);
@@ -312,7 +312,7 @@ const WalletHub = ({ setActiveTab }) => {
         {[
           { label: 'Active Businesses', value: activeBizCount,                            icon: Briefcase, color: 'text-[#526B56]',   bg: 'bg-[#EDF2E9]' },
           { label: 'Active Sectors',    value: activeSectorCount,                          icon: Layers,    color: 'text-blue-600',    bg: 'bg-[#EFF7FF]' },
-          { label: 'Dividend / Pulse',  value: `+$${estimatedDividend.toLocaleString()}`,  icon: Zap,       color: 'text-[#66866A]',   bg: 'bg-[#EDF2E9]' },
+          { label: 'Dividend / Pulse',  value: `+${currencySymbol}${estimatedDividend.toLocaleString()}`,  icon: Zap,       color: 'text-[#66866A]',   bg: 'bg-[#EDF2E9]' },
           { label: 'Pulse Interval',    value: `${pulseSeconds}s`,                         icon: Clock,     color: 'text-[#C18A48]',   bg: 'bg-[#FDF3E3]' },
         ].map((stat) => (
           <Card key={stat.label} className="p-4 border border-[#EAE8DF] bg-white flex items-center gap-3">
@@ -606,7 +606,7 @@ const WalletHub = ({ setActiveTab }) => {
             </div>
             <div>
               <p className="text-[9px] font-semibold text-[#526B56] uppercase tracking-widest">Growth Pulse</p>
-              <p className="text-sm font-bold text-[#22251F]">+${toastAmount.toLocaleString()} dividend received</p>
+              <p className="text-sm font-bold text-[#22251F]">+{currencySymbol}{toastAmount.toLocaleString()} dividend received</p>
             </div>
           </motion.div>
         )}

@@ -95,7 +95,7 @@ const MobileSectorsView = () => {
                 <div>
                   <p className="text-[10px] text-[#A3A297]">Gross Revenue</p>
                   <p className="text-base font-bold text-[#526B56] tabular-nums">
-                    ${Math.round(sec.revenue || 0).toLocaleString()}
+                    {currencySymbol}{Math.round(sec.revenue || 0).toLocaleString()}
                   </p>
                 </div>
                 <button
@@ -133,16 +133,16 @@ const MobileSectorsView = () => {
             <div className="p-4 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl space-y-2.5 text-xs">
               <div className="flex justify-between">
                 <span className="text-[#77786F]">Gross Revenue:</span>
-                <span className="font-bold text-[#526B56] tabular-nums">${Math.round(selectedSector.revenue || 0).toLocaleString()}</span>
+                <span className="font-bold text-[#526B56] tabular-nums">{currencySymbol}{Math.round(selectedSector.revenue || 0).toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#77786F]">Operational Burn:</span>
-                <span className="font-bold text-[#C66D65] tabular-nums">${Math.round(selectedSector.expense || 0).toLocaleString()}</span>
+                <span className="font-bold text-[#C66D65] tabular-nums">{currencySymbol}{Math.round(selectedSector.expense || 0).toLocaleString()}</span>
               </div>
               <div className="flex justify-between pt-2 border-t border-[#EAE8DF]">
                 <span className="text-[#22251F] font-bold">Net Profit Margin:</span>
                 <span className="font-bold text-[#526B56] tabular-nums">
-                  ${Math.round((selectedSector.revenue || 0) - (selectedSector.expense || 0)).toLocaleString()}
+                  {currencySymbol}{Math.round((selectedSector.revenue || 0) - (selectedSector.expense || 0)).toLocaleString()}
                 </span>
               </div>
             </div>

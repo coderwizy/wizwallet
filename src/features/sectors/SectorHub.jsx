@@ -87,21 +87,21 @@ const SectorHub = () => {
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Gross Domain Revenue</p>
           <h3 className="text-2xl font-bold text-[#526B56] tabular-nums mt-1">
-            ${Math.round(totalSectorRevenue).toLocaleString()}
+            {currencySymbol}{Math.round(totalSectorRevenue).toLocaleString()}
           </h3>
           <p className="text-[10px] text-[#77786F] mt-1">Across 30 industrial domains</p>
         </Card>
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Combined Expense</p>
           <h3 className="text-2xl font-bold text-[#C66D65] tabular-nums mt-1">
-            ${Math.round(totalSectorExpense).toLocaleString()}
+            {currencySymbol}{Math.round(totalSectorExpense).toLocaleString()}
           </h3>
           <p className="text-[10px] text-[#77786F] mt-1">Operational overhead</p>
         </Card>
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Net Operating Yield</p>
           <h3 className={`text-2xl font-bold tabular-nums mt-1 ${totalSectorNet >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
-            ${Math.round(totalSectorNet).toLocaleString()}
+            {currencySymbol}{Math.round(totalSectorNet).toLocaleString()}
           </h3>
           <p className="text-[10px] text-[#77786F] mt-1">Net industry earnings</p>
         </Card>
@@ -168,13 +168,13 @@ const SectorHub = () => {
                   </div>
 
                   <p className="text-lg font-extrabold text-[#526B56] tabular-nums mb-2">
-                    ${Math.round(sec.revenue || 0).toLocaleString()}
+                    {currencySymbol}{Math.round(sec.revenue || 0).toLocaleString()}
                   </p>
 
                   <div className="pt-2 border-t border-[#EAE8DF] flex justify-between items-center text-[10px]">
                     <span className="font-semibold text-[#A3A297] uppercase">Net Margin</span>
                     <span className={`font-bold tabular-nums ${net >= 0 ? 'text-[#66866A]' : 'text-[#C66D65]'}`}>
-                      ${Math.round(net).toLocaleString()}
+                      {currencySymbol}{Math.round(net).toLocaleString()}
                     </span>
                   </div>
 
@@ -224,19 +224,19 @@ const SectorHub = () => {
                   <div className="flex justify-between items-center text-xs">
                     <span className="text-[#77786F] font-medium">Gross Revenue</span>
                     <span className="font-bold text-[#526B56] tabular-nums">
-                      ${Math.round(selectedSector.revenue || 0).toLocaleString()}
+                      {currencySymbol}{Math.round(selectedSector.revenue || 0).toLocaleString()}
                     </span>
                   </div>
                   <div className="flex justify-between items-center text-xs">
                     <span className="text-[#77786F] font-medium">Operational Cost</span>
                     <span className="font-bold text-[#C66D65] tabular-nums">
-                      ${Math.round(selectedSector.expense || 0).toLocaleString()}
+                      {currencySymbol}{Math.round(selectedSector.expense || 0).toLocaleString()}
                     </span>
                   </div>
                   <div className="flex justify-between items-center text-xs pt-2 border-t border-[#EAE8DF]">
                     <span className="text-[#22251F] font-bold">Net Yield</span>
                     <span className="font-extrabold text-[#526B56] tabular-nums">
-                      ${Math.round((selectedSector.revenue || 0) - (selectedSector.expense || 0)).toLocaleString()}
+                      {currencySymbol}{Math.round((selectedSector.revenue || 0) - (selectedSector.expense || 0)).toLocaleString()}
                     </span>
                   </div>
                 </div>

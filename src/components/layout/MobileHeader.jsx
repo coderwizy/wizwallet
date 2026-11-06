@@ -98,7 +98,7 @@ const MobileHeader = ({ activeTab }) => {
                               <p className="text-[10px] text-[#A3A297] mt-0.5">{tx.module}</p>
                             </div>
                             <p className={`text-xs font-semibold tabular-nums shrink-0 ${tx.type === 'Credit' ? 'text-[#66866A]' : 'text-[#C66D65]'}`}>
-                              {tx.type === 'Credit' ? '+' : '−'}${tx.amount.toLocaleString()}
+                              {tx.type === 'Credit' ? '+' : '−'}{currencySymbol}{tx.amount.toLocaleString()}
                             </p>
                           </div>
                         </div>

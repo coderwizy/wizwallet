@@ -332,7 +332,7 @@ const BusinessHub = () => {
                     <div>
                       <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Monthly Net Profit</p>
                       <p className={`text-base font-bold tabular-nums ${net >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
-                        {net >= 0 ? '+' : '−'}${Math.abs(net).toLocaleString()}
+                        {net >= 0 ? '+' : '−'}{currencySymbol}{Math.abs(net).toLocaleString()}
                       </p>
                       <p className="text-[10px] text-[#A3A297] font-medium">{marginPct}% margin</p>
                     </div>
@@ -463,7 +463,7 @@ const BusinessHub = () => {
                             {item.percentage}%
                           </span>
                           <span className="font-bold text-[#22251F] tabular-nums">
-                            ${item.value.toLocaleString()}
+                            {currencySymbol}{item.value.toLocaleString()}
                           </span>
                         </div>
                       </div>
@@ -644,11 +644,11 @@ const BusinessHub = () => {
             <div className="p-3.5 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl space-y-2 text-xs">
               <div className="flex justify-between items-center">
                 <span className="text-[#77786F]">Monthly Gross Income:</span>
-                <span className="font-bold text-[#526B56] tabular-nums">+${(detailBiz.income || 0).toLocaleString()}</span>
+                <span className="font-bold text-[#526B56] tabular-nums">+{currencySymbol}{(detailBiz.income || 0).toLocaleString()}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[#77786F]">Operating Burn & Payroll:</span>
-                <span className="font-bold text-[#C66D65] tabular-nums">-${(detailBiz.expense || 0).toLocaleString()}</span>
+                <span className="font-bold text-[#C66D65] tabular-nums">-{currencySymbol}{(detailBiz.expense || 0).toLocaleString()}</span>
               </div>
               <div className="flex justify-between items-center pt-2 border-t border-[#EAE8DF]">
                 <span className="font-bold text-[#22251F]">Monthly Operating Net:</span>

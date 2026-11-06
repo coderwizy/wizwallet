@@ -144,7 +144,7 @@ const ExpenseHub = () => {
             {scope} Monthly Outflows
           </span>
           <h3 className="text-3xl font-extrabold text-[#C66D65] tabular-nums mt-1">
-            ${mask(totalBurn.toLocaleString())}
+            {currencySymbol}{mask(totalBurn.toLocaleString())}
           </h3>
           <p className="text-[11px] text-[#77786F] mt-1">Across {filteredExpenses.length} recurring records</p>
         </Card>
@@ -154,7 +154,7 @@ const ExpenseHub = () => {
             Total Allocated Budget
           </span>
           <h3 className="text-3xl font-extrabold text-[#22251F] tabular-nums mt-1">
-            ${mask(Object.values(budgets).reduce((a, b) => a + b, 0).toLocaleString())}
+            {currencySymbol}{mask(Object.values(budgets).reduce((a, b) => a + b, 0).toLocaleString())}
           </h3>
           <p className="text-[11px] text-[#77786F] mt-1">Monthly threshold ceiling</p>
         </Card>
@@ -164,7 +164,7 @@ const ExpenseHub = () => {
             Annual Run-Rate Burn
           </span>
           <h3 className="text-3xl font-extrabold text-[#C18A48] tabular-nums mt-1">
-            ${mask((totalBurn * 12).toLocaleString())}
+            {currencySymbol}{mask((totalBurn * 12).toLocaleString())}
           </h3>
           <p className="text-[11px] text-[#77786F] mt-1">Projected annual operational cost</p>
         </Card>
@@ -190,9 +190,9 @@ const ExpenseHub = () => {
                 </div>
                 <div className="text-right">
                   <span className={`font-bold tabular-nums ${stat.isOver ? 'text-[#C66D65]' : 'text-[#22251F]'}`}>
-                    ${mask(stat.spent.toLocaleString())}
+                    {currencySymbol}{mask(stat.spent.toLocaleString())}
                   </span>
-                  <span className="text-[#A3A297] text-[10px]"> / ${mask(stat.budgetLimit.toLocaleString())}</span>
+                  <span className="text-[#A3A297] text-[10px]"> / {currencySymbol}{mask(stat.budgetLimit.toLocaleString())}</span>
                 </div>
               </div>
 
@@ -205,7 +205,7 @@ const ExpenseHub = () => {
 
               <div className="flex justify-between items-center text-[10px]">
                 <span className={stat.isOver ? 'text-[#C66D65] font-bold' : 'text-[#77786F]'}>
-                  {stat.isOver ? `Over budget by $${mask((stat.spent - stat.budgetLimit).toLocaleString())}` : 'Within target'}
+                  {stat.isOver ? `Over budget by ${currencySymbol}${mask((stat.spent - stat.budgetLimit).toLocaleString())}` : 'Within target'}
                 </span>
                 <span className="font-semibold text-[#A3A297]">{stat.percentage}% utilized</span>
               </div>
@@ -251,7 +251,7 @@ const ExpenseHub = () => {
                     {exp.frequency || 'Monthly'}
                   </td>
                   <td className="py-3 px-3 text-right font-bold text-[#C66D65] tabular-nums">
-                    -${mask(Number(exp.amount || 0).toLocaleString())}
+                    -{currencySymbol}{mask(Number(exp.amount || 0).toLocaleString())}
                   </td>
                   <td className="py-3 px-4 text-center">
                     <button
@@ -356,7 +356,7 @@ const ExpenseHub = () => {
             <div key={cat} className="flex items-center justify-between gap-4 p-2.5 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl">
               <span className="text-xs font-bold text-[#22251F]">{cat}</span>
               <div className="flex items-center gap-1.5 w-36">
-                <span className="text-xs text-[#A3A297]">$</span>
+                <span className="text-xs text-[#A3A297]">{currencySymbol}</span>
                 <input
                   type="number"
                   value={val}

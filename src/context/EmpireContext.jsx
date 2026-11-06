@@ -91,6 +91,25 @@ export const INITIAL_GOALS = {
 };
 
 export const EmpireProvider = ({ children }) => {
+  // Clear legacy multi-million state once to guarantee all balances are maxed in hundreds of thousands
+  try {
+    const SCALE_VERSION = 'ww_v4_hundreds';
+    if (localStorage.getItem('empire_scale_v') !== SCALE_VERSION) {
+      const keysToCheck = [
+        'empire_realestate', 'empire_properties', 'empire_investments',
+        'empire_businesses', 'empire_sectors', 'empire_balance_history',
+        'empire_wallet', 'empire_bank', 'empire_goals'
+      ];
+      keysToCheck.forEach(k => {
+        const raw = localStorage.getItem(k);
+        if (raw && (raw.includes('15768') || raw.includes('6250000') || raw.includes('8500000') || raw.includes('1008173') || raw.includes('1453971'))) {
+          localStorage.removeItem(k);
+        }
+      });
+      localStorage.setItem('empire_scale_v', SCALE_VERSION);
+    }
+  } catch (e) {}
+
   // Helper for safe state recovery
   const getStored = (key, fallback) => {
     try {
@@ -100,9 +119,18 @@ export const EmpireProvider = ({ children }) => {
       // Auto-recalibrate if user has old multi-million balances in localStorage
       if (key === 'empire_wallet' && parsed?.balance > 250000) return fallback;
       if (key === 'empire_bank' && parsed?.balance > 350000) return fallback;
-      if ((key === 'empire_realestate' || key === 'empire_properties') && Array.isArray(parsed) && parsed.some(p => (Number(p.currentValuation || p.purchasePrice) > 500000))) return fallback;
-      if (key === 'empire_investments' && Array.isArray(parsed) && parsed.some(i => (Number(i.quantity || 0) * Number(i.currentPrice || i.purchasePrice || 0)) > 250000)) return fallback;
-      if (key === 'empire_businesses' && Array.isArray(parsed) && parsed.some(b => Number(b.valuation) > 500000)) return fallback;
+      if ((key === 'empire_realestate' || key === 'empire_properties') && Array.isArray(parsed)) {
+        const totalVal = parsed.reduce((sum, p) => sum + Number(p.currentValuation || p.purchasePrice || 0), 0);
+        if (totalVal > 800000) return fallback;
+      }
+      if (key === 'empire_investments' && Array.isArray(parsed)) {
+        const totalInv = parsed.reduce((sum, i) => sum + (Number(i.quantity || 0) * Number(i.currentPrice || i.purchasePrice || 0)), 0);
+        if (totalInv > 250000) return fallback;
+      }
+      if (key === 'empire_businesses' && Array.isArray(parsed)) {
+        const totalBiz = parsed.reduce((sum, b) => sum + Number(b.valuation || 0), 0);
+        if (totalBiz > 1500000) return fallback;
+      }
       if (key === 'empire_sectors' && Array.isArray(parsed) && parsed.some(s => Number(s.revenue) > 5000)) return fallback;
       if (key === 'empire_balance_history' && Array.isArray(parsed) && parsed.some(e => Number(e.value) > 1000000)) return fallback;
       if (key === 'empire_goals' && parsed?.milestones?.[0]?.target > 1000000) return fallback;
@@ -268,6 +296,31 @@ export const EmpireProvider = ({ children }) => {
     const num = Math.round(Number(val) || 0);
     return `${currencySymbol}${num.toLocaleString(undefined, { maximumFractionDigits: 0, ...options })}`;
   }, [currencySymbol, privacyMode]);
+
+  // 19. Periodic Reload Engine (auto-reloads without resetting tab/page)
+  const [periodicReloadEnabled, setPeriodicReloadEnabled] = useState(() => {
+    const stored = localStorage.getItem('empire_periodic_reload_enabled');
+    return stored === null ? true : stored === 'true';
+  });
+
+  const [periodicReloadSeconds, setPeriodicReloadSecondsState] = useState(() => {
+    const stored = localStorage.getItem('empire_periodic_reload_sec');
+    return stored ? Number(stored) : 60; // default 60 seconds
+  });
+
+  const togglePeriodicReload = useCallback(() => {
+    setPeriodicReloadEnabled(prev => {
+      const next = !prev;
+      localStorage.setItem('empire_periodic_reload_enabled', String(next));
+      return next;
+    });
+  }, []);
+
+  const setPeriodicReloadSeconds = useCallback((sec) => {
+    const val = Number(sec) || 60;
+    setPeriodicReloadSecondsState(val);
+    localStorage.setItem('empire_periodic_reload_sec', String(val));
+  }, []);
 
   // Global window console helper for developer testing
   useEffect(() => {
@@ -686,7 +739,12 @@ export const EmpireProvider = ({ children }) => {
     currencySymbol,
     setCurrencySymbol,
     toggleCurrency,
-    formatMoney
+    formatMoney,
+    // Periodic Reload Engine
+    periodicReloadEnabled,
+    togglePeriodicReload,
+    periodicReloadSeconds,
+    setPeriodicReloadSeconds
   }), [
     user, wallet, bank, businesses, sectors, transactions, members,
     theme, balanceHistory, addTransaction, addBusiness, removeBusiness,
@@ -698,7 +756,8 @@ export const EmpireProvider = ({ children }) => {
     taxSettings, updateTaxSettings, logTaxPayment,
     goals, addXP, completeMission, privacyMode, togglePrivacyMode,
     widgetConfig, portfolioNetWorth, cashFlowMetrics,
-    currencySymbol, setCurrencySymbol, toggleCurrency, formatMoney
+    currencySymbol, setCurrencySymbol, toggleCurrency, formatMoney,
+    periodicReloadEnabled, togglePeriodicReload, periodicReloadSeconds, setPeriodicReloadSeconds
   ]);
 
   return <EmpireContext.Provider value={value}>{children}</EmpireContext.Provider>;

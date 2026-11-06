@@ -117,7 +117,7 @@ const TaxHub = () => {
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Annual Gross Income</span>
           <h3 className="text-2xl font-extrabold text-[#22251F] tabular-nums mt-1">
-            ${mask(taxReport.annualGrossIncome.toLocaleString())}
+            {currencySymbol}{mask(taxReport.annualGrossIncome.toLocaleString())}
           </h3>
           <p className="text-[11px] text-[#77786F] mt-1">Derived from active cash flow</p>
         </Card>
@@ -125,7 +125,7 @@ const TaxHub = () => {
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Estimated Tax Liability</span>
           <h3 className="text-2xl font-extrabold text-[#C66D65] tabular-nums mt-1">
-            ${mask(taxReport.estimatedTax.toLocaleString())}
+            {currencySymbol}{mask(taxReport.estimatedTax.toLocaleString())}
           </h3>
           <p className="text-[11px] text-[#C66D65] font-semibold mt-1">Effective Rate: {taxReport.effectiveRate}%</p>
         </Card>
@@ -133,15 +133,15 @@ const TaxHub = () => {
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Standard + Custom Deductions</span>
           <h3 className="text-2xl font-extrabold text-[#526B56] tabular-nums mt-1">
-            ${mask(taxReport.totalDeductions.toLocaleString())}
+            {currencySymbol}{mask(taxReport.totalDeductions.toLocaleString())}
           </h3>
-          <p className="text-[11px] text-[#77786F] mt-1">Taxable base: ${mask(taxReport.taxableIncome.toLocaleString())}</p>
+          <p className="text-[11px] text-[#77786F] mt-1">Taxable base: {currencySymbol}{mask(taxReport.taxableIncome.toLocaleString())}</p>
         </Card>
 
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Net After-Tax Retained</span>
           <h3 className="text-2xl font-extrabold text-[#4A7C8A] tabular-nums mt-1">
-            ${mask(taxReport.netAfterTaxIncome.toLocaleString())}
+            {currencySymbol}{mask(taxReport.netAfterTaxIncome.toLocaleString())}
           </h3>
           <p className="text-[11px] text-[#77786F] mt-1">Annual sovereign net liquidity</p>
         </Card>
@@ -159,7 +159,7 @@ const TaxHub = () => {
             <p className="text-[11px] text-[#77786F]">Enter qualifying write-offs, depreciation, and business expense deductions</p>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-[#A3A297]">$</span>
+            <span className="text-xs font-bold text-[#A3A297]">{currencySymbol}</span>
             <input
               type="number"
               value={customDeductions}
@@ -201,7 +201,7 @@ const TaxHub = () => {
                     <td className="py-3 px-3 text-[#77786F]">{p.date}</td>
                     <td className="py-3 px-3 text-[#77786F]">{p.notes}</td>
                     <td className="py-3 px-4 text-right font-bold text-[#526B56] tabular-nums">
-                      ${mask(Number(p.amount || 0).toLocaleString())}
+                      {currencySymbol}{mask(Number(p.amount || 0).toLocaleString())}
                     </td>
                   </tr>
                 ))

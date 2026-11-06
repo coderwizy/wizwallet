@@ -53,13 +53,13 @@ const MobileLedgerView = () => {
         <Card className="p-3 border border-[#EAE8DF] bg-white">
           <p className="text-[9px] font-semibold text-[#66866A] uppercase">Credits</p>
           <p className="text-sm font-bold text-[#66866A] tabular-nums mt-0.5">
-            +${totalCredit.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            +{currencySymbol}{totalCredit.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </p>
         </Card>
         <Card className="p-3 border border-[#EAE8DF] bg-white">
           <p className="text-[9px] font-semibold text-[#C66D65] uppercase">Debits</p>
           <p className="text-sm font-bold text-[#C66D65] tabular-nums mt-0.5">
-            -${totalDebit.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            -{currencySymbol}{totalDebit.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </p>
         </Card>
       </div>

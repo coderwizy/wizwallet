@@ -13,7 +13,8 @@ const MobileSettingsView = () => {
     logout, wipeAllData, changePassword,
     config, setConfig, user,
     isPulseActive, togglePulse,
-    privacyMode, togglePrivacyMode, currencySymbol, setCurrencySymbol, toggleCurrency
+    privacyMode, togglePrivacyMode, currencySymbol, setCurrencySymbol, toggleCurrency,
+    periodicReloadEnabled, togglePeriodicReload, periodicReloadSeconds, setPeriodicReloadSeconds
   } = useEmpire();
 
   // Password sheet
@@ -188,6 +189,51 @@ const MobileSettingsView = () => {
               </button>
             ))}
           </div>
+        </div>
+
+        
+        {/* Periodic Auto-Reload Preference */}
+        <div className="py-2.5 border-b border-[#EAE8DF] space-y-2">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-bold text-[#22251F]">Periodic Auto-Reload</p>
+              <p className="text-[10px] text-[#77786F]">Refreshes on current tab (never resets page)</p>
+            </div>
+            <button
+              type="button"
+              onClick={togglePeriodicReload}
+              className={`w-10 h-5.5 rounded-full p-0.5 transition-colors cursor-pointer ${
+                periodicReloadEnabled ? 'bg-[#526B56]' : 'bg-[#D5D2C8]'
+              }`}
+              aria-label="Toggle Auto-Reload"
+            >
+              <div className={`w-4.5 h-4.5 rounded-full bg-white shadow-2xs transition-transform ${
+                periodicReloadEnabled ? 'translate-x-4.5' : 'translate-x-0'
+              }`} />
+            </button>
+          </div>
+          {periodicReloadEnabled && (
+            <div className="grid grid-cols-3 gap-1.5 pt-1">
+              {[
+                { sec: 30, label: '30s' },
+                { sec: 60, label: '60s' },
+                { sec: 120, label: '2m' }
+              ].map(opt => (
+                <button
+                  key={opt.sec}
+                  type="button"
+                  onClick={() => setPeriodicReloadSeconds(opt.sec)}
+                  className={`py-1 rounded-lg text-xs font-bold border text-center transition-all cursor-pointer ${
+                    periodicReloadSeconds === opt.sec
+                      ? 'bg-[#526B56] text-white border-[#526B56]'
+                      : 'bg-[#FCFBF8] text-[#22251F] border-[#EAE8DF]'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex items-center justify-between py-1">

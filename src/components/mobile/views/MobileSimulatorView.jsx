@@ -51,7 +51,7 @@ const MobileSimulatorView = () => {
         <Card className="p-4 border border-ww-border bg-white space-y-1">
           <span className="text-[10px] font-semibold text-ww-accent-light uppercase">Conservative Scenario (6%)</span>
           <h3 className="text-2xl font-extrabold text-ww-text tabular-nums">
-            ${mask((finalYear.Conservative || 0).toLocaleString())}
+            {currencySymbol}{mask((finalYear.Conservative || 0).toLocaleString())}
           </h3>
           <p className="text-[10px] text-ww-text-secondary">Capital preservation with low risk</p>
         </Card>
@@ -59,17 +59,17 @@ const MobileSimulatorView = () => {
         <Card className="p-4 border border-ww-accent/40 bg-ww-green-bg/40 space-y-1">
           <span className="text-[10px] font-semibold text-ww-accent uppercase">Balanced Scenario (11%)</span>
           <h3 className="text-2xl font-extrabold text-ww-accent tabular-nums">
-            ${mask((finalYear.Balanced || 0).toLocaleString())}
+            {currencySymbol}{mask((finalYear.Balanced || 0).toLocaleString())}
           </h3>
           <p className="text-[10px] text-ww-accent">
-            Inflation adjusted real power: <strong>${mask((finalYear.Balanced_Real || 0).toLocaleString())}</strong>
+            Inflation adjusted real power: <strong>{currencySymbol}{mask((finalYear.Balanced_Real || 0).toLocaleString())}</strong>
           </p>
         </Card>
 
         <Card className="p-4 border border-ww-border bg-white space-y-1">
           <span className="text-[10px] font-semibold text-ww-warning uppercase">Aggressive Expansion (19%)</span>
           <h3 className="text-2xl font-extrabold text-ww-warning tabular-nums">
-            ${mask((finalYear.Aggressive || 0).toLocaleString())}
+            {currencySymbol}{mask((finalYear.Aggressive || 0).toLocaleString())}
           </h3>
           <p className="text-[10px] text-ww-text-secondary">High-velocity reinvestment</p>
         </Card>

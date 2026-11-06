@@ -74,7 +74,7 @@ const AICommanderHub = () => {
       recs.push({
         title: `Audit ${highBurnList[0].name} Operating Burn`,
         severity: 'warning',
-        desc: `${highBurnList[0].name} has an operating expenditure of $${Number(highBurnList[0].expense || 0).toLocaleString()}/mo. Consider re-negotiating supplier contracts or automating workflows.`
+        desc: `${highBurnList[0].name} has an operating expenditure of ${currencySymbol}${Number(highBurnList[0].expense || 0).toLocaleString()}/mo. Consider re-negotiating supplier contracts or automating workflows.`
       });
     }
 
@@ -189,7 +189,7 @@ const AICommanderHub = () => {
             {diagnostics.topPerformer ? diagnostics.topPerformer.name : 'N/A'}
           </h3>
           <p className="text-xs text-[#77786F]">
-            Surplus: <strong className="text-[#526B56] font-bold">+${mask(((diagnostics.topPerformer?.income || 0) - (diagnostics.topPerformer?.expense || 0)).toLocaleString())}/mo</strong>
+            Surplus: <strong className="text-[#526B56] font-bold">+{currencySymbol}{mask(((diagnostics.topPerformer?.income || 0) - (diagnostics.topPerformer?.expense || 0)).toLocaleString())}/mo</strong>
           </p>
         </Card>
 
@@ -199,7 +199,7 @@ const AICommanderHub = () => {
             <span className="text-[10px] font-bold uppercase tracking-wider">Passive Cashflow</span>
           </div>
           <h3 className="text-lg font-bold text-[#22251F]">
-            ${mask(cashFlowMetrics.passiveIncome.toLocaleString())} / mo
+            {currencySymbol}{mask(cashFlowMetrics.passiveIncome.toLocaleString())} / mo
           </h3>
           <p className="text-xs text-[#77786F]">
             From real estate rentals & securities dividends
@@ -215,7 +215,7 @@ const AICommanderHub = () => {
             {diagnostics.liquidRatio}% Liquid Buffer
           </h3>
           <p className="text-xs text-[#77786F]">
-            Total Liquid Vault: ${mask(diagnostics.liquidTotal.toLocaleString())}
+            Total Liquid Vault: {currencySymbol}{mask(diagnostics.liquidTotal.toLocaleString())}
           </p>
         </Card>
       </div>

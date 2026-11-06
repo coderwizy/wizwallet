@@ -1,11 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { useEmpire } from '../../context/EmpireContext';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
-  TrendingUp, TrendingDown, DollarSign, Activity,
-  BarChart3, Zap, ArrowUpRight, ArrowDownLeft, Clock, ShieldCheck,
-  Wallet, Landmark, Briefcase, Layers, ChevronRight, Sliders,
-  Sparkles, Building2, PieChart as PieIcon, Plus, Eye, EyeOff
+  TrendingUp, TrendingDown, DollarSign,
+  BarChart3, Landmark, Briefcase, ChevronRight, Sliders,
+  Sparkles, Building2, PieChart as PieIcon, Eye, EyeOff
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import Card from '../../components/ui/Card';
@@ -16,11 +14,11 @@ import Modal from '../../components/ui/Modal';
 const CustomTooltip = ({ active, payload, label, currencySymbol = "₹" }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white border border-[#EAE8DF] rounded-xl p-3 shadow-lg">
-        <p className="text-[10px] font-bold text-[#A3A297] uppercase tracking-wider mb-1">
+      <div className="bg-white border border-ww-border rounded-xl p-3 shadow-lg">
+        <p className="text-[10px] font-bold text-ww-text-muted uppercase tracking-wider mb-1">
           {label}
         </p>
-        <p className="text-sm font-extrabold text-[#22251F] tabular-nums">
+        <p className="text-sm font-extrabold text-ww-text tabular-nums">
           {currencySymbol}{Math.round(Number(payload[0].value)).toLocaleString(undefined, { maximumFractionDigits: 0 })}
         </p>
       </div>
@@ -31,10 +29,10 @@ const CustomTooltip = ({ active, payload, label, currencySymbol = "₹" }) => {
 
 const MainDashboard = ({ setActiveTab }) => {
   const {
-    wallet, bank, businesses, sectors, transactions, balanceHistory, user,
-    investments, properties, portfolioNetWorth, cashFlowMetrics,
-    privacyMode, togglePrivacyMode, isPulseActive, widgetConfig, setWidgetConfig,
-    currencySymbol, toggleCurrency, formatMoney
+    wallet, bank, businesses, balanceHistory, user,
+    investments, portfolioNetWorth, cashFlowMetrics,
+    privacyMode, togglePrivacyMode, widgetConfig, setWidgetConfig,
+    currencySymbol, formatMoney
   } = useEmpire();
 
   const [chartRange, setChartRange] = useState('7d');
@@ -62,8 +60,6 @@ const MainDashboard = ({ setActiveTab }) => {
     }));
   }, [balanceHistory, chartRange, totalNetWorth]);
 
-  const mask = (val) => privacyMode ? '••••••' : val;
-
   // Toggle widget visibility
   const toggleWidget = (id) => {
     setWidgetConfig(prev => prev.map(w => w.id === id ? { ...w, visible: !w.visible } : w));
@@ -75,17 +71,17 @@ const MainDashboard = ({ setActiveTab }) => {
   };
 
   return (
-    <div className="space-y-6 max-w-[1600px] mx-auto pb-12">
+    <div className="space-y-6 max-w-400 mx-auto pb-12">
       {/* ── Page Header ── */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A3A297] mb-1">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ww-text-muted mb-1">
             WizWallet 3.0 · Sovereign Command Center
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold text-[#22251F] tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-bold text-ww-text tracking-tight">
             {user?.username ? `Empire Command · ${user.username}` : 'Imperial Overview'}
           </h2>
-          <p className="text-sm text-[#77786F] mt-1">
+          <p className="text-sm text-ww-text-secondary mt-1">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
           </p>
         </div>
@@ -111,17 +107,17 @@ const MainDashboard = ({ setActiveTab }) => {
 
       {/* ── AI Commander Strategic Alert Strip ── */}
       {isWidgetVisible('aiInsights') && (
-        <Card className="p-4 border border-[#526B56]/30 bg-[#EDF2E9]/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-[#526B56] text-white flex items-center justify-center shrink-0">
+        <Card className="p-4 border border-ww-accent/30 bg-ww-green-bg/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-8 h-8 rounded-xl bg-ww-accent text-white flex items-center justify-center shrink-0">
               <Sparkles className="w-4 h-4" />
             </div>
-            <div>
-              <p className="text-xs font-bold text-[#22251F]">
+            <div className="min-w-0">
+              <p className="text-xs font-bold text-ww-text truncate">
                 AI Intelligence Briefing: Portfolio Net Worth is {formatMoney(totalNetWorth)}
               </p>
-              <p className="text-[11px] text-[#526B56] mt-0.5 font-medium">
-                Generating +{formatMoney(cashFlowMetrics.netMonthlyCashflow)}/mo net cashflow across all assets. All 13 corporate ventures operational.
+              <p className="text-[11px] text-ww-accent mt-0.5 font-medium truncate">
+                Generating +{formatMoney(cashFlowMetrics.netMonthlyCashflow)}/mo net cashflow across all assets. All {businesses.length} corporate ventures operational.
               </p>
             </div>
           </div>
@@ -140,78 +136,78 @@ const MainDashboard = ({ setActiveTab }) => {
       {/* ── Consolidated KPI Overview ── */}
       {isWidgetVisible('kpiOverview') && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="p-5 border border-[#EAE8DF] bg-white overflow-hidden min-w-0">
+          <Card className="p-5 border border-ww-border bg-white overflow-hidden min-w-0">
             <div className="flex justify-between items-start mb-3 gap-2">
-              <div className="w-9 h-9 rounded-xl bg-[#EDF2E9] text-[#526B56] flex items-center justify-center font-black text-sm shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-ww-green-bg text-ww-accent flex items-center justify-center font-black text-sm shrink-0">
                 {currencySymbol}
               </div>
               <span className={`text-[11px] font-semibold flex items-center gap-1 px-2.5 py-0.5 rounded-full shrink-0 ${
-                isNetWorthUp ? 'text-[#66866A] bg-[#EDF2E9]' : 'text-[#C66D65] bg-[#FCEEED]'
+                isNetWorthUp ? 'text-ww-success bg-ww-green-bg' : 'text-ww-danger bg-ww-danger-bg'
               }`}>
                 {isNetWorthUp ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                 {isNetWorthUp ? '+' : ''}{netWorthChange}%
               </span>
             </div>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297] truncate">Total Sovereign Net Worth</p>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-[#22251F] tabular-nums mt-1 truncate" title={formatMoney(totalNetWorth)}>
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted truncate">Total Sovereign Net Worth</p>
+            <h3 className="text-lg sm:text-xl lg:text-[22px] font-black text-ww-text tabular-nums mt-1 truncate tracking-tight" title={formatMoney(totalNetWorth)}>
               {formatMoney(totalNetWorth)}
             </h3>
-            <div className="mt-3 pt-3 border-t border-[#EAE8DF] grid grid-cols-2 gap-2 text-center text-[10px]">
-              <div className="p-1.5 bg-[#FCFBF8] rounded-lg min-w-0 overflow-hidden">
-                <span className="text-[#A3A297] block font-semibold truncate">Liquid Vault</span>
-                <span className="font-bold text-[#526B56] tabular-nums truncate block" title={formatMoney(wallet?.balance || 0)}>
+            <div className="mt-3 pt-3 border-t border-ww-border grid grid-cols-2 gap-2 text-center text-[10px]">
+              <div className="p-1.5 bg-ww-elevated rounded-lg min-w-0 overflow-hidden">
+                <span className="text-ww-text-muted block font-semibold truncate">Liquid Vault</span>
+                <span className="font-bold text-ww-accent tabular-nums truncate block" title={formatMoney(wallet?.balance || 0)}>
                   {formatMoney(wallet?.balance || 0)}
                 </span>
               </div>
-              <div className="p-1.5 bg-[#FCFBF8] rounded-lg min-w-0 overflow-hidden">
-                <span className="text-[#A3A297] block font-semibold truncate">Bank Reserves</span>
-                <span className="font-bold text-[#526B56] tabular-nums truncate block" title={formatMoney(bank?.balance || 0)}>
+              <div className="p-1.5 bg-ww-elevated rounded-lg min-w-0 overflow-hidden">
+                <span className="text-ww-text-muted block font-semibold truncate">Bank Reserves</span>
+                <span className="font-bold text-ww-accent tabular-nums truncate block" title={formatMoney(bank?.balance || 0)}>
                   {formatMoney(bank?.balance || 0)}
                 </span>
               </div>
             </div>
           </Card>
 
-          <Card className="p-5 border border-[#EAE8DF] bg-white overflow-hidden min-w-0">
+          <Card className="p-5 border border-ww-border bg-white overflow-hidden min-w-0">
             <div className="flex justify-between items-start mb-3 gap-2">
-              <div className="p-2.5 rounded-xl bg-[#F3EEF8] text-[#7C5ABF] shrink-0">
+              <div className="p-2.5 rounded-xl bg-ww-violet-bg text-ww-violet shrink-0">
                 <BarChart3 className="w-4 h-4" />
               </div>
               <Badge variant="violet" className="shrink-0">Securities</Badge>
             </div>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297] truncate">Investment Portfolio</p>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-[#22251F] tabular-nums mt-1 truncate" title={formatMoney(breakdown.investmentsValue || 0)}>
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted truncate">Investment Portfolio</p>
+            <h3 className="text-lg sm:text-xl lg:text-[22px] font-black text-ww-text tabular-nums mt-1 truncate tracking-tight" title={formatMoney(breakdown.investmentsValue || 0)}>
               {formatMoney(breakdown.investmentsValue || 0)}
             </h3>
-            <p className="text-[11px] text-[#77786F] mt-1 truncate">{investments.length} active market positions</p>
+            <p className="text-[11px] text-ww-text-secondary mt-1 truncate">{investments.length} active market positions</p>
           </Card>
 
-          <Card className="p-5 border border-[#EAE8DF] bg-white overflow-hidden min-w-0">
+          <Card className="p-5 border border-ww-border bg-white overflow-hidden min-w-0">
             <div className="flex justify-between items-start mb-3 gap-2">
-              <div className="p-2.5 rounded-xl bg-[#FDF3E3] text-[#C18A48] shrink-0">
+              <div className="p-2.5 rounded-xl bg-ww-warning-bg text-ww-warning shrink-0">
                 <Building2 className="w-4 h-4" />
               </div>
               <Badge variant="accent" className="shrink-0">Real Estate</Badge>
             </div>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297] truncate">Real Estate Equity</p>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-[#22251F] tabular-nums mt-1 truncate" title={formatMoney((breakdown.realEstateValue || 0) - (breakdown.realEstateDebt || 0))}>
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted truncate">Real Estate Equity</p>
+            <h3 className="text-lg sm:text-xl lg:text-[22px] font-black text-ww-text tabular-nums mt-1 truncate tracking-tight" title={formatMoney((breakdown.realEstateValue || 0) - (breakdown.realEstateDebt || 0))}>
               {formatMoney((breakdown.realEstateValue || 0) - (breakdown.realEstateDebt || 0))}
             </h3>
-            <p className="text-[11px] text-[#77786F] mt-1 truncate">Gross assets: {formatMoney(breakdown.realEstateValue || 0)}</p>
+            <p className="text-[11px] text-ww-text-secondary mt-1 truncate">Gross assets: {formatMoney(breakdown.realEstateValue || 0)}</p>
           </Card>
 
-          <Card className="p-5 border border-[#EAE8DF] bg-white overflow-hidden min-w-0">
+          <Card className="p-5 border border-ww-border bg-white overflow-hidden min-w-0">
             <div className="flex justify-between items-start mb-3 gap-2">
-              <div className="p-2.5 rounded-xl bg-[#EDF2E9] text-[#526B56] shrink-0">
+              <div className="p-2.5 rounded-xl bg-ww-green-bg text-ww-accent shrink-0">
                 <Briefcase className="w-4 h-4" />
               </div>
               <Badge variant="success" className="shrink-0">{businesses.length} Ventures</Badge>
             </div>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297] truncate">Monthly Net Cash Flow</p>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-[#526B56] tabular-nums mt-1 truncate" title={`+${formatMoney(cashFlowMetrics.netMonthlyCashflow)}/mo`}>
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-ww-text-muted truncate">Monthly Net Cash Flow</p>
+            <h3 className="text-lg sm:text-xl lg:text-[22px] font-black text-ww-accent tabular-nums mt-1 truncate tracking-tight" title={`+${formatMoney(cashFlowMetrics.netMonthlyCashflow)}/mo`}>
               +{formatMoney(cashFlowMetrics.netMonthlyCashflow)}/mo
             </h3>
-            <p className="text-[11px] text-[#77786F] mt-1 truncate">Gross income: {formatMoney(cashFlowMetrics.totalMonthlyIncome)}</p>
+            <p className="text-[11px] text-ww-text-secondary mt-1 truncate">Gross income: {formatMoney(cashFlowMetrics.totalMonthlyIncome)}</p>
           </Card>
         </div>
       )}
@@ -219,20 +215,20 @@ const MainDashboard = ({ setActiveTab }) => {
       {/* ── Net Worth Trajectory Area Chart ── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div className="lg:col-span-8">
-          <Card className="p-6 border border-[#EAE8DF] bg-white h-full flex flex-col justify-between">
+          <Card className="p-6 border border-ww-border bg-white h-full flex flex-col justify-between">
             <div className="flex justify-between items-center mb-4">
               <div>
-                <h3 className="text-sm font-bold text-[#22251F]">Imperial Net Worth Trajectory</h3>
-                <p className="text-xs text-[#77786F]">Audited real-time compounding valuation snapshots</p>
+                <h3 className="text-sm font-bold text-ww-text">Imperial Net Worth Trajectory</h3>
+                <p className="text-xs text-ww-text-secondary">Audited real-time compounding valuation snapshots</p>
               </div>
-              <div className="flex items-center gap-1 bg-[#FCFBF8] p-1 rounded-xl border border-[#EAE8DF]">
+              <div className="flex items-center gap-1 bg-ww-elevated p-1 rounded-xl border border-ww-border">
                 {['7d', '30d'].map(range => (
                   <button
                     key={range}
                     type="button"
                     onClick={() => setChartRange(range)}
                     className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                      chartRange === range ? 'bg-[#526B56] text-white shadow-2xs' : 'text-[#77786F]'
+                      chartRange === range ? 'bg-ww-accent text-white shadow-2xs' : 'text-ww-text-secondary'
                     }`}
                   >
                     {range === '7d' ? '7 Days' : '30 Days'}
@@ -274,16 +270,16 @@ const MainDashboard = ({ setActiveTab }) => {
 
         {/* ── Asset Allocation Quick View ── */}
         <div className="lg:col-span-4">
-          <Card className="p-6 border border-[#EAE8DF] bg-white h-full flex flex-col justify-between space-y-4">
+          <Card className="p-6 border border-ww-border bg-white h-full flex flex-col justify-between space-y-4">
             <div>
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
-                  <PieIcon className="w-4 h-4 text-[#526B56]" />
-                  <h3 className="text-sm font-bold text-[#22251F]">Asset Allocation</h3>
+                  <PieIcon className="w-4 h-4 text-ww-accent" />
+                  <h3 className="text-sm font-bold text-ww-text">Asset Allocation</h3>
                 </div>
                 <Badge variant="accent">6 Classes</Badge>
               </div>
-              <p className="text-xs text-[#77786F]">Portfolio distribution across sovereign categories</p>
+              <p className="text-xs text-ww-text-secondary">Portfolio distribution across sovereign categories</p>
             </div>
 
             <div className="space-y-2.5 pt-2">
@@ -300,10 +296,10 @@ const MainDashboard = ({ setActiveTab }) => {
                 return (
                   <div key={item.label} className="space-y-1">
                     <div className="flex justify-between items-center text-xs">
-                      <span className="font-semibold text-[#22251F]">{item.label}</span>
-                      <span className="font-bold tabular-nums text-[#22251F]">{formatMoney(item.val)} ({pct}%)</span>
+                      <span className="font-semibold text-ww-text">{item.label}</span>
+                      <span className="font-bold tabular-nums text-ww-text">{formatMoney(item.val)} ({pct}%)</span>
                     </div>
-                    <div className="w-full h-1.5 bg-[#F1EFE7] rounded-full overflow-hidden">
+                    <div className="w-full h-1.5 bg-ww-bg-alt rounded-full overflow-hidden">
                       <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: item.color }} />
                     </div>
                   </div>
@@ -311,17 +307,17 @@ const MainDashboard = ({ setActiveTab }) => {
               })}
             </div>
 
-            <div className="pt-2 border-t border-[#EAE8DF] flex justify-between items-center text-xs">
-              <span className="text-[#77786F]">Total Debt Liabilities:</span>
-              <span className="font-bold text-[#C66D65] tabular-nums">-{formatMoney(portfolioNetWorth?.totalLiabilities || 0)}</span>
+            <div className="pt-2 border-t border-ww-border flex justify-between items-center text-xs">
+              <span className="text-ww-text-secondary">Total Debt Liabilities:</span>
+              <span className="font-bold text-ww-danger tabular-nums">-{formatMoney(portfolioNetWorth?.totalLiabilities || 0)}</span>
             </div>
           </Card>
         </div>
       </div>
 
       {/* ── Quick Action Command Launchpad ── */}
-      <Card className="p-5 border border-[#EAE8DF] bg-white space-y-3">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-[#A3A297]">Tactical Command Actions</h3>
+      <Card className="p-5 border border-ww-border bg-white space-y-3">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-ww-text-muted">Tactical Command Actions</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
           <Button variant="outline" size="sm" icon={DollarSign} onClick={() => setActiveTab('wallet')}>
             Manage Vault
@@ -353,15 +349,15 @@ const MainDashboard = ({ setActiveTab }) => {
       >
         <div className="space-y-3">
           {widgetConfig.map(widget => (
-            <div key={widget.id} className="flex items-center justify-between p-3 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl">
-              <span className="text-xs font-bold text-[#22251F]">{widget.title}</span>
+            <div key={widget.id} className="flex items-center justify-between p-3 bg-ww-elevated border border-ww-border rounded-xl">
+              <span className="text-xs font-bold text-ww-text">{widget.title}</span>
               <button
                 type="button"
                 onClick={() => toggleWidget(widget.id)}
                 className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   widget.visible
-                    ? 'bg-[#526B56] text-white'
-                    : 'bg-[#EAE8DF] text-[#77786F]'
+                    ? 'bg-ww-accent text-white'
+                    : 'bg-ww-border text-ww-text-secondary'
                 }`}
               >
                 {widget.visible ? 'Visible' : 'Hidden'}

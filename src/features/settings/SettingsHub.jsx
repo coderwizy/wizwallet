@@ -19,7 +19,8 @@ const SettingsHub = () => {
     theme, setTheme, logout, wipeAllData, changePassword,
     config, setConfig, user,
     isPulseActive, stopPulse, startPulse, togglePulse,
-    privacyMode, togglePrivacyMode, transactions, currencySymbol, setCurrencySymbol, toggleCurrency
+    privacyMode, togglePrivacyMode, transactions, currencySymbol, setCurrencySymbol, toggleCurrency,
+    periodicReloadEnabled, togglePeriodicReload, periodicReloadSeconds, setPeriodicReloadSeconds
   } = useEmpire();
 
   // Password change state
@@ -273,6 +274,52 @@ const SettingsHub = () => {
                   </button>
                 ))}
               </div>
+            </div>
+
+            
+            {/* Periodic Auto-Reload Engine */}
+            <div className="p-3.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF] space-y-2.5">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-bold text-[#22251F]">Periodic Auto-Reload</p>
+                  <p className="text-[11px] text-[#77786F]">Auto-refreshes data while strictly keeping your active hub/page (never throws to homepage)</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={togglePeriodicReload}
+                  className={`w-11 h-6 rounded-full p-0.5 transition-colors cursor-pointer ${
+                    periodicReloadEnabled ? 'bg-[#526B56]' : 'bg-[#D5D2C8]'
+                  }`}
+                >
+                  <div className={`w-5 h-5 rounded-full bg-white shadow-2xs transition-transform ${
+                    periodicReloadEnabled ? 'translate-x-5' : 'translate-x-0'
+                  }`} />
+                </button>
+              </div>
+              {periodicReloadEnabled && (
+                <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-[#EAE8DF]">
+                  <span className="text-[11px] font-semibold text-[#77786F]">Reload Interval:</span>
+                  {[
+                    { sec: 30, label: '30s' },
+                    { sec: 60, label: '60s (Recommended)' },
+                    { sec: 120, label: '2 mins' },
+                    { sec: 300, label: '5 mins' }
+                  ].map(opt => (
+                    <button
+                      key={opt.sec}
+                      type="button"
+                      onClick={() => setPeriodicReloadSeconds(opt.sec)}
+                      className={`px-2.5 py-1 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
+                        periodicReloadSeconds === opt.sec
+                          ? 'bg-[#526B56] text-white border-[#526B56] shadow-2xs'
+                          : 'bg-white text-[#22251F] border-[#EAE8DF] hover:border-[#526B56]'
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="flex items-center justify-between p-3.5 bg-[#FCFBF8] rounded-xl border border-[#EAE8DF]">

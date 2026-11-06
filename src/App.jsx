@@ -44,6 +44,22 @@ const SHORTCUTS = [
   { key: '?', action: 'Toggle Shortcut Guide' },
 ];
 
+const VALID_TABS = [
+  'dashboard', 'wallet', 'bank', 'investments', 'realestate',
+  'business', 'sectors', 'expenses', 'family', 'commander',
+  'simulator', 'tax', 'vault', 'goals', 'transactions', 'settings'
+];
+
+const getInitialTab = () => {
+  try {
+    const hash = window.location.hash.replace('#', '').trim().toLowerCase();
+    if (VALID_TABS.includes(hash)) return hash;
+    const saved = localStorage.getItem('wizwallet_active_tab');
+    if (saved && VALID_TABS.includes(saved)) return saved;
+  } catch (e) {}
+  return 'dashboard';
+};
+
 const ShortcutModal = ({ onClose }) => (
   <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
     <div className="absolute inset-0 bg-[#22251F]/40 backdrop-blur-xs" onClick={onClose} />
@@ -68,10 +84,57 @@ const ShortcutModal = ({ onClose }) => (
 );
 
 const App = () => {
-  const { user } = useEmpire();
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const { user, periodicReloadEnabled, periodicReloadSeconds } = useEmpire();
+  const [activeTab, setActiveTabState] = useState(getInitialTab);
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [showCommandPalette, setShowCommandPalette] = useState(false);
+
+  const setActiveTab = React.useCallback((tab) => {
+    setActiveTabState(tab);
+    try {
+      localStorage.setItem('wizwallet_active_tab', tab);
+      if (window.location.hash !== `#${tab}`) {
+        window.history.replaceState(null, '', `#${tab}`);
+      }
+    } catch (e) {}
+  }, []);
+
+  // Synchronize browser history / URL hash changes
+  useEffect(() => {
+    const onHashChange = () => {
+      const hash = window.location.hash.replace('#', '').trim().toLowerCase();
+      if (hash && VALID_TABS.includes(hash) && hash !== activeTab) {
+        setActiveTabState(hash);
+        localStorage.setItem('wizwallet_active_tab', hash);
+      }
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, [activeTab]);
+
+  // Periodic reload engine that preserves current page/hub
+  useEffect(() => {
+    if (!user || !periodicReloadEnabled || !periodicReloadSeconds || periodicReloadSeconds <= 0) return;
+
+    const timer = setInterval(() => {
+      const activeEl = document.activeElement;
+      const isInputActive = activeEl && (
+        activeEl.tagName === 'INPUT' ||
+        activeEl.tagName === 'TEXTAREA' ||
+        activeEl.isContentEditable
+      );
+      if (isInputActive || showCommandPalette || showShortcuts) return;
+
+      try {
+        localStorage.setItem('wizwallet_active_tab', activeTab);
+        window.location.hash = activeTab;
+      } catch (e) {}
+
+      window.location.reload();
+    }, periodicReloadSeconds * 1000);
+
+    return () => clearInterval(timer);
+  }, [user, activeTab, periodicReloadEnabled, periodicReloadSeconds, showCommandPalette, showShortcuts]);
 
   useEffect(() => {
     const handleKey = (e) => {

@@ -90,7 +90,7 @@ const FutureSimulatorHub = () => {
         <Card className="p-4 border border-ww-border bg-white space-y-2">
           <label className="text-[10px] font-bold uppercase text-ww-text-muted block">Base Capital Starting Point</label>
           <div className="text-xl font-extrabold text-ww-text tabular-nums">
-            ${mask(startingCapital.toLocaleString())}
+            {currencySymbol}{mask(startingCapital.toLocaleString())}
           </div>
           <p className="text-[10px] text-ww-text-secondary">Synchronized with actual Empire Net Worth</p>
         </Card>
@@ -166,10 +166,10 @@ const FutureSimulatorHub = () => {
               <YAxis
                 stroke="#A3A297"
                 fontSize={11}
-                tickFormatter={val => val >= 1000000 ? `$${(val / 1000000).toFixed(1)}M` : `$${Math.round(val / 1000)}k`}
+                tickFormatter={val => val >= 1000000 ? `${currencySymbol}${(val / 1000000).toFixed(1)}M` : `${currencySymbol}${Math.round(val / 1000)}k`}
               />
               <Tooltip
-                formatter={(val, name) => [privacyMode ? '••••••' : `$${Number(val).toLocaleString()}`, name]}
+                formatter={(val, name) => [privacyMode ? '••••••' : `${currencySymbol}${Number(val).toLocaleString()}`, name]}
                 labelFormatter={(l) => `Year ${l}`}
               />
               <Area
@@ -206,7 +206,7 @@ const FutureSimulatorHub = () => {
         <Card className="p-5 border border-ww-border bg-white space-y-2">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-accent-light">Conservative Target ({years}y)</span>
           <h3 className="text-2xl font-extrabold text-ww-text tabular-nums">
-            ${mask(conservativeFinal.toLocaleString())}
+            {currencySymbol}{mask(conservativeFinal.toLocaleString())}
           </h3>
           <p className="text-[11px] text-ww-text-secondary">Based on 6% annual preservation CAGR</p>
         </Card>
@@ -214,17 +214,17 @@ const FutureSimulatorHub = () => {
         <Card className="p-5 border border-ww-accent/30 bg-[#EDF2E9]/40 space-y-2">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-accent">Balanced Scenario ({years}y)</span>
           <h3 className="text-2xl font-extrabold text-ww-accent tabular-nums">
-            ${mask(balancedFinal.toLocaleString())}
+            {currencySymbol}{mask(balancedFinal.toLocaleString())}
           </h3>
           <p className="text-[11px] text-ww-accent">
-            Real purchasing power (after {inflationRate}% inflation): <strong>${mask(realBalancedFinal.toLocaleString())}</strong>
+            Real purchasing power (after {inflationRate}% inflation): <strong>{currencySymbol}{mask(realBalancedFinal.toLocaleString())}</strong>
           </p>
         </Card>
 
         <Card className="p-5 border border-ww-border bg-white space-y-2">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-ww-warning">Aggressive Expansion ({years}y)</span>
           <h3 className="text-2xl font-extrabold text-ww-warning tabular-nums">
-            ${mask(aggressiveFinal.toLocaleString())}
+            {currencySymbol}{mask(aggressiveFinal.toLocaleString())}
           </h3>
           <p className="text-[11px] text-ww-text-secondary">Aggressive 19% commercial reinvestment CAGR</p>
         </Card>
@@ -235,7 +235,7 @@ const FutureSimulatorHub = () => {
         <div className="flex items-center gap-3">
           <Info className="w-4 h-4 text-ww-accent shrink-0" />
           <p className="text-ww-text-secondary">
-            In the <strong>{activeScenario}</strong> scenario, your new contributions total <strong className="text-ww-text">${mask(totalAddedCapital.toLocaleString())}</strong> while compound interest and reinvested returns generate <strong className="text-ww-accent">+${mask(compoundGains.toLocaleString())}</strong> in wealth acceleration.
+            In the <strong>{activeScenario}</strong> scenario, your new contributions total <strong className="text-ww-text">{currencySymbol}{mask(totalAddedCapital.toLocaleString())}</strong> while compound interest and reinvested returns generate <strong className="text-ww-accent">+{currencySymbol}{mask(compoundGains.toLocaleString())}</strong> in wealth acceleration.
           </p>
         </div>
       </Card>

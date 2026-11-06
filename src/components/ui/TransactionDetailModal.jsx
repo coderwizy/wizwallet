@@ -1,10 +1,12 @@
 import React from 'react';
+import { useEmpire } from '../../context/EmpireContext';
 import Modal from './Modal';
 import Badge from './Badge';
 import Button from './Button';
 import { ArrowUpRight, ArrowDownLeft, Calendar, User, Layers, Hash, CheckCircle2 } from 'lucide-react';
 
 const TransactionDetailModal = ({ tx, isOpen, onClose }) => {
+  const { currencySymbol } = useEmpire();
   if (!tx) return null;
   const isCredit = tx.type === 'Credit';
 
@@ -28,7 +30,7 @@ const TransactionDetailModal = ({ tx, isOpen, onClose }) => {
           <h2 className={`text-3xl font-extrabold tabular-nums tracking-tight mt-0.5 ${
             isCredit ? 'text-[#66866A]' : 'text-[#C66D65]'
           }`}>
-            {isCredit ? '+' : '−'}${Number(tx.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            {isCredit ? '+' : '−'}{currencySymbol}{Number(tx.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </h2>
           <Badge variant={isCredit ? 'success' : 'danger'} className="mt-2">
             <CheckCircle2 className="w-3 h-3" />

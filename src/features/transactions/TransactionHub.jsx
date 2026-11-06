@@ -136,21 +136,21 @@ const TransactionHub = () => {
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Total Credits</p>
           <h3 className="text-2xl font-bold text-[#66866A] tabular-nums mt-1">
-            +${totalCredit.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            +{currencySymbol}{totalCredit.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </h3>
           <p className="text-[10px] text-[#77786F] mt-1">Yields, dividends, and deposits</p>
         </Card>
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Total Debits</p>
           <h3 className="text-2xl font-bold text-[#C66D65] tabular-nums mt-1">
-            -${totalDebit.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            -{currencySymbol}{totalDebit.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </h3>
           <p className="text-[10px] text-[#77786F] mt-1">Venture costs & payments</p>
         </Card>
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Net Cash Flow</p>
           <h3 className={`text-2xl font-bold tabular-nums mt-1 ${netCashFlow >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
-            {netCashFlow >= 0 ? '+' : '−'}${Math.abs(netCashFlow).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            {netCashFlow >= 0 ? '+' : '−'}{currencySymbol}{Math.abs(netCashFlow).toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </h3>
           <p className="text-[10px] text-[#77786F] mt-1">Net portfolio retention</p>
         </Card>
@@ -321,7 +321,7 @@ const TransactionHub = () => {
                     <td className={`px-6 py-4 text-right font-extrabold tabular-nums text-sm whitespace-nowrap ${
                       isCredit ? 'text-[#66866A]' : 'text-[#22251F]'
                     }`}>
-                      {isCredit ? '+' : '−'}${Number(tx.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      {isCredit ? '+' : '−'}{currencySymbol}{Number(tx.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </td>
                   </tr>
                 );

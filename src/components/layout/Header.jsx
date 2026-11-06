@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useEmpire } from '../../context/EmpireContext';
 import {
   Bell, X, Search, Plus, ArrowLeftRight, Send,
-  Briefcase, ChevronDown, CheckCircle2, Shield
+  Briefcase, ChevronDown, CheckCircle2, Shield, RefreshCw
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -45,7 +45,11 @@ const BREADCRUMBS = {
 };
 
 const Header = ({ activeTab, setActiveTab, onOpenCommandPalette }) => {
-  const { wallet, bank, user, transactions, isPulseActive, togglePulse, currencySymbol, toggleCurrency } = useEmpire();
+  const {
+    wallet, bank, user, transactions, isPulseActive, togglePulse,
+    currencySymbol, toggleCurrency,
+    periodicReloadEnabled, togglePeriodicReload, periodicReloadSeconds
+  } = useEmpire();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showQuickMenu, setShowQuickMenu] = useState(false);
 
@@ -94,6 +98,21 @@ const Header = ({ activeTab, setActiveTab, onOpenCommandPalette }) => {
               </span>
               <span className="text-[10px] font-bold text-ww-text-secondary group-hover:text-ww-accent transition-colors">
                 {currencySymbol === '₹' ? 'INR (₹)' : 'USD ($)'}
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={togglePeriodicReload}
+              title={`Periodic auto-reload: ${periodicReloadEnabled ? `Every ${periodicReloadSeconds}s (click to turn off)` : 'Off (click to turn on)'}. Reloads safely without resetting your active page.`}
+              className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border transition-colors cursor-pointer shadow-2xs ${
+                periodicReloadEnabled
+                  ? 'bg-[#EDF2E9] border-[#D5DFD1] hover:bg-[#E2EBDD] text-ww-accent'
+                  : 'bg-ww-bg-alt border-ww-border-strong hover:bg-ww-border text-ww-text-secondary'
+              }`}
+            >
+              <RefreshCw className={`w-3 h-3 ${periodicReloadEnabled ? 'text-ww-accent' : 'text-ww-text-muted'}`} />
+              <span className="text-[10px] font-bold">
+                {periodicReloadEnabled ? `Reload: ${periodicReloadSeconds}s` : 'Reload: Off'}
               </span>
             </button>
           </div>
@@ -233,7 +252,7 @@ const Header = ({ activeTab, setActiveTab, onOpenCommandPalette }) => {
                               </p>
                             </div>
                             <p className={`text-xs font-bold tabular-nums shrink-0 ${tx.type === 'Credit' ? 'text-ww-success' : 'text-ww-danger'}`}>
-                              {tx.type === 'Credit' ? '+' : '−'}${Number(tx.amount || 0).toLocaleString()}
+                              {tx.type === 'Credit' ? '+' : '−'}{currencySymbol}{Number(tx.amount || 0).toLocaleString()}
                             </p>
                           </div>
                         </div>

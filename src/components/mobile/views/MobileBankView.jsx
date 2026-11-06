@@ -89,7 +89,7 @@ const MobileBankView = () => {
             ${(bank?.balance || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </h2>
           <p className="text-xs text-[#77786F] mt-1 font-medium">
-            Est. Monthly Compounding: <span className="text-[#66866A] font-bold">+${monthlyAccrual.toLocaleString()}</span>
+            Est. Monthly Compounding: <span className="text-[#66866A] font-bold">+{currencySymbol}{monthlyAccrual.toLocaleString()}</span>
           </p>
         </div>
 
@@ -205,7 +205,7 @@ const MobileBankView = () => {
             min="1"
           />
           <p className="text-[10px] text-[#77786F]">
-            Available in Wallet: <span className="font-bold text-[#526B56]">${(wallet?.balance || 0).toLocaleString()}</span>
+            Available in Wallet: <span className="font-bold text-[#526B56]">{currencySymbol}{(wallet?.balance || 0).toLocaleString()}</span>
           </p>
           <Button type="submit" variant="primary" className="w-full py-3 mt-2">
             Confirm Deposit

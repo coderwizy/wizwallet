@@ -77,7 +77,7 @@ const MobileRealEstateView = () => {
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Property Valuation</p>
             <h2 className="text-3xl font-extrabold text-[#22251F] tabular-nums mt-0.5">
-              ${mask(totalValue.toLocaleString(undefined, { maximumFractionDigits: 0 }))}
+              {currencySymbol}{mask(totalValue.toLocaleString(undefined, { maximumFractionDigits: 0 }))}
             </h2>
           </div>
           <Button variant="primary" size="sm" icon={Plus} onClick={() => setShowAddSheet(true)}>
@@ -86,7 +86,7 @@ const MobileRealEstateView = () => {
         </div>
         <div className="pt-2 border-t border-[#EAE8DF] flex justify-between items-center text-xs">
           <span className="text-[#77786F]">Monthly Gross Rent:</span>
-          <span className="font-bold text-[#526B56] tabular-nums">+${mask(totalRent.toLocaleString())}/mo</span>
+          <span className="font-bold text-[#526B56] tabular-nums">+{currencySymbol}{mask(totalRent.toLocaleString())}/mo</span>
         </div>
       </Card>
 
@@ -110,17 +110,17 @@ const MobileRealEstateView = () => {
             <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-[#EAE8DF]">
               <div>
                 <span className="text-[10px] text-[#A3A297] block">Market Value</span>
-                <span className="font-bold text-[#22251F] tabular-nums">${mask(Number(p.currentValuation || 0).toLocaleString())}</span>
+                <span className="font-bold text-[#22251F] tabular-nums">{currencySymbol}{mask(Number(p.currentValuation || 0).toLocaleString())}</span>
               </div>
               <div>
                 <span className="text-[10px] text-[#A3A297] block">Rent Yield</span>
-                <span className="font-bold text-[#526B56] tabular-nums">+${mask(Number(p.monthlyRent || 0).toLocaleString())}/mo</span>
+                <span className="font-bold text-[#526B56] tabular-nums">+{currencySymbol}{mask(Number(p.monthlyRent || 0).toLocaleString())}/mo</span>
               </div>
             </div>
 
             <div className="pt-2 border-t border-[#EAE8DF] flex justify-between items-center text-xs">
               <span className="text-[10px] text-[#C66D65] font-semibold">
-                Debt: ${mask(Number(p.loanBalance || 0).toLocaleString())}
+                Debt: {currencySymbol}{mask(Number(p.loanBalance || 0).toLocaleString())}
               </span>
               <button
                 type="button"

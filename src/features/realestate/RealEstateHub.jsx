@@ -27,13 +27,13 @@ const RealEstateHub = () => {
     name: '',
     type: 'Residential',
     address: '',
-    purchasePrice: '1000000',
-    currentValuation: '1250000',
-    monthlyRent: '8000',
-    maintenanceMonthly: '1000',
-    taxMonthly: '800',
-    loanBalance: '400000',
-    mortgagePaymentMonthly: '2500',
+    purchasePrice: '120000',
+    currentValuation: '150000',
+    monthlyRent: '1200',
+    maintenanceMonthly: '150',
+    taxMonthly: '100',
+    loanBalance: '40000',
+    mortgagePaymentMonthly: '350',
     status: 'Occupied'
   });
 
@@ -184,7 +184,7 @@ const RealEstateHub = () => {
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Gross Portfolio Value</span>
           <h3 className="text-2xl font-extrabold text-[#22251F] tabular-nums mt-1">
-            ${mask(portfolioMetrics.totalValue.toLocaleString())}
+            {currencySymbol}{mask(portfolioMetrics.totalValue.toLocaleString())}
           </h3>
           <p className="text-[11px] text-[#77786F] mt-1">Across {properties.length} prime properties</p>
         </Card>
@@ -192,15 +192,15 @@ const RealEstateHub = () => {
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Net Property Equity</span>
           <h3 className="text-2xl font-extrabold text-[#526B56] tabular-nums mt-1">
-            ${mask(portfolioMetrics.netEquity.toLocaleString())}
+            {currencySymbol}{mask(portfolioMetrics.netEquity.toLocaleString())}
           </h3>
-          <p className="text-[11px] text-[#77786F] mt-1">Total debt: ${mask(portfolioMetrics.totalDebt.toLocaleString())}</p>
+          <p className="text-[11px] text-[#77786F] mt-1">Total debt: {currencySymbol}{mask(portfolioMetrics.totalDebt.toLocaleString())}</p>
         </Card>
 
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Monthly Rental Inflow</span>
           <h3 className="text-2xl font-extrabold text-[#C18A48] tabular-nums mt-1">
-            +${mask(portfolioMetrics.totalGrossRent.toLocaleString())}/mo
+            +{currencySymbol}{mask(portfolioMetrics.totalGrossRent.toLocaleString())}/mo
           </h3>
           <p className="text-[11px] text-[#77786F] mt-1">Gross cash flow</p>
         </Card>
@@ -208,7 +208,7 @@ const RealEstateHub = () => {
         <Card className="p-5 border border-[#EAE8DF] bg-white">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Net Monthly Cashflow</span>
           <h3 className="text-2xl font-extrabold text-[#4A7C8A] tabular-nums mt-1">
-            +${mask(portfolioMetrics.netMonthlyIncome.toLocaleString())}/mo
+            +{currencySymbol}{mask(portfolioMetrics.netMonthlyIncome.toLocaleString())}/mo
           </h3>
           <p className="text-[11px] text-[#77786F] mt-1">After mortgages, tax & maintenance</p>
         </Card>
@@ -278,20 +278,20 @@ const RealEstateHub = () => {
                   <div>
                     <span className="text-[10px] font-semibold text-[#A3A297] block">Market Valuation</span>
                     <span className="font-extrabold text-[#22251F] tabular-nums text-sm">
-                      ${mask(Number(p.currentValuation || 0).toLocaleString())}
+                      {currencySymbol}{mask(Number(p.currentValuation || 0).toLocaleString())}
                     </span>
                     <span className={`text-[10px] block font-semibold ${appreciation >= 0 ? 'text-[#526B56]' : 'text-[#C66D65]'}`}>
-                      {appreciation >= 0 ? '+' : ''}${mask(Math.abs(appreciation).toLocaleString())} ({appreciationPct}%)
+                      {appreciation >= 0 ? '+' : ''}{currencySymbol}{mask(Math.abs(appreciation).toLocaleString())} ({appreciationPct}%)
                     </span>
                   </div>
 
                   <div>
                     <span className="text-[10px] font-semibold text-[#A3A297] block">Net Monthly Rent</span>
                     <span className="font-extrabold text-[#526B56] tabular-nums text-sm">
-                      +${mask(netYield.toLocaleString())}
+                      +{currencySymbol}{mask(netYield.toLocaleString())}
                     </span>
                     <span className="text-[10px] text-[#77786F] block">
-                      Gross: ${mask(Number(p.monthlyRent || 0).toLocaleString())}
+                      Gross: {currencySymbol}{mask(Number(p.monthlyRent || 0).toLocaleString())}
                     </span>
                   </div>
                 </div>
@@ -299,7 +299,7 @@ const RealEstateHub = () => {
                 <div className="mt-3 p-2.5 bg-[#FCFBF8] border border-[#EAE8DF] rounded-xl flex items-center justify-between text-[11px]">
                   <span className="text-[#77786F]">Mortgage Liability:</span>
                   <span className="font-bold text-[#C66D65] tabular-nums">
-                    ${mask(Number(p.loanBalance || 0).toLocaleString())}
+                    {currencySymbol}{mask(Number(p.loanBalance || 0).toLocaleString())}
                   </span>
                 </div>
               </div>

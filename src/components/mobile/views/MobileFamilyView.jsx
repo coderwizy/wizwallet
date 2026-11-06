@@ -72,7 +72,7 @@ const MobileFamilyView = () => {
         <div>
           <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A3A297]">Protected Trust Capital</p>
           <h2 className="text-3xl font-extrabold text-[#22251F] tracking-tight tabular-nums mt-0.5">
-            ${totalTrustWealth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            {currencySymbol}{totalTrustWealth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
           </h2>
         </div>
 

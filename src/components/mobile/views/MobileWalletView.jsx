@@ -85,7 +85,7 @@ const MobileWalletView = ({ setActiveTab }) => {
         <div>
           {isEditing ? (
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-[#A3A297]">$</span>
+              <span className="text-2xl font-bold text-[#A3A297]">{currencySymbol}</span>
               <input
                 autoFocus
                 type="number"

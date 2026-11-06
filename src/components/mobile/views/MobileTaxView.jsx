@@ -51,14 +51,14 @@ const MobileTaxView = () => {
         <Card className="p-4 border border-[#EAE8DF] bg-white">
           <span className="text-[10px] uppercase font-semibold text-[#A3A297]">Gross Inflows</span>
           <h3 className="text-xl font-extrabold text-[#22251F] tabular-nums mt-0.5">
-            ${mask(taxReport.annualGrossIncome.toLocaleString())}
+            {currencySymbol}{mask(taxReport.annualGrossIncome.toLocaleString())}
           </h3>
         </Card>
 
         <Card className="p-4 border border-[#EAE8DF] bg-white">
           <span className="text-[10px] uppercase font-semibold text-[#C66D65]">Est. Tax</span>
           <h3 className="text-xl font-extrabold text-[#C66D65] tabular-nums mt-0.5">
-            ${mask(taxReport.estimatedTax.toLocaleString())}
+            {currencySymbol}{mask(taxReport.estimatedTax.toLocaleString())}
           </h3>
           <span className="text-[10px] text-[#77786F] block mt-0.5">Rate: {taxReport.effectiveRate}%</span>
         </Card>
@@ -67,11 +67,11 @@ const MobileTaxView = () => {
       <Card className="p-4 border border-[#EAE8DF] bg-white space-y-2 text-xs">
         <div className="flex justify-between items-center">
           <span className="text-[#77786F]">Standard & Custom Deductions:</span>
-          <span className="font-bold text-[#526B56]">${mask(taxReport.totalDeductions.toLocaleString())}</span>
+          <span className="font-bold text-[#526B56]">{currencySymbol}{mask(taxReport.totalDeductions.toLocaleString())}</span>
         </div>
         <div className="flex justify-between items-center pt-2 border-t border-[#EAE8DF]">
           <span className="font-bold text-[#22251F]">Retained Net Liquidity:</span>
-          <span className="font-extrabold text-[#526B56] text-sm">${mask(taxReport.netAfterTaxIncome.toLocaleString())}</span>
+          <span className="font-extrabold text-[#526B56] text-sm">{currencySymbol}{mask(taxReport.netAfterTaxIncome.toLocaleString())}</span>
         </div>
       </Card>
     </div>
